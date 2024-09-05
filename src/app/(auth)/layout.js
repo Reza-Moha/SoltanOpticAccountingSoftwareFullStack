@@ -5,7 +5,7 @@ export const metadata = {
 
 export default function AuthLayout({ children }) {
   return (
-    <section className="min-h-screen overflow-hidden bg-gradient-to-bl from-gray-700 via-gray-900 to-black items-center justify-center">
+    <section className="min-h-screen overflow-hidden bg-white flex items-center justify-center">
       {children}
     </section>
   );
