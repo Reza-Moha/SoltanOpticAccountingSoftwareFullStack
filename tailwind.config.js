@@ -7,9 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      container: {
+        center: true,
+      },
+      fontFamily: {
+        kalame: ["var(--font-kalame)"],
+        iranSans: ["var(--font-iranSans)"],
       },
     },
   },
