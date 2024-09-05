@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/soltanOpticSoftware.iml" filepath="$PROJECT_DIR$/.idea/soltanOpticSoftware.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/soltanopticsoftware.iml" filepath="$PROJECT_DIR$/.idea/soltanopticsoftware.iml" />
     </modules>
   </component>
 </project>
