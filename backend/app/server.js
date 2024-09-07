@@ -31,14 +31,14 @@ module.exports = class Application {
     this.errorHandling();
   }
   configApplication() {
-    this.#app.use(morgan("dev"));
-    this.#app.use(express.static(path.join(__dirname, "public")));
-    this.#app.use(helmet());
-    this.#app.use(xss());
     this.#app.use(cors(corsOptions));
     this.#app.use(cookieParser(process.env.COOKIES_SECRET_KEY));
     this.#app.use(bodyParser.json());
     this.#app.use(express.json());
+    this.#app.use(morgan("dev"));
+    this.#app.use(express.static(path.join(__dirname, "public")));
+    this.#app.use(helmet());
+    this.#app.use(xss());
     this.#app.use(express.urlencoded({ extended: true }));
   }
   createServer() {

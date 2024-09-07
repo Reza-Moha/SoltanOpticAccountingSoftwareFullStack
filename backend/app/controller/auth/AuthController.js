@@ -73,16 +73,8 @@ class AuthController extends Controller {
           accessToken,
           refreshToken,
         });
-        res.cookie(
-          "accessToken",
-          saveTokens.accessToken,
-          accessTokenCookieOptions,
-        );
-        res.cookie(
-          "refreshToken",
-          saveTokens.refreshToken,
-          refreshTokenCookieOptions,
-        );
+        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
       } else {
         const [updatedRowsCount] = await TokenModel.update(
           { accessToken, refreshToken },
@@ -92,22 +84,15 @@ class AuthController extends Controller {
           throw CreateError.InternalServerError(
             "خطای سرور آپدیت ت.کن با خطا مواجه شد",
           );
-        res.cookie(
-          "accessToken",
-          user.tokens[0].dataValues.refreshToken,
-          accessTokenCookieOptions,
-        );
-        res.cookie(
-          "refreshToken",
-          user.tokens[0].dataValues.refreshToken,
-          refreshTokenCookieOptions,
-        );
+        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
       }
 
       return res.status(HttpStatus.OK).json({
         data: {
           statusCode: HttpStatus.OK,
           user,
+          message: "احراز هویت شما با موفقیت انجام شد",
         },
       });
     } catch (error) {
@@ -145,15 +130,9 @@ class AuthController extends Controller {
           delete objectData[key];
         }
       });
-
-      console.log("Filtered objectData:", objectData);
-      console.log("Phone number:", phoneNumber);
-
       const [updatedRowsCount] = await UserModel.update(objectData, {
         where: { phoneNumber },
       });
-
-      console.log("Updated rows count:", updatedRowsCount);
       return !!updatedRowsCount;
     } catch (error) {
       console.error("Error updating user:", error);
@@ -164,49 +143,41 @@ class AuthController extends Controller {
   async refreshToken(req, res, next) {
     try {
       const token = req.signedCookies.refreshToken;
-      // console.log("tken", token);
-      // const refreshToken = cookieParser.signedCookie(
-      //   token,
-      //   process.env.COOKIES_SECRET_KEY,
-      // );
-      // console.log("tken", refreshToken);
-      if (!token) throw CreateError.Unauthorized("وارد حساب کاربری خود شوید");
+      const accessToken = req.signedCookies.accessToken;
+      if (!accessToken) {
+        if (!token) throw CreateError.Unauthorized("وارد حساب کاربری خود شوید");
+        const phoneNumber = await VerifyRefreshToken(token);
+        const user = await UserModel.findOne({
+          where: { phoneNumber },
+          attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
+        });
 
-      const phoneNumber = await VerifyRefreshToken(token);
-      const user = await UserModel.findOne({
-        where: { phoneNumber },
-        attributes: { exclude: ["otp", "createdAt"] },
-      });
+        if (!user) throw CreateError.Unauthorized("کاربر یافت نشد");
 
-      if (!user) throw CreateError.Unauthorized("کاربر یافت نشد");
-
-      const accessToken = await SignAccessToken(user.id);
-      const newRefreshToken = await SignRefreshToken(user.id);
-
-      // Debugging log to check tokens
-      console.log("User ID:", user.id);
-      console.log("New Access Token:", accessToken);
-      console.log("New Refresh Token:", newRefreshToken);
-
-      // Update tokens in the database
-      const [updatedRowsCount] = await TokenModel.update(
-        { accessToken, refreshToken: newRefreshToken },
-        { where: { userId: user.id } },
-      );
-
-      if (updatedRowsCount < 1)
-        throw CreateError.InternalServerError(
-          "خطای سرور: آپدیت توکن با خطا مواجه شد",
+        const accessToken = await SignAccessToken(user.id);
+        const refreshToken = await SignRefreshToken(user.id);
+        const [updatedRowsCount] = await TokenModel.update(
+          { accessToken, refreshToken },
+          { where: { userId: user.id } },
         );
 
-      res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-      res.cookie("refreshToken", newRefreshToken, refreshTokenCookieOptions);
+        if (updatedRowsCount < 1)
+          throw CreateError.InternalServerError(
+            "خطای سرور: آپدیت توکن با خطا مواجه شد",
+          );
 
+        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
+        return res.status(HttpStatus.OK).json({
+          StatusCode: HttpStatus.OK,
+          data: {
+            user,
+          },
+        });
+      }
       return res.status(HttpStatus.OK).json({
         StatusCode: HttpStatus.OK,
-        data: {
-          user,
-        },
+        message: "احراز هویت انجام شد",
       });
     } catch (error) {
       next(error);

@@ -12,7 +12,7 @@ export default function OtpForm({
 }) {
   const [otp, setOtp] = useState(new Array(codeLength).fill(""));
   const inputRefs = useRef([]);
-  const { isLoading, error, user } = useSelector((state) => state.auth);
+  const { isLoading, error, user } = useSelector((state) => state.authSlice);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ export default function OtpForm({
         code: otp.join(""),
       }),
     );
-    await router.push("/");
+    await router.replace("/");
   };
 
   const handleKeyDown = (index, e) => {

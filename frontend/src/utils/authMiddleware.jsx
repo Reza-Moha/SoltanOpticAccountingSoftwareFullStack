@@ -18,6 +18,8 @@ export default async function AuthMiddleware(req) {
   )
     .then((res) => res.json())
     .then((res) => res.data);
+  console.log("AuthMiddleware", data);
   const { user } = data || {};
+  console.log(data);
   return user;
 }

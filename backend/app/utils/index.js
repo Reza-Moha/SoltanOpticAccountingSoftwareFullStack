@@ -63,18 +63,20 @@ function VerifyRefreshToken(token) {
         const user = await UserModel.findOne({
           where: { phoneNumber },
           attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
-          include: [
-            { model: TokenModel, attributes: ["refreshToken", "accessToken"] },
-          ],
+        });
+        const userToken = await TokenModel.findOne({
+          where: { userId: user.id },
         });
         if (!user) reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
-        console.log("result ", user?.tokens[0].refreshToken);
-        if (!user?.tokens[0]?.refreshToken)
+        if (!userToken)
+          reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
+        if (!userToken.refreshToken)
           reject(
             CreateError.Unauthorized("ورود مجدد به حسابی کاربری انجام نشد"),
           );
-        if (token === user?.tokens[0]?.refreshToken)
-          return resolve(phoneNumber);
+        console.log("tokenModelRefresh =====>", userToken);
+        console.log("token =====>", token);
+        if (token === userToken.refreshToken) return resolve(phoneNumber);
         reject(CreateError.Unauthorized("ورود مجدد به حسابی کاربری انجام نشد"));
       },
     );

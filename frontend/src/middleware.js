@@ -4,7 +4,6 @@ import AuthMiddleware from "@/utils/authMiddleware";
 export async function middleware(req) {
   const url = req.url;
   const pathname = req.nextUrl.pathname;
-  // console.log({ pathname });
 
   if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
     const user = await AuthMiddleware(req);

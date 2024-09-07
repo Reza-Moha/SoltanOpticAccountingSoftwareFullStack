@@ -16,7 +16,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <div className="container w-full max-w-sm bg-transparent rounded-xl shadow-xl border-2 border-[#e0e0e2] p-5 md:p-8 flex flex-col items-center justify-center gap-8 bg-slate-100 fixed z-50">
+      <div className="container w-full max-w-sm bg-transparent rounded-xl shadow-xl border-2 border-[#e0e0e2] p-5 md:p-8 flex flex-col items-center justify-center gap-8 bg-slate-100  z-50">
         <div className="w-full">
           <Link href="/">
             <Image
@@ -43,6 +43,7 @@ export default function Page() {
                 if (data.statusCode === 200 || data.statusCode === 403) {
                   setShowOtpInput(true);
                   setLoading(false);
+                  toast.success(data.message);
                 }
                 setLoading(false);
               } catch (error) {

@@ -1,5 +1,4 @@
 module.exports = {
-  MongoIDPattern: /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i,
   ROLES: Object.freeze({
     USER: "USER",
     ADMIN: "ADMIN",
@@ -10,10 +9,10 @@ module.exports = {
   PERMISSIONS: Object.freeze({
     USER: ["profile"],
     ADMIN: ["all"],
-    SUPERADMIN: ["all"],
+    EMPLOYEE: ["all"],
     CONTENT_MANAGER: ["course", "blog", "category", "product"],
-    TEACHER: ["course", "blog"],
-    SUPPLIER: ["product"],
+    OPTOMETRIST: ["course", "blog"],
+    TECKNICAL_MANAGER: ["product"],
     ALL: "all",
   }),
   accessTokenCookieOptions: Object.freeze({
