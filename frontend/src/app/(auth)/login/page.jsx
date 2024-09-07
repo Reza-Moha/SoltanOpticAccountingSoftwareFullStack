@@ -6,6 +6,10 @@ import { RegisterSchema } from "@/validators/auth";
 import classNames from "classnames";
 import logo from "@/assets/image/logoBlcak.svg";
 import { useState } from "react";
+import Button from "@/components/Ui/Button";
+import { getOtpApi } from "@/services/auth/auth.service";
+import { toast } from "react-hot-toast";
+import OtpForm from "@/components/tools/OtpForm";
 
 export default function Page() {
   const [showOtpInput, setShowOtpInput] = useState(false);
@@ -19,11 +23,10 @@ export default function Page() {
               className="w-20 h-14 mx-auto rounded-xl mb-5"
               src={logo}
               alt="logo"
+              priority={true}
             />
           </Link>
-          <div className="text-3xl font-kalamehBlack font-bold mb-2">
-            ورود | ثبت نام
-          </div>
+          <div className="text-3xl font-kalame mb-2">ورود | ثبت نام</div>
           {!showOtpInput ? (
             <div className="text-lg font-kalamehReqular mb-10">
               <div>سلام!</div>
@@ -35,7 +38,21 @@ export default function Page() {
             validationSchema={RegisterSchema}
             onSubmit={async (values, actions) => {
               try {
-              } catch (error) {}
+                setLoading(true);
+                const { data } = await getOtpApi(values);
+                if (data.statusCode === 200 || data.statusCode === 403) {
+                  setShowOtpInput(true);
+                  setLoading(false);
+                }
+                setLoading(false);
+              } catch (error) {
+                if (error.response.data.errors.statusCode === 403) {
+                  setShowOtpInput(true);
+                }
+                const message = error.response.data.errors.message;
+                toast.error(message);
+                setLoading(false);
+              }
             }}
           >
             {({ errors, values, touched }) => (
@@ -57,27 +74,30 @@ export default function Page() {
                       })}
                     />
                     {errors.phoneNumber || touched.phoneNumber ? (
-                      <p className="text-sm text-red-500 font-iranSansLight">
+                      <span className="text-sm text-red-500 font-iranSansLight">
                         {errors.phoneNumber}
-                      </p>
+                      </span>
                     ) : null}
-                    <button
-                      type="submit"
+
+                    <Button
                       disabled={errors?.phoneNumber?.length > 1 || loading}
-                      className="rounded bg-emerald-400 text-emerald-900 w-full py-2 text-lg font-kalamehBlack mt-4 disabled:opacity-35"
+                      className="rounded w-full py-2 text-lg font-kalamehBlack mt-4 disabled:opacity-35"
+                      variant="secondary"
+                      type="submit"
                     >
-                      ارسال رمز یکبار مصرف
-                    </button>
+                      <h3> ارسال رمز یکبار مصرف</h3>
+                    </Button>
                   </Form>
+                ) : loading ? (
+                  <div className="spinner-mini" />
                 ) : (
                   <div className="py-4">
-                    {loading ? <div>loading ...</div> : <h1>otp form</h1>}
-                    {/*    <OtpForm
-                          phoneNumber={phoneNumber}
-                          setShowOtpInput={setShowOtpInput}
-                          codeLen={codeLen}
-
-                        />*/}
+                    {
+                      <OtpForm
+                        phoneNumber={values.phoneNumber}
+                        setShowOtpInput={setShowOtpInput}
+                      />
+                    }
                   </div>
                 )}
               </>
