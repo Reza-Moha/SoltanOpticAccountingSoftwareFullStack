@@ -5,10 +5,7 @@ import { fetchUserProfile } from "@/utils/authActions";
 export default function GetUserLayout({ children }) {
   const dispatch = useDispatch();
   useEffect(() => {
-    async function getUser() {
-      await dispatch(fetchUserProfile());
-    }
-    getUser();
+    dispatch(fetchUserProfile());
   }, []);
   return children;
 }

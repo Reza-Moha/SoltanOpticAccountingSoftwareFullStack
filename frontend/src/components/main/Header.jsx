@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/image/logoWhite.svg";
+import { toPersianDigits } from "@/utils";
+
 export default function Header() {
   const { user, isLoading } = useSelector((state) => state.authSlice);
   return (
@@ -24,7 +26,7 @@ export default function Header() {
                     width={60}
                     height={60}
                   />
-                  <div className="flex flex-col items-center justify-center">
+                  <div className="hidden md:flex  flex-col items-center justify-center">
                     <h1 className="font-extrabold text-lg font-iranSans">
                       سلطان اپتیک
                     </h1>
@@ -76,9 +78,9 @@ export default function Header() {
             </ul>
           </div>
           <div className="flex justify-between items-center py-2 gap-x-3">
-            <div className="relative bg-secondary-100 rounded-full inline-flex items-center justify-center p-1.5">
-              <div className="absolute top-0 -right-3 bg-primary-100 rounded-full w-5 h-5 inline-flex items-center justify-center text-primary-900">
-                0
+            <div className="relative bg-secondary-100 rounded-full inline-flex items-center justify-center p-1.5 w-10 h-10">
+              <div className="absolute top-0 -right-3 bg-primary-100 rounded-full w-5 h-5 inline-flex items-center justify-center text-primary-900 font-semibold font-iranSans">
+                {toPersianDigits(1)}
               </div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -96,18 +98,42 @@ export default function Header() {
               </svg>
             </div>
             {user ? (
-              <Link
-                href="/dashboard"
-                className={` px-5 py-2 rounded bg-green-300 text-green-900`}
-              >
-                داشبورد
-              </Link>
+              <div className="flex items-center justify-center bg-secondary-100 rounded-full p-1 w-10 h-10 cursor-pointer hover:bg-secondary-200 transition-colors ease-linear">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-7 flex-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="size-2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </div>
             ) : (
               <Link
                 href="/login"
-                className={` px-5 py-2 rounded bg-secondary-600 text-slate-100`}
+                className={` px-5 py-2 rounded bg-secondary-600 text-slate-100 font-iranSans font-light text-sm`}
               >
-                ورود | قبت نام
+                ورود | ثبت نام
               </Link>
             )}
           </div>

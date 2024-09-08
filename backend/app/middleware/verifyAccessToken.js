@@ -5,18 +5,20 @@ const cookieParser = require("cookie-parser");
 
 function VerifyAccessToken(req, res, next) {
   try {
-    const result = req.signedCookies["accessToken"];
+    const accessToken = req.signedCookies["accessToken"];
+    if (!accessToken) {
+      throw CreateError.Unauthorized("لطفا وارد حساب کاربری خود شوید.");
+    }
     const token = cookieParser.signedCookie(
-      result,
-      process.env.COOKIES_SECRET_KEY,
+      accessToken,
+      process.env.COOKIE_PARSER_SECRET_KEY,
     );
-    if (!token) throw CreateError.Unauthorized("توکن یافت نشد");
     JWT.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET_KEY,
       async (err, payload) => {
         try {
-          if (err) throw CreateError.Unauthorized("وارد حساب کاربری خود شوید");
+          if (err) throw CreateError.Unauthorized("توکن نامعتبر است");
           const { phoneNumber } = payload || {};
           const user = await UserModel.findOne({
             where: { phoneNumber },

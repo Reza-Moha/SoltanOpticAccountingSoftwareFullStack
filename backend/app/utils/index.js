@@ -1,7 +1,6 @@
 const JWT = require("jsonwebtoken");
 const { UserModel } = require("../models/User.model");
 const CreateError = require("http-errors");
-const { TokenModel } = require("../models/Token.model");
 const randomNumberGenerator = () => {
   const number = Math.floor(Math.random() * 100000 + 1);
   if (number.toString().length > 4) {
@@ -58,26 +57,21 @@ function VerifyRefreshToken(token) {
       token,
       process.env.REFRESH_TOKEN_SECRET_KEY,
       async (err, payload) => {
-        if (err) reject(CreateError.Unauthorized("وارد حساب کاربری خود شوید"));
-        const { phoneNumber } = payload || {};
-        const user = await UserModel.findOne({
-          where: { phoneNumber },
-          attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
-        });
-        const userToken = await TokenModel.findOne({
-          where: { userId: user.id },
-        });
-        if (!user) reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
-        if (!userToken)
-          reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
-        if (!userToken.refreshToken)
-          reject(
-            CreateError.Unauthorized("ورود مجدد به حسابی کاربری انجام نشد"),
-          );
-        console.log("tokenModelRefresh =====>", userToken);
-        console.log("token =====>", token);
-        if (token === userToken.refreshToken) return resolve(phoneNumber);
-        reject(CreateError.Unauthorized("ورود مجدد به حسابی کاربری انجام نشد"));
+        try {
+          if (err)
+            return reject(
+              CreateError.Unauthorized("وارد حساب کاربری خود شوید"),
+            );
+
+          const { phoneNumber } = payload || {};
+          const user = await UserModel.findOne({ where: { phoneNumber } });
+          if (!user) {
+            return reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
+          }
+          return resolve(phoneNumber);
+        } catch (e) {
+          return reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
+        }
       },
     );
   });

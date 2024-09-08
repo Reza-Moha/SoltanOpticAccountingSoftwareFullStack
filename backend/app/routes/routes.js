@@ -5,7 +5,7 @@ const { AdminRoutes } = require("./admin/adminRoutes");
 const router = require("express").Router();
 
 router.use("/api/auth", AuthRoutes);
-router.use("/api/user", VerifyAccessToken, UserRoutes);
+router.use("/api/user", UserRoutes);
 router.use("/api/admin", VerifyAccessToken, AdminRoutes);
 
 module.exports = {

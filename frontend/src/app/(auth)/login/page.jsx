@@ -11,7 +11,7 @@ import { getOtpApi } from "@/services/auth/auth.service";
 import { toast } from "react-hot-toast";
 import OtpForm from "@/components/tools/OtpForm";
 
-export default function Page() {
+export default function Login() {
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [loading, setLoading] = useState(false);
   return (

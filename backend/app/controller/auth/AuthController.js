@@ -15,10 +15,9 @@ const {
   ROLES,
   accessTokenCookieOptions,
   refreshTokenCookieOptions,
-} = require("../../constants/constants");
+} = require("../../constants");
 const Controller = require("../Controller");
 
-const { TokenModel } = require("../../models/Token.model");
 const cookieParser = require("cookie-parser");
 
 class AuthController extends Controller {
@@ -49,12 +48,6 @@ class AuthController extends Controller {
       const user = await UserModel.findOne({
         where: { phoneNumber },
         attributes: { exclude: ["createdAt", "updatedAt"] },
-        include: [
-          {
-            model: TokenModel,
-            attributes: ["accessToken", "refreshToken"],
-          },
-        ],
       });
       if (!user) throw CreateError.NotFound("کاربر یافت نشد");
       if (user.otp.code != code)
@@ -64,30 +57,8 @@ class AuthController extends Controller {
         throw CreateError.Unauthorized("کد شما منقضی شده است");
       const accessToken = await SignAccessToken(user.id);
       const refreshToken = await SignRefreshToken(user.id);
-      const existToken = await TokenModel.findOne({
-        where: { userId: user.id },
-      });
-      if (!existToken) {
-        const saveTokens = await TokenModel.create({
-          userId: user.id,
-          accessToken,
-          refreshToken,
-        });
-        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
-      } else {
-        const [updatedRowsCount] = await TokenModel.update(
-          { accessToken, refreshToken },
-          { where: { userId: user.id } },
-        );
-        if (updatedRowsCount < 1)
-          throw CreateError.InternalServerError(
-            "خطای سرور آپدیت ت.کن با خطا مواجه شد",
-          );
-        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
-      }
-
+      res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+      res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
       return res.status(HttpStatus.OK).json({
         data: {
           statusCode: HttpStatus.OK,
@@ -142,39 +113,24 @@ class AuthController extends Controller {
 
   async refreshToken(req, res, next) {
     try {
-      const token = req.signedCookies.refreshToken;
-      const accessToken = req.signedCookies.accessToken;
-      if (!accessToken) {
-        if (!token) throw CreateError.Unauthorized("وارد حساب کاربری خود شوید");
-        const phoneNumber = await VerifyRefreshToken(token);
-        const user = await UserModel.findOne({
-          where: { phoneNumber },
-          attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
-        });
-
-        if (!user) throw CreateError.Unauthorized("کاربر یافت نشد");
-
-        const accessToken = await SignAccessToken(user.id);
-        const refreshToken = await SignRefreshToken(user.id);
-        const [updatedRowsCount] = await TokenModel.update(
-          { accessToken, refreshToken },
-          { where: { userId: user.id } },
-        );
-
-        if (updatedRowsCount < 1)
-          throw CreateError.InternalServerError(
-            "خطای سرور: آپدیت توکن با خطا مواجه شد",
-          );
-
-        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
-        return res.status(HttpStatus.OK).json({
-          StatusCode: HttpStatus.OK,
-          data: {
-            user,
-          },
-        });
+      const result = req.signedCookies["refreshToken"];
+      if (!result) {
+        throw CreateError.Unauthorized("لطفا وارد حساب کاربری خود شوید.");
       }
+      const token = cookieParser.signedCookie(
+        result,
+        process.env.COOKIE_PARSER_SECRET_KEY,
+      );
+      const phoneNumber = await VerifyRefreshToken(token);
+      const user = await UserModel.findOne({
+        where: { phoneNumber },
+        attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
+      });
+      if (!user) throw CreateError.Unauthorized("کاربر یافت نشد");
+      const accessToken = await SignAccessToken(user.id);
+      const refreshToken = await SignRefreshToken(user.id);
+      res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+      res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
       return res.status(HttpStatus.OK).json({
         StatusCode: HttpStatus.OK,
         message: "احراز هویت انجام شد",

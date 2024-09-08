@@ -5,31 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9163240-ce92-4f51-814e-0d3ac2db2d0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/app/controller/admin/Admin.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/Permissions.model.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/Roles.model.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/routes/admin/adminRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/tools/getUserLayout.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/(admin)/admin/page.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/tools/Roles.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/constants/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/constants/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/constants/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/constants/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/controller/auth/AuthController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/controller/auth/AuthController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/middleware/verifyAccessToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/middleware/verifyAccessToken.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/models/Token.model.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/models/User.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models/User.model.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/routes/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routes/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/routes/user/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routes/user/userRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/utils/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/(auth)/login/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(auth)/login/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/page.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/main/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/tools/ClientProvider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/tools/ClientProvider.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/tools/OtpForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/tools/OtpForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/tools/getUserLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/tools/getUserLayout.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/auth/auth.slice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/auth/auth.slice.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/services/auth/auth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/auth/auth.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/http.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/http.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/services/user/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/user/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/authActions.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/authActions.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/utils/authMiddleware.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/authMiddleware.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,27 +57,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "javascript.nodejs.core.library.configured.version": "20.13.1",
-    "javascript.nodejs.core.library.typings.version": "20.13.0",
-    "last_opened_file_path": "C:/Users/MFGS/Desktop/soltanopticnextjs/soltanoptic",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "C:/Program Files/nodejs/node",
-    "nodejs_package_manager_path": "pnpm",
-    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\Reza\\AppData\\Roaming\\npm\\node_modules\\prettier",
-    "settings.editor.selected.configurable": "settings.nodejs",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.13.1&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.13.0&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/MFGS/Desktop/soltanopticnextjs/soltanoptic&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;C:/Program Files/nodejs/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Reza\\AppData\\Roaming\\npm\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -93,11 +92,11 @@
       <recent name="C:\Users\MFGS\Desktop\soltanopticnextjs\soltanoptic" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Reza\Desktop\soltan\soltanoptic\frontend\src\components\tools" />
+      <recent name="C:\Users\Reza\Desktop\soltan\soltanoptic\frontend\src\app\(admin)\admin" />
       <recent name="C:\Users\Reza\Desktop\soltan\soltanoptic\frontend\src" />
       <recent name="C:\Users\Reza\Desktop\soltan\soltanoptic\frontend\src\app" />
       <recent name="C:\Users\Reza\Desktop\soltan\soltanoptic\frontend" />
-      <recent name="C:\Users\MFGS\Desktop\soltanopticnextjs\soltanoptic\backend\app" />
-      <recent name="C:\Users\MFGS\Desktop\soltanopticnextjs\soltanoptic\backend" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -119,7 +118,8 @@
       <workItem from="1725611145835" duration="7376000" />
       <workItem from="1725623323496" duration="24990000" />
       <workItem from="1725677569106" duration="8334000" />
-      <workItem from="1725694346725" duration="18881000" />
+      <workItem from="1725694346725" duration="19091000" />
+      <workItem from="1725790128604" duration="14382000" />
     </task>
     <servers />
   </component>

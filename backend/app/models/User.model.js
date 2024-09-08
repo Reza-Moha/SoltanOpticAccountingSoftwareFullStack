@@ -1,6 +1,5 @@
 const { sequelize } = require("../libs/DBConfig");
 const { Model, DataTypes } = require("@sequelize/core");
-const { TokenModel } = require("./Token.model");
 
 class UserModel extends Model {}
 
@@ -43,8 +42,7 @@ UserModel.init(
     timestamps: true,
   },
 );
-UserModel.hasMany(TokenModel, { foreignKey: "userId" });
-TokenModel.belongsTo(UserModel, { foreignKey: "userId" });
+
 module.exports = {
   UserModel,
 };
