@@ -5,7 +5,7 @@ export default function Home() {
     <>
       <main>
         <Header />
-        <h1>ساطلا اپتیک</h1>
+        <h1>سلطان اپتیک</h1>
       </main>
     </>
   );

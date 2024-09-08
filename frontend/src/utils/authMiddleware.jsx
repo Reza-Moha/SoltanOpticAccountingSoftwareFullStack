@@ -2,64 +2,73 @@ import { NextResponse } from "next/server";
 
 export default async function authMiddleware(req) {
   const loginUrl = new URL(`/login`, req.url);
-
-  let attempt = 0;
-  const maxAttempts = 1;
+  let tokenRefreshed = false; // پرچم برای جلوگیری از تلاش‌های مکرر
 
   async function sendRequest() {
+    // ابتدا توکن‌ها را از کوکی می‌گیریم
+    const accessToken = req.cookies.get("accessToken")?.value;
+    const refreshToken = req.cookies.get("refreshToken")?.value;
+
+    // اگر accessToken موجود نیست، مستقیماً اقدام به بروزرسانی می‌کنیم
+    if (!accessToken && refreshToken) {
+      const refreshed = await refreshTokens(req);
+      if (refreshed) {
+        return sendRequest(); // بعد از بروزرسانی، دوباره درخواست را ارسال می‌کنیم
+      } else {
+        return NextResponse.redirect(loginUrl); // در صورت عدم موفقیت، کاربر به صفحه ورود هدایت می‌شود
+      }
+    }
+
+    // درخواست به API با توکن موجود
     const options = {
       method: "GET",
       credentials: "include",
       headers: {
-        Cookie:
-          `${req.cookies.get("accessToken")?.name}=${
-            req.cookies.get("accessToken")?.value
-          }; ${req.cookies.get("refreshToken")?.name}=${
-            req.cookies.get("refreshToken")?.value
-          }` || "-",
+        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken};` || "-",
       },
     };
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/user/user-profile`,
-      options,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/user-profile`,
+        options
     );
 
-    if (response.status === 401) {
-      if (attempt < maxAttempts) {
-        attempt += 1;
-        const refreshed = await refreshTokens(req);
-        if (refreshed) {
-          return sendRequest();
-        } else {
-          return NextResponse.redirect(loginUrl);
-        }
-      } else {
-        return NextResponse.redirect(loginUrl);
+    // اگر دسترسی 401 بود و توکن هنوز بروزرسانی نشده، اقدام به بروزرسانی می‌کنیم
+    if (response.status === 401 && refreshToken && !tokenRefreshed) {
+      tokenRefreshed = true;
+      const refreshed = await refreshTokens(req);
+      if (refreshed) {
+        return sendRequest(); // درخواست مجدد پس از بروزرسانی
       }
+      return NextResponse.redirect(loginUrl); // اگر بروزرسانی ناموفق بود
     }
 
+    // پردازش داده‌ها پس از موفقیت درخواست
     const data = await response.json();
+    console.log(data);
     const { user } = data || {};
     return user;
   }
 
   async function refreshTokens(req) {
     try {
+      const refreshToken = req.cookies.get("refreshToken")?.value;
+      if (!refreshToken) {
+        console.error("رفرش توکن موجود نیست");
+        return false;
+      }
+
       const refreshTokenOptions = {
         method: "GET",
         credentials: "include",
         headers: {
-          Cookie:
-            ` ${req.cookies.get("refreshToken")?.name}=${
-              req.cookies.get("refreshToken")?.value
-            }` || "-",
+          Cookie: `refreshToken=${refreshToken};` || "-",
         },
       };
 
       const refreshResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh-token`,
-        refreshTokenOptions,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh-token`,
+          refreshTokenOptions
       );
 
       if (refreshResponse.ok) {

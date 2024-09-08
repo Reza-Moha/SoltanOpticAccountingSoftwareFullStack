@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const roleToPath = {
-  ADMIN: "/admin/dashboard",
+  ADMIN: "/admin",
   MANAGER: "/manager/dashboard",
   USER: "/user/dashboard",
   EMPLOYEE: "/employee/dashboard",

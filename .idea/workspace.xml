@@ -5,14 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9163240-ce92-4f51-814e-0d3ac2db2d0d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/(admin)/layout.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/page.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Ui/DropDownMenu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Ui/DropDownMenu.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/main/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/Header.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/tools/ClientProvider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/tools/ClientProvider.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/tools/Roles.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/tools/Roles.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/tools/getUserLayout.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/authMiddleware.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/authMiddleware.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +107,7 @@
       <workItem from="1725677569106" duration="8334000" />
       <workItem from="1725694346725" duration="19091000" />
       <workItem from="1725790128604" duration="16960000" />
-      <workItem from="1725820644841" duration="2952000" />
+      <workItem from="1725820644841" duration="4900000" />
     </task>
     <servers />
   </component>
