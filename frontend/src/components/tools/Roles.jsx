@@ -17,7 +17,7 @@ const ConditionalLink = () => {
   return (
     <Link
       href={href}
-      className="px-5 py-3 rounded bg-transparent text-green-900 font-iranSans font-thin text-md flex items-center justify-center gap-x-2 hover:text-primary-900 hover:bg-secondary-100"
+      className="px-5 py-3 rounded-lg mt-2 bg-transparent text-secondary-800 font-iranSans font-thin text-md flex items-center justify-center gap-x-2 hover:text-primary-900 hover:bg-secondary-100 transition-all ease-linear duration-200"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ const ConditionalLink = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-4"
+        className="size-5"
       >
         <path
           strokeLinecap="round"

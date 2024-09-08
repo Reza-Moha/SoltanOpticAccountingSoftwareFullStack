@@ -45,7 +45,7 @@ module.exports = class Application {
   }
   errorHandling() {
     this.#app.use((req, res, next) => {
-      next(createError.NotFound("آدرس مورد نظر یافت نشد"));
+      next(CreateError.NotFound("آدرس مورد نظر یافت نشد"));
     });
     this.#app.use((error, req, res, next) => {
       const statusCode =

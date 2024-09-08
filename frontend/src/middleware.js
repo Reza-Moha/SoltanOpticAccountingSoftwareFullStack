@@ -5,7 +5,7 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/login")) {
     const user = await authMiddleware(req);
-    if (user.role) {
+    if (user?.role) {
       const homeUrl = new URL(`/`, req.url);
       return NextResponse.redirect(homeUrl);
     }

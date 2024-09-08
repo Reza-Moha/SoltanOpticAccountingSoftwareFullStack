@@ -1,13 +1,22 @@
 "use client";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/image/logoWhite.svg";
 import { toPersianDigits } from "@/utils";
 import DropDownMenu from "@/components/Ui/DropDownMenu";
+import {useEffect} from "react";
+import {fetchUserProfile} from "@/utils/authActions";
+
 
 export default function Header() {
   const { user, isLoading } = useSelector((state) => state.authSlice);
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, []);
+
   return (
     <>
       <header
