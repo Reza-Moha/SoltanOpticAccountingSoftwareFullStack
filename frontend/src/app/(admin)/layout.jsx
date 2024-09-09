@@ -1,12 +1,12 @@
+import AdminHeader from "@/components/admin/AdminHeader";
 
 
-export default function AdminLayout(){
+export default function AdminLayout({children}){
     return(
         <>
-        <section className="h-screen min-h-screen">
-            <header className="sticky h-16 bg-secondary-800 text-secondary-50"></header>
-            <aside></aside>
-            <main></main>
+        <section className="h-screen min-h-screen overflow-hidden">
+            <AdminHeader />
+            <main>{children}</main>
         </section>
         </>
     )

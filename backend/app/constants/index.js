@@ -17,7 +17,7 @@ module.exports = {
   }),
   accessTokenCookieOptions: Object.freeze({
     maxAge: 1000 * 60, // would expire after 20 minutes
-    httpOnly: true,
+    httpOnly: false,
     signed: true,
     sameSite: "Lax",
     secure: process.env.NODE_ENV === "production",
@@ -25,7 +25,7 @@ module.exports = {
   }),
   refreshTokenCookieOptions: Object.freeze({
     maxAge: 1000 * 60 * 60 * 24 * 30, // would expire after 1 mount
-    httpOnly: true,
+    httpOnly: false,
     signed: true,
     sameSite: "Lax",
     secure: process.env.NODE_ENV === "production",

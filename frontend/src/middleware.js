@@ -1,25 +1,32 @@
+
 import { NextResponse } from "next/server";
-import authMiddleware from "@/utils/authMiddleware";
+import middlewareAuth from "@/utils/authMiddleware";
 
 export async function middleware(req) {
-  const { pathname } = req.nextUrl;
-  if (pathname.startsWith("/login")) {
-    const user = await authMiddleware(req);
-    if (user?.role) {
+  const url = req.url;
+  const pathname = req.nextUrl.pathname;
+  // console.log({ pathname });
+
+  if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
+    const user = await middlewareAuth(req);
+    if (user) {
       const homeUrl = new URL(`/`, req.url);
       return NextResponse.redirect(homeUrl);
     }
   }
+
   if (pathname.startsWith("/admin")) {
-    const user = await authMiddleware(req);
-    if (!user || !user?.role || user?.role !== process.env.ADMINROLE) {
-      const loginUrl = new URL(`login`, req.url);
+    const user = await middlewareAuth(req);
+
+    if (!user) {
+      const loginUrl = new URL(`/login?redirect=${pathname}`, req.url);
       return NextResponse.redirect(loginUrl);
     }
   }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/login"],
+  matcher: ["/admin/:path*", "/login", "/signup"],
 };

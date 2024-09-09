@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 function VerifyAccessToken(req, res, next) {
   try {
     const accessToken = req.signedCookies["accessToken"];
+    const refreshToken = req.signedCookies["refreshToken"];
     if (!accessToken) {
       throw CreateError.Unauthorized("لطفا وارد حساب کاربری خود شوید.");
     }
