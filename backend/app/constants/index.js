@@ -12,7 +12,7 @@ module.exports = {
     EMPLOYEE: ["all"],
     CONTENT_MANAGER: ["course", "blog", "category", "product"],
     OPTOMETRIST: ["course", "blog"],
-    TECKNICAL_MANAGER: ["product"],
+    TECHNICAL_MANAGER: ["product"],
     ALL: "all",
   }),
   accessTokenCookieOptions: Object.freeze({

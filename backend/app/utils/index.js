@@ -62,13 +62,15 @@ function VerifyRefreshToken(token) {
             return reject(
               CreateError.Unauthorized("وارد حساب کاربری خود شوید"),
             );
-
           const { phoneNumber } = payload || {};
-          const user = await UserModel.findOne({ where: { phoneNumber } });
+          const user = await UserModel.findOne({
+            where: { phoneNumber },
+            attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
+          });
           if (!user) {
             return reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
           }
-          return resolve(phoneNumber);
+          return resolve(user.phoneNumber);
         } catch (e) {
           return reject(CreateError.Unauthorized("حساب کاربری یافت نشد"));
         }
