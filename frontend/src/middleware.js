@@ -1,13 +1,10 @@
-
 import { NextResponse } from "next/server";
 import middlewareAuth from "@/utils/authMiddleware";
 
 export async function middleware(req) {
-  const url = req.url;
   const pathname = req.nextUrl.pathname;
-  // console.log({ pathname });
 
-  if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
+  if (pathname.startsWith("/login")) {
     const user = await middlewareAuth(req);
     if (user) {
       const homeUrl = new URL(`/`, req.url);
@@ -29,5 +26,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/login", "/signup"],
+  matcher: ["/admin/:path*", "/login"],
 };

@@ -128,9 +128,7 @@ class AuthController extends Controller {
       });
       if (!user) throw CreateError.Unauthorized("کاربر یافت نشد");
       const accessToken = await SignAccessToken(user.id);
-      const refreshToken = await SignRefreshToken(user.id);
       res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-      res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
       return res.status(HttpStatus.OK).json({
         StatusCode: HttpStatus.OK,
         message: "احراز هویت انجام شد",
