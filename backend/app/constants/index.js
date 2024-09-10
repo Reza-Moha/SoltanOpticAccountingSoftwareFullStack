@@ -12,23 +12,23 @@ module.exports = {
     EMPLOYEE: ["all"],
     CONTENT_MANAGER: ["course", "blog", "category", "product"],
     OPTOMETRIST: ["course", "blog"],
-    TECKNICAL_MANAGER: ["product"],
+    TECHNICAL_MANAGER: ["product"],
     ALL: "all",
   }),
   accessTokenCookieOptions: Object.freeze({
-    maxAge: 1000 * 60, // would expire after 20 minutes
-    httpOnly: false,
-    signed: true,
+    maxAge: 1000 * 15 , // would expire after 1 days
+    httpOnly: true, // The cookie only accessible by the web server
+    signed: true, // Indicates if the cookie should be signed
     sameSite: "Lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV !== "development",
     domain: process.env.DOMAIN,
   }),
   refreshTokenCookieOptions: Object.freeze({
-    maxAge: 1000 * 60 * 60 * 24 * 30, // would expire after 1 mount
-    httpOnly: false,
-    signed: true,
+    maxAge: 1000 * 60 * 60 * 24 * 365, // would expire after 1 year
+    httpOnly: true, // The cookie only accessible by the web server
+    signed: true, // Indicates if the cookie should be signed
     sameSite: "Lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV !== "development",
     domain: process.env.DOMAIN,
   }),
 };

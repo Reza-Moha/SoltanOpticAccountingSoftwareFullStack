@@ -1,9 +1,8 @@
+"use client"
 import { useEffect, useRef, useState } from "react";
 import AOS from "aos";
 import OtpTimer from "./OtpTimer.jsx";
-import { useRouter } from "next/navigation";
-import { login } from "@/utils/authActions";
-import { useDispatch, useSelector } from "react-redux";
+import {useAuth} from "@/context/AuthContext";
 
 export default function OtpForm({
   phoneNumber,
@@ -12,10 +11,8 @@ export default function OtpForm({
 }) {
   const [otp, setOtp] = useState(new Array(codeLength).fill(""));
   const inputRefs = useRef([]);
-  const { isLoading, error, user } = useSelector((state) => state.authSlice);
+  const {isLoading, login} = useAuth()
 
-  const router = useRouter();
-  const dispatch = useDispatch();
   useEffect(() => {
     AOS.init();
   }, []);
@@ -55,13 +52,10 @@ export default function OtpForm({
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(
-      login({
-        phoneNumber,
-        code: otp.join(""),
-      }),
-    );
-    await router.replace("/");
+    await  login({
+      phoneNumber,
+      code: otp.join(""),
+    })
   };
 
   const handleKeyDown = (index, e) => {

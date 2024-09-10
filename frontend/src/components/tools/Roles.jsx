@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import {useAuth} from "@/context/AuthContext";
 
 const roleToPath = {
   ADMIN: "/admin",
@@ -11,8 +11,9 @@ const roleToPath = {
 };
 
 const ConditionalLink = () => {
-  const { user } = useSelector((state) => state.authSlice);
+  const {user} = useAuth()
   const href = roleToPath[user.role] || "/default-dashboard";
+
 
   return (
     <Link

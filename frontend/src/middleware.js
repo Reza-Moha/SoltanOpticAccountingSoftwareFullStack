@@ -17,12 +17,13 @@ export async function middleware(req) {
 
   if (pathname.startsWith("/admin")) {
     const user = await middlewareAuth(req);
-
-    if (!user) {
+    console.log(user);
+    if (!user && user?.role !== process.env.ROLE) {
       const loginUrl = new URL(`/login?redirect=${pathname}`, req.url);
       return NextResponse.redirect(loginUrl);
     }
   }
+
 
   return NextResponse.next();
 }
