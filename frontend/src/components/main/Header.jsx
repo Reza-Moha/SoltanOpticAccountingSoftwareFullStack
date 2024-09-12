@@ -1,17 +1,12 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/image/logoWhite.svg";
 import { toPersianDigits } from "@/utils";
 import DropDownMenu from "@/components/Ui/DropDownMenu";
-import {useAuth} from "@/context/AuthContext";
-
+import { useSelector } from "react-redux";
 
 export default function Header() {
-
-
-  const { user, isLoading } = useAuth();
-
+  const { user, isLoading } = useSelector((state) => state.auth);
   return (
     <>
       <header

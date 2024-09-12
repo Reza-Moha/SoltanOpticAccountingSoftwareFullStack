@@ -16,7 +16,7 @@ module.exports = {
     ALL: "all",
   }),
   accessTokenCookieOptions: Object.freeze({
-    maxAge: 1000 * 15 , // would expire after 1 days
+    maxAge: 1000 * 15, // would expire after 1 days
     httpOnly: true, // The cookie only accessible by the web server
     signed: true, // Indicates if the cookie should be signed
     sameSite: "Lax",

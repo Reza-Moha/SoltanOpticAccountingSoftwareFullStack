@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { fontIranSans, fontKalame } from "@/constants/LocalFonts";
 import { Toaster } from "react-hot-toast";
-import AuthProvider from "@/context/AuthContext";
+import ClientProvider from "@/components/tools/Provider";
 
 export const metadata = {
   title: "سلطان اپتیک",
@@ -14,10 +14,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${fontKalame.variable} ${fontIranSans.variable} antialiased  min-h-screen `}
       >
-          <Toaster containerClassName="!font-iranSans text-sm" />
-          <AuthProvider>
-              {children}
-          </AuthProvider>
+        <Toaster containerClassName="!font-iranSans text-sm" />
+
+        <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
   );

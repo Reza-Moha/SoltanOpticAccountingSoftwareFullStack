@@ -119,7 +119,7 @@ class AuthController extends Controller {
       }
       const token = cookieParser.signedCookie(
         result,
-        process.env.COOKIE_PARSER_SECRET_KEY,
+        process.env.COOKIE_PARSER_SECRET_KEY
       );
       const phoneNumber = await VerifyRefreshToken(token);
       const user = await UserModel.findOne({
@@ -132,6 +132,8 @@ class AuthController extends Controller {
       return res.status(HttpStatus.OK).json({
         StatusCode: HttpStatus.OK,
         message: "احراز هویت انجام شد",
+        accessToken,
+        user,
       });
     } catch (error) {
       next(error);

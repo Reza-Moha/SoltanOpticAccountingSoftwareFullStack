@@ -1,8 +1,12 @@
-"use client"
+"use client";
 import { useEffect, useRef, useState } from "react";
 import AOS from "aos";
 import OtpTimer from "./OtpTimer.jsx";
-import {useAuth} from "@/context/AuthContext";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation.js";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { loginUser } from "@/redux/slices/authSlice.jsx";
 
 export default function OtpForm({
   phoneNumber,
@@ -10,8 +14,11 @@ export default function OtpForm({
   codeLength = 5,
 }) {
   const [otp, setOtp] = useState(new Array(codeLength).fill(""));
+  const { isLoading } = useSelector((state) => state.auth);
+  console.log(isLoading);
   const inputRefs = useRef([]);
-  const {isLoading, login} = useAuth()
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     AOS.init();
@@ -27,15 +34,12 @@ export default function OtpForm({
     if (isNaN(value)) return;
 
     const newOtp = [...otp];
-    // allow only one input
     newOtp[index] = value.substring(value.length - 1);
     setOtp(newOtp);
 
-    // submit trigger
     const combinedOtp = newOtp.join("");
     if (combinedOtp.codeLength === codeLength) setOtp(combinedOtp);
 
-    // Move to next input if current field is filled
     if (value && index < codeLength - 1 && inputRefs.current[index + 1]) {
       inputRefs.current[index + 1].focus();
     }
@@ -44,18 +48,28 @@ export default function OtpForm({
   const handleClick = (index) => {
     inputRefs.current[index].setSelectionRange(1, 1);
 
-    // optional
     if (index > 0 && !otp[index - 1]) {
       inputRefs.current[otp.indexOf("")].focus();
     }
   };
 
   const submitHandler = async (e) => {
-    e.preventDefault();
-    await  login({
-      phoneNumber,
-      code: otp.join(""),
-    })
+    try {
+      e.preventDefault();
+      const result = await dispatch(
+        loginUser({
+          phoneNumber,
+          code: otp.join(""),
+        })
+      );
+
+      if (loginUser.fulfilled.match(result)) {
+        router.push("/");
+        toast.success(result.payload.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const handleKeyDown = (index, e) => {

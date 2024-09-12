@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import { Suspense } from "react";
 import { EditeUserSection } from "@/app/(admin)/admin/_components/Loadings";
+import { useSelector } from "react-redux";
 
 export default function AdminHeader() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user } = useSelector((state) => state.auth);
   const router = useRouter();
   return (
     <>

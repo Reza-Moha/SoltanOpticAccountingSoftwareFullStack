@@ -1,30 +1,7 @@
-export default async function middlewareAuth(req) {
-<<<<<<< HEAD
-    const options = {
-        method: "GET",
-        credentials: "include",
-        headers: {
-            Cookie:
-                `${req.cookies.get("accessToken")?.name}=${
-                    req.cookies.get("accessToken")?.value
-                }; ${req.cookies.get("refreshToken")?.name}=${
-                    req.cookies.get("refreshToken")?.value
-                }` || "-",
-        },
-    };
-
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/user/user-profile`,
-        options
-    )
-        const data = await response.json()
-
-    const { user } = data || {};
-    console.log(data)
-    return user;
-=======
+export default async function authMiddleware(req) {
   const options = {
     method: "GET",
+    mode: "cors",
     credentials: "include",
     headers: {
       Cookie:
@@ -39,13 +16,32 @@ export default async function middlewareAuth(req) {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/user/user-profile`,
-      options,
+      options
     );
+    if (response.status === 401 && req.cookies.get("refreshToken")?.value) {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh-token`,
+        {
+          mode: "cors",
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Cookie: `${req.cookies.get("refreshToken")?.name}=${
+              req.cookies.get("refreshToken")?.value
+            }`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      const { user } = data || {};
+      return user;
+    }
     const data = await response.json();
     const { user } = data || {};
     return user;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
   }
->>>>>>> b82ee489a3d4c4fdfe3df0cbc79b2c66c4e4d807
 }

@@ -1,10 +1,10 @@
 "use client";
+import { toPersianDigits } from "@/utils";
 import { Formik } from "formik";
-import { useAuth } from "@/context/AuthContext";
-import Input from "@/components/Ui/Input";
+import { useSelector } from "react-redux";
 
 export default function Me() {
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
   const initial = {
     fullName: user?.fullName || "",
     phoneNumber: user?.phoneNumber || "",
@@ -78,11 +78,12 @@ export default function Me() {
                       <div className="font-black text-secondary-700 text-xl">
                         رضا محمدزاده
                       </div>
-                      <div className="text-secondary-500 text-sm">
-                        Frontend, backend, Mysql
+                      <div className="text-secondary-500 text-sm text-center">
+                        {toPersianDigits(user?.phoneNumber || 0)}
                       </div>
                     </div>
                   </div>
+                  <div>trest</div>
                 </div>
               </>
             )}

@@ -6,28 +6,28 @@ const app = axios.create({
 });
 
 app.interceptors.request.use(
-  (res) => res,
-  (err) => Promise.reject(err),
+  (config) => config,
+  (error) => Promise.reject(error)
 );
 
 app.interceptors.response.use(
-  (res) => res,
-  async (err) => {
-    const originalConfig = err.config;
-    if (err.response.status === 401 && !originalConfig._retry) {
+  (response) => response,
+  async (error) => {
+    const originalConfig = error.config;
+    if (error.response.status === 401 && !originalConfig._retry) {
       originalConfig._retry = true;
       try {
         const { data } = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh-token`,
-          { withCredentials: true },
+          { withCredentials: true }
         );
         if (data) return app(originalConfig);
-      } catch (error) {
-        return Promise.reject(error);
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
       }
     }
-    return Promise.reject(err);
-  },
+    return Promise.reject(error);
+  }
 );
 
 const httpService = {
