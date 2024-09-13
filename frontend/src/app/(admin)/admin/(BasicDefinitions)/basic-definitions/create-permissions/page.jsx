@@ -72,7 +72,10 @@ export default function CreateNewPermission() {
           </>
         )}
       </Formik>
-      <PermissionsList permissions={permissions} />
+      <PermissionsList
+        permissions={permissions}
+        fetchPermissions={fetchPermissions}
+      />
     </BasicWrapper>
   );
 }

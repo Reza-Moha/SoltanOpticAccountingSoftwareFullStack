@@ -37,12 +37,8 @@ class AdminController extends Controller {
           returning: true,
         }
       );
-      if (updatedRowsCount === 0) {
-        return res.status(HttpStatus.NOT_FOUND).send({
-          statusCode: HttpStatus.NOT_FOUND,
-          message: "کاربر پیدا نشد",
-        });
-      }
+      if (updatedRowsCount === 0)
+        throw CreateError.InternalServerError(" عملیات ویرایش انجام نشد");
 
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,

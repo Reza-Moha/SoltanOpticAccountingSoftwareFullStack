@@ -9,6 +9,13 @@ router.post(
 );
 router.get("/get-all-permission", PermissionsController.getAllPermission);
 
+router.delete(
+  "/delete-permission/:id",
+  PermissionsController.deletePermissionById
+);
+
+router.patch("/update-permission/:id", PermissionsController.updatePermission);
+
 module.exports = {
   RBACRoutes: router,
 };

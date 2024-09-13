@@ -19,3 +19,13 @@ export async function getAllPermissionApi() {
     .get(`/api/admin/RBAC/get-all-permission`)
     .then(({ data }) => data);
 }
+export async function deletePermissionByIdApi(id) {
+  return httpService
+    .delete(`/api/admin/RBAC/delete-permission/${id}`)
+    .then(({ data }) => data);
+}
+export async function updatePermissionApi(id, data) {
+  return httpService
+    .patch(`/api/admin/RBAC/update-permission/${id}`, data)
+    .then(({ data }) => data);
+}

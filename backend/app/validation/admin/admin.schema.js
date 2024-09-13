@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const CreateError = require("http-errors");
+
 const updateAdminProfileSchema = Joi.object({
   phoneNumber: Joi.string()
     .length(11)
@@ -21,6 +22,7 @@ const updateAdminProfileSchema = Joi.object({
     .regex(/(\.png|\.jpg|\.webp|\.jpeg)$/)
     .error(CreateError.BadRequest("تصویر ارسال شده صحیح نمیباشد")),
 });
+
 const createNewPermissionSchema = Joi.object({
   title: Joi.string().min(3).max(50).required().messages({
     "string.empty": "عنوان نمی‌تواند خالی باشد",
@@ -28,15 +30,19 @@ const createNewPermissionSchema = Joi.object({
     "string.max": "عنوان نباید بیش از ۵۰ کاراکتر باشد",
     "any.required": "عنوان الزامی است",
   }),
-  description: Joi.string().min(10).max(255).required().messages({
+  description: Joi.string().min(5).max(255).required().messages({
     "string.empty": "توضیحات نمی‌تواند خالی باشد",
-    "string.min": "توضیحات باید حداقل ۱۰ کاراکتر داشته باشد",
+    "string.min": "توضیحات باید حداقل 5 کاراکتر داشته باشد",
     "string.max": "توضیحات نباید بیش از ۲۵۵ کاراکتر باشد",
     "any.required": "توضیحات الزامی است",
   }),
 });
 
+const idSchema = Joi.object({
+  id: Joi.string().guid({ version: "uuidv4" }).required(),
+});
 module.exports = {
   updateAdminProfileSchema,
   createNewPermissionSchema,
+  idSchema,
 };
