@@ -63,7 +63,7 @@ export const deletePermission = createAsyncThunk(
   }
 );
 
-const basicDefinitionSlice = createSlice({
+const permissionSlice = createSlice({
   name: "permissions",
   initialState: {
     permissionsList: [],
@@ -105,4 +105,4 @@ const basicDefinitionSlice = createSlice({
   },
 });
 
-export default basicDefinitionSlice.reducer;
+export default permissionSlice.reducer;

@@ -4,7 +4,7 @@ import SubmitBtn from "@/components/Ui/SubmitBtn";
 import Modal from "@/components/Ui/Modal";
 import { useDispatch } from "react-redux";
 import { createNewPermissionsSchema } from "@/validators/admin";
-import { updatePermission } from "@/redux/slices/basicDefinitionsSlice";
+import { updatePermission } from "@/redux/slices/permissionSlice";
 
 export default function EditPermissionModal({ permission, show, onClose }) {
   const dispatch = useDispatch();

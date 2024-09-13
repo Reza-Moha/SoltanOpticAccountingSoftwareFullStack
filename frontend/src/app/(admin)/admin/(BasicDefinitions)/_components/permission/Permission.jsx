@@ -1,5 +1,5 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Formik, Form } from "formik";
 import Input from "@/components/Ui/Input";
@@ -10,7 +10,7 @@ import { createNewPermissionsSchema } from "@/validators/admin";
 import {
   createPermission,
   fetchPermissions,
-} from "@/redux/slices/basicDefinitionsSlice";
+} from "@/redux/slices/permissionSlice";
 
 export default function Permission() {
   const dispatch = useDispatch();

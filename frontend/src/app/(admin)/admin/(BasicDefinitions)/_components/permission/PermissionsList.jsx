@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Table from "@/components/Ui/Table";
 import EditPermissionModal from "./EditePermissionModal";
 import { useState } from "react";
-import { deletePermission } from "@/redux/slices/basicDefinitionsSlice";
+import { deletePermission } from "@/redux/slices/permissionSlice";
 import { useSelector } from "react-redux";
 
 export default function PermissionsList() {
@@ -11,7 +11,7 @@ export default function PermissionsList() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPermission, setSelectedPermission] = useState(null);
   const { permissionsList, isLoading } = useSelector(
-    (state) => state.basicDefinitions
+    (state) => state.permissionSlice
   );
 
   const handleDeletePermission = (id) => {
