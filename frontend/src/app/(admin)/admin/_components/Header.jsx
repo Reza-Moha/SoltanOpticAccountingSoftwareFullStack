@@ -4,18 +4,57 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { EditeUserSection } from "@/app/(admin)/admin/_components/Loadings";
 import { useSelector } from "react-redux";
+import { toPersianDigits } from "@/utils";
 
 export default function AdminHeader() {
   const { user } = useSelector((state) => state.auth);
 
   return (
     <>
-      <header className="sticky h-16 bg-slate-900 text-secondary-50">
+      <header className="sticky h-16 bg-slate-900 text-secondary-50 font-iranSans">
         <div className="h-full flex items-center justify-between px-5">
           <div className="flex-1">
-            <button>
-              <Link href={"admin/accounting"}>حسابداری</Link>
-            </button>
+            <div className="flex items-center justify-start">
+              <div className="flex items-center gap-1 justify-center hover:bg-secondary-800 transition-all ease-in-out hover:text-secondary-50 p-1 rounded">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M6.32 1.827a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93V19.5a3 3 0 0 1-3 3H6.75a3 3 0 0 1-3-3V4.757c0-1.47 1.073-2.756 2.57-2.93ZM7.5 11.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H8.25a.75.75 0 0 1-.75-.75v-.008Zm.75 1.5a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H8.25Zm-.75 3a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H8.25a.75.75 0 0 1-.75-.75v-.008Zm.75 1.5a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V18a.75.75 0 0 0-.75-.75H8.25Zm1.748-6a.75.75 0 0 1 .75-.75h.007a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.007a.75.75 0 0 1-.75-.75v-.008Zm.75 1.5a.75.75 0 0 0-.75.75v.008c0 .414.335.75.75.75h.007a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75h-.007Zm-.75 3a.75.75 0 0 1 .75-.75h.007a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.007a.75.75 0 0 1-.75-.75v-.008Zm.75 1.5a.75.75 0 0 0-.75.75v.008c0 .414.335.75.75.75h.007a.75.75 0 0 0 .75-.75V18a.75.75 0 0 0-.75-.75h-.007Zm1.754-6a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 1.5a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75h-.008Zm-.75 3a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 1.5a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V18a.75.75 0 0 0-.75-.75h-.008Zm1.748-6a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 1.5a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75h-.008Zm-8.25-6A.75.75 0 0 1 8.25 6h7.5a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75v-.75Zm9 9a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-2.25Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+
+                <button className="adminHeaderBTN">
+                  <Link href={"admin/accounting"}>حسابداری</Link>
+                </button>
+              </div>
+              <div className="flex items-center justify-center hover:bg-secondary-800 transition-all ease-in-out hover:text-secondary-50 p-1 rounded gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M17.663 3.118c.225.015.45.032.673.05C19.876 3.298 21 4.604 21 6.109v9.642a3 3 0 0 1-3 3V16.5c0-5.922-4.576-10.775-10.384-11.217.324-1.132 1.3-2.01 2.548-2.114.224-.019.448-.036.673-.051A3 3 0 0 1 13.5 1.5H15a3 3 0 0 1 2.663 1.618ZM12 4.5A1.5 1.5 0 0 1 13.5 3H15a1.5 1.5 0 0 1 1.5 1.5H12Z"
+                    clipRule="evenodd"
+                  />
+                  <path d="M3 8.625c0-1.036.84-1.875 1.875-1.875h.375A3.75 3.75 0 0 1 9 10.5v1.875c0 1.036.84 1.875 1.875 1.875h1.875A3.75 3.75 0 0 1 16.5 18v2.625c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625v-12Z" />
+                  <path d="M10.5 10.5a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963 5.23 5.23 0 0 0-3.434-1.279h-1.875a.375.375 0 0 1-.375-.375V10.5Z" />
+                </svg>
+                <button className="adminHeaderBTN">
+                  <Link href={"admin/basic-definitions/create-new-employee"}>
+                    تعاریف اولیه
+                  </Link>
+                </button>
+              </div>
+            </div>
           </div>
           <Link
             href={"admin/me"}
@@ -30,6 +69,7 @@ export default function AdminHeader() {
                     className="object-cover rounded-full"
                     src={`${process.env.NEXT_PUBLIC_API_URL}/${user.profileImage}`}
                     alt={`${user?.fullName}`}
+                    priority
                   />
                 </div>
               ) : (
@@ -51,9 +91,9 @@ export default function AdminHeader() {
                 </div>
               )}
               <Suspense fallback={<EditeUserSection />}>
-                <div className="flex flex-col items-center px-2">
+                <div className="flex flex-col items-center px-2 text-xs">
                   <span>{user?.fullName}</span>
-                  <span>{user?.phoneNumber}</span>
+                  <span>{toPersianDigits(user?.phoneNumber || 0)}</span>
                 </div>
               </Suspense>
             </div>

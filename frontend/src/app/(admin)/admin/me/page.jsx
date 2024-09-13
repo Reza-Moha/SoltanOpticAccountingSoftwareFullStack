@@ -9,6 +9,7 @@ import { updateAdminProfileSchema } from "@/validators/admin";
 import { updateAdminProfileApi } from "@/services/admin/admin.service";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import SubmitBtn from "@/components/Ui/SubmitBtn";
 
 export default function Me() {
   const { user } = useSelector((state) => state.auth);
@@ -81,9 +82,9 @@ export default function Me() {
                               alt={user?.fullName || "پیش‌نمایش تصویر"}
                               src={previewImage}
                               className="rounded-full object-cover"
-                              fill
+                              width="112"
+                              height="112"
                               priority
-                              sizes="(max-width: 768px) 100vw, 50vw"
                             />
                           </div>
                         ) : (
@@ -108,15 +109,7 @@ export default function Me() {
                       type="text"
                       values={values.phoneNumber}
                     />
-                    <div className="inline-flex items-center">
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        className="my-4 w-full md:w-1/2 md:mx-auto py-2 rounded"
-                      >
-                        ویرایش اطلاعات
-                      </Button>
-                    </div>
+                    <SubmitBtn>ویرایش اطلاعات</SubmitBtn>
                   </div>
                 </div>
               </form>

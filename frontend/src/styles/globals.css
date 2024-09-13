@@ -51,14 +51,12 @@
   }
 }
 
-
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
-@layer components{
+@layer components {
   .textField__input {
     @apply w-full py-3 px-4 rounded-xl text-secondary-900 border border-secondary-100 bg-secondary-100 hover:border-primary-500 focus:border-primary-500 focus:bg-secondary-0 transition-all duration-300 ease-out focus:shadow-lg focus:shadow-primary-200 dark:focus:shadow-secondary-200;
   }
@@ -98,6 +96,9 @@
   }
   .btn--danger {
     @apply border border-rose-700 text-rose-700;
+  }
+  .adminHeaderBTN {
+    @apply ml-4 text-sm;
   }
 }
 

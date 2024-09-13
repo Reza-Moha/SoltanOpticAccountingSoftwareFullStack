@@ -11,6 +11,7 @@ const {
 const Controller = require("../Controller");
 const path = require("path");
 
+const CreateError = require("http-errors");
 class AdminController extends Controller {
   async createNewEmployee(req, res, next) {
     try {
@@ -18,6 +19,7 @@ class AdminController extends Controller {
       next(error);
     }
   }
+
   async updateUserProfile(req, res, next) {
     try {
       await updateAdminProfileSchema.validateAsync(req.body);
@@ -51,6 +53,13 @@ class AdminController extends Controller {
       const { fileUploadPath, filename } = req.body;
       const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
       deleteFileInPublic(image);
+      next(error);
+    }
+  }
+
+  async createNewRole(req, res, next) {
+    try {
+    } catch (error) {
       next(error);
     }
   }

@@ -9,3 +9,8 @@ export async function updateAdminProfileApi(data) {
     })
     .then(({ data }) => data);
 }
+export async function createNewPermissionApi(data) {
+  return httpService
+    .post(`/api/admin/RBAC/create-new-permission`, data)
+    .then(({ data }) => data);
+}

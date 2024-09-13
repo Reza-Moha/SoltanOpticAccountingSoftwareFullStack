@@ -32,10 +32,11 @@ const Dropdown = ({ user }) => {
                 {user.profileImage ? (
                   <Image
                     src={`${process.env.NEXT_PUBLIC_API_URL}/${user.profileImage}`}
-                    alt={user.name}
+                    alt={user.fullName}
                     width="44"
                     height="44"
                     className="rounded-full object-cover"
+                    priority
                   />
                 ) : (
                   <svg

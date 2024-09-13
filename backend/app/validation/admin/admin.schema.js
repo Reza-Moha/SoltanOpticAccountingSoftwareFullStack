@@ -21,7 +21,22 @@ const updateAdminProfileSchema = Joi.object({
     .regex(/(\.png|\.jpg|\.webp|\.jpeg)$/)
     .error(CreateError.BadRequest("تصویر ارسال شده صحیح نمیباشد")),
 });
+const createNewPermissionSchema = Joi.object({
+  title: Joi.string().min(3).max(50).required().messages({
+    "string.empty": "عنوان نمی‌تواند خالی باشد",
+    "string.min": "عنوان باید حداقل ۳ کاراکتر داشته باشد",
+    "string.max": "عنوان نباید بیش از ۵۰ کاراکتر باشد",
+    "any.required": "عنوان الزامی است",
+  }),
+  description: Joi.string().min(10).max(255).required().messages({
+    "string.empty": "توضیحات نمی‌تواند خالی باشد",
+    "string.min": "توضیحات باید حداقل ۱۰ کاراکتر داشته باشد",
+    "string.max": "توضیحات نباید بیش از ۲۵۵ کاراکتر باشد",
+    "any.required": "توضیحات الزامی است",
+  }),
+});
 
 module.exports = {
   updateAdminProfileSchema,
+  createNewPermissionSchema,
 };

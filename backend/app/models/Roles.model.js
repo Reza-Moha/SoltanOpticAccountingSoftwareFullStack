@@ -28,7 +28,7 @@ RolesModel.init(
     modelName: "Role",
     tableName: "Roles",
     timestamps: true,
-  },
+  }
 );
 
 module.exports = {

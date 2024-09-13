@@ -26,7 +26,7 @@ PermissionsModel.init(
     modelName: "Permission",
     tableName: "Permissions",
     timestamps: true,
-  },
+  }
 );
 
 module.exports = {
