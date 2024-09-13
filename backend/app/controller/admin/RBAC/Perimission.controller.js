@@ -23,10 +23,27 @@ class PermissionsController extends Controller {
       if (!createPermission) {
         throw CreateError.InternalServerError("خطا در ایجاد سطح دسترسی");
       }
+      const permissionData = createPermission.get({ plain: true });
+      const filteredPermission = {
+        id: permissionData.id,
+        title: permissionData.title,
+      };
       return res.status(HttpStatus.CREATED).send({
         statusCode: HttpStatus.CREATED,
         message: "سطح دسترسی با موفقیت ایجاد شد",
-        permission: createPermission,
+        permission: filteredPermission,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllPermission(req, res, next) {
+    try {
+      const allPermission = await PermissionsModel.findAll();
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        allPermission,
       });
     } catch (error) {
       next(error);

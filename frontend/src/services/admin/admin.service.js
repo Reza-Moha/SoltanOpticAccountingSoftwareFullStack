@@ -14,3 +14,8 @@ export async function createNewPermissionApi(data) {
     .post(`/api/admin/RBAC/create-new-permission`, data)
     .then(({ data }) => data);
 }
+export async function getAllPermissionApi() {
+  return httpService
+    .get(`/api/admin/RBAC/get-all-permission`)
+    .then(({ data }) => data);
+}

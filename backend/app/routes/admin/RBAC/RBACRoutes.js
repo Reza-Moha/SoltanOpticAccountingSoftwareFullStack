@@ -7,6 +7,7 @@ router.post(
   "/create-new-permission",
   PermissionsController.createNewPermission
 );
+router.get("/get-all-permission", PermissionsController.getAllPermission);
 
 module.exports = {
   RBACRoutes: router,
