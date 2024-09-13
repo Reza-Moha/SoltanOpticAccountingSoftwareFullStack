@@ -2,6 +2,10 @@ const router = require("express").Router();
 const {
   PermissionsController,
 } = require("../../../controller/admin/RBAC/Perimission.controller");
+const {
+  RoleController,
+} = require("../../../controller/admin/RBAC/Role.controller");
+const { stringToArray } = require("../../../middleware/stringToArray");
 
 router.post(
   "/create-new-permission",
@@ -15,6 +19,8 @@ router.delete(
 );
 
 router.patch("/update-permission/:id", PermissionsController.updatePermission);
+
+router.post("/create-new-role", RoleController.createNewRole);
 
 module.exports = {
   RBACRoutes: router,

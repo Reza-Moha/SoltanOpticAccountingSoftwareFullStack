@@ -41,8 +41,28 @@ const createNewPermissionSchema = Joi.object({
 const idSchema = Joi.object({
   id: Joi.string().guid({ version: "uuidv4" }).required(),
 });
+
+const createNewRoleSchema = Joi.object({
+  title: Joi.string()
+    .min(3)
+    .max(30)
+    .error(CreateError.BadRequest("عنوان نقش صحیح نمیباشد")),
+  description: Joi.string()
+    .min(0)
+    .max(100)
+    .error(CreateError.BadRequest("توضیحات نقش صحیح نمیباشد")),
+  permissions: Joi.array()
+    .items(
+      Joi.string()
+        .guid({ version: "uuidv4" })
+        .required("دسترسی های نقش را وارد کنید")
+    )
+    .error(CreateError.BadRequest("دسترسی های ارسال شده صحیح نمیباشد")),
+});
+
 module.exports = {
   updateAdminProfileSchema,
   createNewPermissionSchema,
   idSchema,
+  createNewRoleSchema,
 };

@@ -30,7 +30,7 @@ class AdminController extends Controller {
       deleteInvalidPropertyInObject(req.body, AdminBlackListFields);
       const id = req.user.id;
 
-      const [updatedRowsCount, updatedUsers] = await UserModel.update(
+      const [updatedRowsCount] = await UserModel.update(
         { fullName, phoneNumber, profileImage: image },
         {
           where: { id },
@@ -43,7 +43,6 @@ class AdminController extends Controller {
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "پروفایل با موفقیت به‌روزرسانی شد",
-        user: updatedUsers[0],
       });
     } catch (error) {
       const { fileUploadPath, filename } = req.body;

@@ -30,6 +30,7 @@ class PermissionsController extends Controller {
       const filteredPermission = {
         id: permissionData.id,
         title: permissionData.title,
+        description: permissionData.description,
       };
       return res.status(HttpStatus.CREATED).send({
         statusCode: HttpStatus.CREATED,
@@ -81,21 +82,21 @@ class PermissionsController extends Controller {
       await createNewPermissionSchema.validateAsync(req.body);
       const data = JSON.parse(JSON.stringify(req.body));
       deleteInvalidPropertyInObject(data, []);
-      const [updatedRowsCount, updatedPermissions] =
-        await PermissionsModel.update(
-          { title: data.title, description: data.description },
-          {
-            where: { id },
-            returning: true,
-          }
-        );
+      const [updatedRowsCount] = await PermissionsModel.update(
+        { title: data.title, description: data.description },
+        {
+          where: { id },
+          returning: true,
+        }
+      );
+
       if (updatedRowsCount === 0)
         throw CreateError.InternalServerError(" عملیات ویرایش انجام نشد");
-
+      const updatedPermission = await PermissionsModel.findByPk(id);
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "سطح مورد نظر با موفقیت ویرایش گردید",
-        permission: updatedPermissions[0],
+        permission: updatedPermission,
       });
     } catch (error) {
       next(error);

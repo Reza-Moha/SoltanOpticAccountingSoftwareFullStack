@@ -119,8 +119,6 @@ body {
   min-height: 100vh;
   user-select: none;
   background-color: rgb(var(--background-app-rgb));
-  scrollbar-width: thin;
-  scrollbar-color: rgb(55, 65, 81) rgb(17, 24, 39);
 }
 
 button {
@@ -221,7 +219,7 @@ table td {
 }
 
 ::-webkit-scrollbar {
-  width: 5px !important;
+  width: 10px !important;
 }
 
 ::-webkit-scrollbar-track {

@@ -2,27 +2,16 @@ import { Formik, Form } from "formik";
 import Input from "@/components/Ui/Input";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
 import Modal from "@/components/Ui/Modal";
+import { useDispatch } from "react-redux";
 import { createNewPermissionsSchema } from "@/validators/admin";
-import { updatePermissionApi } from "@/services/admin/admin.service";
-import toast from "react-hot-toast";
+import { updatePermission } from "@/redux/slices/basicDefinitionsSlice";
 
-export default function EditPermissionModal({
-  permission,
-  show,
-  onClose,
-  fetchPermissions,
-}) {
-  const handleUpdatePermission = async (values) => {
-    try {
-      const data = await updatePermissionApi(permission.id, values);
-      if (data.statusCode === 200) {
-        toast.success(data.message);
-        onClose();
-        fetchPermissions();
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
+export default function EditPermissionModal({ permission, show, onClose }) {
+  const dispatch = useDispatch();
+
+  const handleUpdatePermission = (values) => {
+    dispatch(updatePermission({ id: permission.id, values }));
+    onClose();
   };
 
   return (
