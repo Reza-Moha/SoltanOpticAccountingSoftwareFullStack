@@ -1,7 +1,8 @@
+"use client";
 import React from "react";
 import { useField } from "formik";
 
-const Input = ({ label, ...props }) => {
+export default function Input({ label, ...props }) {
   const [field, meta] = useField(props);
 
   return (
@@ -17,10 +18,8 @@ const Input = ({ label, ...props }) => {
         {...props}
       />
       {meta.touched && meta.error ? (
-        <p className="text-red-500 text-xs italic">{meta.error}</p>
+        <p className="text-red-500 text-xs font-bold mt-2">{meta.error}</p>
       ) : null}
     </div>
   );
-};
-
-export default Input;
+}

@@ -132,7 +132,6 @@ class AuthController extends Controller {
       return res.status(HttpStatus.OK).json({
         StatusCode: HttpStatus.OK,
         message: "احراز هویت انجام شد",
-        accessToken,
         user,
       });
     } catch (error) {

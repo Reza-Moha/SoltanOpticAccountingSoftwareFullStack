@@ -15,7 +15,6 @@ export default function OtpForm({
 }) {
   const [otp, setOtp] = useState(new Array(codeLength).fill(""));
   const { isLoading } = useSelector((state) => state.auth);
-  console.log(isLoading);
   const inputRefs = useRef([]);
   const dispatch = useDispatch();
   const router = useRouter();

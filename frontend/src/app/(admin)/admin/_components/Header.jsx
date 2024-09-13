@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
 import { EditeUserSection } from "@/app/(admin)/admin/_components/Loadings";
@@ -8,7 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function AdminHeader() {
   const { user } = useSelector((state) => state.auth);
-  const router = useRouter();
+
   return (
     <>
       <header className="sticky h-16 bg-slate-900 text-secondary-50">
@@ -24,13 +23,13 @@ export default function AdminHeader() {
           >
             <div className="inline-flex items-center">
               {user?.profileImage ? (
-                <div className="rounded-full p-1 border-2 overflow-hidden select-none w-12 h-12">
+                <div className="rounded-full border-2 border-secondary-500 overflow-hidden select-none w-12 h-12">
                   <Image
                     width="44"
                     height="44"
-                    className="object-cover w-full h-full"
-                    src={`process.env.NEXT_PUBLIC_API_URL/${user?.profileImage}`}
-                    alt={`${user?.name} ${user?.fullName}`}
+                    className="object-cover rounded-full"
+                    src={`${process.env.NEXT_PUBLIC_API_URL}/${user.profileImage}`}
+                    alt={`${user?.fullName}`}
                   />
                 </div>
               ) : (

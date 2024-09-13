@@ -31,10 +31,11 @@ const Dropdown = ({ user }) => {
               <div className="">
                 {user.profileImage ? (
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${user.profileImage}`}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}/${user.profileImage}`}
                     alt={user.name}
-                    width="40"
-                    height="40"
+                    width="44"
+                    height="44"
+                    className="rounded-full object-cover"
                   />
                 ) : (
                   <svg
@@ -57,7 +58,7 @@ const Dropdown = ({ user }) => {
                 <div className="flex flex-col items-start gap-x-3 mr-2">
                   <h3>{user.name}</h3>
                   <span className="text-sm">
-                    {toPersianDigits(user.phoneNumber)}
+                    {toPersianDigits(user.phoneNumber) || 0}
                   </span>
                 </div>
               </div>

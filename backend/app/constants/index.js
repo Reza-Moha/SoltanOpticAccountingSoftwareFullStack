@@ -16,7 +16,7 @@ module.exports = {
     ALL: "all",
   }),
   accessTokenCookieOptions: Object.freeze({
-    maxAge: 1000 * 15, // would expire after 1 days
+    maxAge: 1000 * 60 * 20, // would expire after 20 minutes
     httpOnly: true, // The cookie only accessible by the web server
     signed: true, // Indicates if the cookie should be signed
     sameSite: "Lax",
@@ -31,4 +31,12 @@ module.exports = {
     secure: process.env.NODE_ENV !== "development",
     domain: process.env.DOMAIN,
   }),
+  AdminBlackListFields: [
+    "otp",
+    "id",
+    "role",
+    "createdAt",
+    "updatedAt",
+    "employee",
+  ],
 };
