@@ -34,8 +34,18 @@ export default function Permission() {
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Input label="عنوان سطح دسترسی" name="title" type="text" />
-              <Input label="توضیحات" name="description" type="text" />
+              <Input
+                label="عنوان سطح دسترسی"
+                name="title"
+                type="text"
+                bg="bg-white"
+              />
+              <Input
+                label="توضیحات"
+                name="description"
+                type="text"
+                bg="bg-white"
+              />
               <SubmitBtn>ایجاد</SubmitBtn>
             </div>
           </Form>

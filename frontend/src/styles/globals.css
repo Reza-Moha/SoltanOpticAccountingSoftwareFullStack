@@ -58,7 +58,7 @@
 }
 @layer components {
   .textField__input {
-    @apply w-full py-3 px-4 rounded-xl text-secondary-900 border border-secondary-100 bg-secondary-100 hover:border-primary-500 focus:border-primary-500 focus:bg-secondary-0 transition-all duration-300 ease-out focus:shadow-lg focus:shadow-primary-200 dark:focus:shadow-secondary-200;
+    @apply w-full py-3 px-4 rounded-xl text-secondary-900 border border-secondary-200  hover:border-primary-500 focus:border-primary-500 focus:bg-secondary-0 transition-all duration-300 ease-out focus:shadow-lg focus:shadow-primary-200 dark:focus:shadow-secondary-200;
   }
   .spinner {
     margin: 3.2rem auto 1.6rem;
@@ -68,6 +68,17 @@
     border: 8px solid rgb(var(--color-primary-900));
     border-right-color: rgb(var(--color-primary-200));
     animation: rotate 1s infinite linear;
+  }
+  .react-select__control {
+    @apply border-gray-300 rounded-lg shadow-sm;
+  }
+
+  .react-select__multi-value {
+    @apply bg-blue-500 text-white;
+  }
+
+  .react-select__multi-value__remove {
+    @apply text-white hover:bg-blue-700;
   }
 
   .spinner-mini {

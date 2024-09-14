@@ -102,12 +102,14 @@ export default function Me() {
                       name="fullName"
                       type="text"
                       values={values.fullName}
+                      bg="bg-secondary-100"
                     />
                     <Input
                       label="شماره موبایل"
                       name="phoneNumber"
                       type="text"
                       values={values.phoneNumber}
+                      bg="bg-secondary-100"
                     />
                     <SubmitBtn>ویرایش اطلاعات</SubmitBtn>
                   </div>

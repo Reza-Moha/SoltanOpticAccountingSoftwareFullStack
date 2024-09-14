@@ -54,3 +54,15 @@ export const createNewPermissionsSchema = Yup.object().shape({
     .min(3, "عنوان نباید کم تر از سه کارکتر باشد"),
   description: Yup.string().required("لطفا توضیحات سطح دسترسی را وارد فرمائید"),
 });
+export const createNewRoleSchema = Yup.object().shape({
+  title: Yup.string()
+    .required("لطفا عنوان دسترسی را وارد فرمائید")
+    .min(3, "عنوان نباید کم‌تر از سه کارکتر باشد"),
+  description: Yup.string()
+    .required("لطفا توضیحات دسترسی را وارد فرمائید")
+    .min(3, "توضیحات نباید کم‌تر از سه کارکتر باشد"),
+  permissions: Yup.array()
+    .of(Yup.string().uuid("شناسه سطح دسترسی باید یک UUID معتبر باشد"))
+    .required("لطفا توضیحات سطح دسترسی را وارد فرمائید")
+    .min(1, "حداقل یک سطح دسترسی باید انتخاب شود"),
+});

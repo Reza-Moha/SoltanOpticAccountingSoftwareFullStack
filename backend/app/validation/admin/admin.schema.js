@@ -41,23 +41,25 @@ const createNewPermissionSchema = Joi.object({
 const idSchema = Joi.object({
   id: Joi.string().guid({ version: "uuidv4" }).required(),
 });
-
 const createNewRoleSchema = Joi.object({
-  title: Joi.string()
-    .min(3)
-    .max(30)
-    .error(CreateError.BadRequest("عنوان نقش صحیح نمیباشد")),
-  description: Joi.string()
-    .min(0)
-    .max(100)
-    .error(CreateError.BadRequest("توضیحات نقش صحیح نمیباشد")),
+  title: Joi.string().min(3).max(30).required().messages({
+    "string.empty": "عنوان نقش نمی‌تواند خالی باشد",
+    "string.min": "عنوان نقش باید حداقل ۳ کاراکتر داشته باشد",
+    "string.max": "عنوان نقش نباید بیش از ۳۰ کاراکتر باشد",
+    "any.required": "عنوان نقش الزامی است",
+  }),
+  description: Joi.string().min(3).max(100).allow("").messages({
+    "string.min": "توضیحات نقش باید حداقل ۳ کاراکتر داشته باشد",
+    "string.max": "توضیحات نقش نباید بیش از ۱۰۰ کاراکتر باشد",
+  }),
   permissions: Joi.array()
-    .items(
-      Joi.string()
-        .guid({ version: "uuidv4" })
-        .required("دسترسی های نقش را وارد کنید")
-    )
-    .error(CreateError.BadRequest("دسترسی های ارسال شده صحیح نمیباشد")),
+    .items(Joi.string().guid({ version: "uuidv4" }).required())
+    .min(1)
+    .messages({
+      "array.includes": "دسترسی‌ها باید شامل UUIDهای معتبر باشند",
+      "array.min": "باید حداقل یک سطح دسترسی انتخاب شده باشد",
+      "any.required": "دسترسی‌ها الزامی هستند",
+    }),
 });
 
 module.exports = {

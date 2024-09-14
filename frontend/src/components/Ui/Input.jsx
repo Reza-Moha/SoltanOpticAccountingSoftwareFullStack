@@ -2,7 +2,7 @@
 import React from "react";
 import { useField } from "formik";
 
-export default function Input({ label, ...props }) {
+export default function Input({ label, bg, ...props }) {
   const [field, meta] = useField(props);
 
   return (
@@ -11,7 +11,7 @@ export default function Input({ label, ...props }) {
         {label}
       </label>
       <input
-        className={`textField__input ${
+        className={`textField__input ${bg} ${
           meta.touched && meta.error ? "border-red-500" : ""
         }`}
         {...field}

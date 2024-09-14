@@ -20,7 +20,11 @@ router.delete(
 
 router.patch("/update-permission/:id", PermissionsController.updatePermission);
 
-router.post("/create-new-role", RoleController.createNewRole);
+router.post(
+  "/create-new-role",
+  stringToArray("permissions"),
+  RoleController.createNewRole
+);
 
 module.exports = {
   RBACRoutes: router,

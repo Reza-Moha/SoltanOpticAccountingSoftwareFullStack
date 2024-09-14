@@ -12,8 +12,17 @@ RolesModel.init(
       unique: true,
       primaryKey: true,
     },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     permissionId: {
-      type: DataTypes.UUID,
+      type: DataTypes.JSONB(),
       allowNull: false,
       references: {
         model: PermissionsModel,
