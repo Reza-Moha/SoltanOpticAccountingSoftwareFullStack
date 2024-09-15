@@ -1,19 +1,31 @@
 "use client";
 
 import Input from "@/components/Ui/Input";
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { createNewEmployeeSchema } from "@/validators/admin";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
 import BasicWrapper from "../../_components/BasicWrapper";
+import SelectInput from "@/components/Ui/SelectInput";
 
 export default function CreateNewEmployee() {
   const initial = {
     fullName: "",
     phoneNumber: "",
     profileImage: "",
+    gender: "",
   };
+  const genderOptions = [
+    {
+      id: 1,
+      title: "آقای",
+    },
+    {
+      id: 2,
+      title: "خانم",
+    },
+  ];
 
   const createNewEmployeeHandler = async (values) => {};
 
@@ -35,6 +47,13 @@ export default function CreateNewEmployee() {
                   type="text"
                   values={values.fullName}
                 />
+
+                <Field
+                  name="gender"
+                  component={SelectInput}
+                  options={genderOptions}
+                />
+
                 <Input
                   label="شماره موبایل"
                   name="phoneNumber"

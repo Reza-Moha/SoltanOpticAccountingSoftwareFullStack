@@ -30,11 +30,13 @@ export default function Me() {
   };
 
   const editeAdminHandler = async (values) => {
-    console.log("Form values:", values);
-    const data = await updateAdminProfileApi(values);
-    console.log("API Response:", data);
-    if (data?.statusCode === 200) {
-      toast.success(data.message);
+    try {
+      const data = await updateAdminProfileApi(values);
+      if (data?.statusCode === 200) {
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
