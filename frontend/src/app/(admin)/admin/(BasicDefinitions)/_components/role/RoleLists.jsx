@@ -4,6 +4,7 @@ import Table from "@/components/Ui/Table";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { deleteRole } from "@/redux/slices/rolesSlice";
+import EditRoleModal from "./EditeRoleModal";
 
 export default function RolesList() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export default function RolesList() {
         <Table>
           <Table.Header>
             <th>عنوان</th>
+            <th>قسمت های در درسترس</th>
             <th>توضیحات</th>
             <th>عملیات</th>
           </Table.Header>
@@ -36,6 +38,21 @@ export default function RolesList() {
               rolesList.map((Role) => (
                 <motion.tr key={Role.id}>
                   <td>{Role.title}</td>
+                  <td>
+                    {Role?.permissions?.length > 0
+                      ? Role.permissions.map((per) => {
+                          return (
+                            <button
+                              key={per.id}
+                              disabled={true}
+                              className="mr-2 !bg-green-200 rounded p-0.5 text-green-500"
+                            >
+                              {per.title}
+                            </button>
+                          );
+                        })
+                      : null}
+                  </td>
                   <td>{Role.description}</td>
                   <td className="flex items-center gap-x-4">
                     <button

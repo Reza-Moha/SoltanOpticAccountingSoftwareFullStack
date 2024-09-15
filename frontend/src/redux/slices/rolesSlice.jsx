@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  updatePermissionApi,
-  deletePermissionByIdApi,
   createNewRoleApi,
-  getAllRoleApi,
+  getAllRolesApi,
+  deleteRoleByIdApi,
+  updateRolesApi,
 } from "@/services/admin/admin.service";
 import toast from "react-hot-toast";
 
@@ -11,8 +11,8 @@ export const fetchRoles = createAsyncThunk(
   "role/fetchRoles",
   async (_, { rejectWithValue }) => {
     try {
-      const data = await getAllRoleApi();
-      return data.allRole;
+      const data = await getAllRolesApi();
+      return data.allRoles;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -20,7 +20,7 @@ export const fetchRoles = createAsyncThunk(
 );
 
 export const createNewRole = createAsyncThunk(
-  "role/createPermission",
+  "role/createRole",
   async (values, { rejectWithValue }) => {
     try {
       const data = await createNewRoleApi(values);
@@ -34,14 +34,12 @@ export const createNewRole = createAsyncThunk(
 );
 
 export const updateRole = createAsyncThunk(
-  "permissions/updatePermission",
+  "role/updateRole",
   async ({ id, values }, { rejectWithValue }) => {
     try {
-      const data = await updatePermissionApi(id, values);
+      const data = await updateRolesApi(id, values);
       toast.success(data.message);
-      console.log(data);
-
-      return data.permission;
+      return data.updatedRole;
     } catch (error) {
       toast.error(error.message);
       return rejectWithValue(error.response.data);
@@ -50,10 +48,10 @@ export const updateRole = createAsyncThunk(
 );
 
 export const deleteRole = createAsyncThunk(
-  "permissions/deletePermission",
+  "role/deleteRole",
   async (id, { rejectWithValue }) => {
     try {
-      const data = await deletePermissionByIdApi(id);
+      const data = await deleteRoleByIdApi(id);
       toast.success(data.message);
       return id;
     } catch (error) {

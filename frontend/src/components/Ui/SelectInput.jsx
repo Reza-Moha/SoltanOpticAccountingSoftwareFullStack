@@ -1,9 +1,8 @@
-// components/MultiSelect.js
 import React from "react";
 import Select from "react-select";
 import { ErrorMessage } from "formik";
 
-const MultiSelect = ({ field, form, options, ...props }) => {
+const SelectInput = ({ field, form, options, ...props }) => {
   const handleChange = (selectedOptions) => {
     // Pass only the values (UUIDs) to Formik
     const selectedValues = selectedOptions
@@ -21,7 +20,7 @@ const MultiSelect = ({ field, form, options, ...props }) => {
         value={options.filter((option) => field.value.includes(option.value))}
         onChange={handleChange}
         options={options}
-        className="w-full"
+        className="w-full h-12"
         classNamePrefix="react-select"
       />
       <ErrorMessage
@@ -33,4 +32,4 @@ const MultiSelect = ({ field, form, options, ...props }) => {
   );
 };
 
-export default MultiSelect;
+export default SelectInput;

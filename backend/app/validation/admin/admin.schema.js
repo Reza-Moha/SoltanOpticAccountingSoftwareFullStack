@@ -41,6 +41,7 @@ const createNewPermissionSchema = Joi.object({
 const idSchema = Joi.object({
   id: Joi.string().guid({ version: "uuidv4" }).required(),
 });
+
 const createNewRoleSchema = Joi.object({
   title: Joi.string().min(3).max(30).required().messages({
     "string.empty": "عنوان نقش نمی‌تواند خالی باشد",

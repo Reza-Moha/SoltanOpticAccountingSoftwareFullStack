@@ -8,8 +8,8 @@ import BasicWrapper from "../BasicWrapper";
 import { createNewRoleSchema } from "@/validators/admin";
 import { createNewRole, fetchRoles } from "@/redux/slices/rolesSlice";
 import { useSelector } from "react-redux";
-import MultiSelect from "@/components/Ui/SelectInput";
 import RolesLists from "./RoleLists";
+import SelectInput from "@/components/Ui/SelectInput";
 
 export default function Role() {
   const dispatch = useDispatch();
@@ -48,10 +48,10 @@ export default function Role() {
                 />
               </div>
 
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-4 px-3">
                 <Field
                   name="permissions"
-                  component={MultiSelect}
+                  component={SelectInput}
                   options={permissionOptions}
                 />
               </div>

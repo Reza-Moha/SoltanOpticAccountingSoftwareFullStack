@@ -1,6 +1,5 @@
 const { sequelize } = require("../libs/DBConfig");
 const { Model, DataTypes } = require("@sequelize/core");
-const { PermissionsModel } = require("./Permissions.model");
 
 class RolesModel extends Model {}
 
@@ -22,12 +21,8 @@ RolesModel.init(
       allowNull: false,
     },
     permissionsId: {
-      type: DataTypes.JSON(DataTypes.UUID),
+      type: DataTypes.JSON,
       allowNull: false,
-      references: {
-        model: PermissionsModel,
-        key: "id",
-      },
     },
   },
   {
@@ -37,9 +32,7 @@ RolesModel.init(
     timestamps: true,
   }
 );
-// RolesModel.hasMany(PermissionsModel, { foreignKey: "permissionsId" });
-// PermissionsModel.belongsTo(RolesModel, { foreignKey: "permissionsId" });
-
+RolesModel.sync({ alter: true });
 module.exports = {
   RolesModel,
 };

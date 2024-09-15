@@ -5,7 +5,7 @@ class RolePermissions extends Model {}
 RolePermissions.init(
   {
     roleId: {
-      type: Sequelize.UUID, // Adjust the type based on your role ID format
+      type: Sequelize.UUID,
       references: {
         model: "Roles",
         key: "id",
@@ -14,7 +14,7 @@ RolePermissions.init(
       onDelete: "CASCADE",
     },
     permissionId: {
-      type: Sequelize.UUID, // Adjust the type based on your permission ID format
+      type: Sequelize.UUID,
       references: {
         model: "Permissions",
         key: "id",

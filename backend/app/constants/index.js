@@ -17,16 +17,16 @@ module.exports = {
   }),
   accessTokenCookieOptions: Object.freeze({
     maxAge: 1000 * 60 * 20, // would expire after 20 minutes
-    httpOnly: true, // The cookie only accessible by the web server
-    signed: true, // Indicates if the cookie should be signed
+    httpOnly: true,
+    signed: true,
     sameSite: "Lax",
     secure: process.env.NODE_ENV !== "development",
     domain: process.env.DOMAIN,
   }),
   refreshTokenCookieOptions: Object.freeze({
-    maxAge: 1000 * 60 * 60 * 24 * 365, // would expire after 1 year
-    httpOnly: true, // The cookie only accessible by the web server
-    signed: true, // Indicates if the cookie should be signed
+    maxAge: 1000 * 60 * 60 * 24 * 365,
+    httpOnly: true,
+    signed: true,
     sameSite: "Lax",
     secure: process.env.NODE_ENV !== "development",
     domain: process.env.DOMAIN,

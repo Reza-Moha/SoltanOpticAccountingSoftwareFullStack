@@ -30,6 +30,10 @@ router.post(
 
 router.get("/get-all-roles", RoleController.getAllRoles);
 
+router.delete("/delete-role/:id", RoleController.deleteRoleById);
+
+router.patch("/update-role/:id", RoleController.updateRole);
+
 module.exports = {
   RBACRoutes: router,
 };

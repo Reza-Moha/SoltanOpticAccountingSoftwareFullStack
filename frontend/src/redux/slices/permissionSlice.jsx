@@ -39,8 +39,6 @@ export const updatePermission = createAsyncThunk(
     try {
       const data = await updatePermissionApi(id, values);
       toast.success(data.message);
-      console.log(data);
-
       return data.permission;
     } catch (error) {
       toast.error(error.message);

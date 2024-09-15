@@ -39,8 +39,19 @@ export async function createNewRoleApi(data) {
     .then(({ data }) => data);
 }
 
-export async function getAllRoleApi() {
+export async function getAllRolesApi() {
   return httpService
     .get(`/api/admin/RBAC/get-all-roles`)
+    .then(({ data }) => data);
+}
+export async function deleteRoleByIdApi(id) {
+  return httpService
+    .delete(`/api/admin/RBAC/delete-role/${id}`)
+    .then(({ data }) => data);
+}
+
+export async function updateRolesApi(id, data) {
+  return httpService
+    .patch(`/api/admin/RBAC/update-role/${id}`, data)
     .then(({ data }) => data);
 }
