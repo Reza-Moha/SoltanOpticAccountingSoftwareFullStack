@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  getAllPermissionApi,
-  createNewPermissionApi,
   updatePermissionApi,
   deletePermissionByIdApi,
   createNewRoleApi,
+  getAllRoleApi,
 } from "@/services/admin/admin.service";
 import toast from "react-hot-toast";
 
@@ -12,8 +11,8 @@ export const fetchRoles = createAsyncThunk(
   "role/fetchRoles",
   async (_, { rejectWithValue }) => {
     try {
-      const data = await getAllPermissionApi();
-      return data.allPermission;
+      const data = await getAllRoleApi();
+      return data.allRole;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -64,10 +63,10 @@ export const deleteRole = createAsyncThunk(
   }
 );
 
-const roleSlice = createSlice({
+const rolesSlice = createSlice({
   name: "role",
   initialState: {
-    roleList: [],
+    rolesList: [],
     isLoading: false,
     error: null,
   },
@@ -77,7 +76,7 @@ const roleSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchRoles.fulfilled, (state, action) => {
-        state.roleList = action.payload;
+        state.rolesList = action.payload;
         state.isLoading = false;
       })
       .addCase(fetchRoles.rejected, (state, action) => {
@@ -86,24 +85,24 @@ const roleSlice = createSlice({
       })
 
       .addCase(createNewRole.fulfilled, (state, action) => {
-        state.roleList.push(action.payload);
+        state.rolesList.push(action.payload);
       })
 
       .addCase(updateRole.fulfilled, (state, action) => {
-        const index = state.roleList.findIndex(
-          (per) => per.id === action.payload.id
+        const index = state.rolesList.findIndex(
+          (role) => role.id === action.payload.id
         );
         if (index !== -1) {
-          state.roleList[index] = action.payload;
+          state.rolesList[index] = action.payload;
         }
       })
 
       .addCase(deleteRole.fulfilled, (state, action) => {
-        state.roleList = state.roleList.filter(
+        state.rolesList = state.rolesList.filter(
           (per) => per.id !== action.payload
         );
       });
   },
 });
 
-export default roleSlice.reducer;
+export default rolesSlice.reducer;

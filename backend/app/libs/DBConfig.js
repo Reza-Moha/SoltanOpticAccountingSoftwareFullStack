@@ -1,23 +1,22 @@
-require("dotenv").config()
-const {Sequelize} = require("@sequelize/core")
+const { Sequelize } = require("@sequelize/core");
 
-sequelize = new Sequelize({
-    dialect: "mysql",
-    host:"localhost",
-    port:process.env.DBPORT,
-    username: process.env.DBUSERNAME,
-    password: process.env.DB_PASSWORD || "Reza2198000@@@avinam",
-    database:process.env.DBNAME,
-    logging: false,
-
-})
-sequelize.authenticate().then(async  () => {
-    await sequelize.sync({alter: true})
-    console.log("connected successfully to mysql server")
-}).catch((error) => {
-    console.log(error.message)
-})
-
+const sequelize = new Sequelize({
+  dialect: "mysql",
+  host: "localhost",
+  port: 3306,
+  username: "root",
+  password: "Reza2198000@@@avinam",
+  database: "soltanoptic",
+  logging: false,
+});
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((error) => {
+    console.error("Unable to connect to the database:", error);
+  });
 module.exports = {
-    sequelize
-}
+  sequelize,
+};

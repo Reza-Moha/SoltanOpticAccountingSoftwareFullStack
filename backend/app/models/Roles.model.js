@@ -21,15 +21,13 @@ RolesModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    permissionId: {
-      type: DataTypes.JSONB(),
+    permissionsId: {
+      type: DataTypes.JSON(DataTypes.UUID),
       allowNull: false,
       references: {
         model: PermissionsModel,
         key: "id",
       },
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE",
     },
   },
   {
@@ -39,6 +37,8 @@ RolesModel.init(
     timestamps: true,
   }
 );
+// RolesModel.hasMany(PermissionsModel, { foreignKey: "permissionsId" });
+// PermissionsModel.belongsTo(RolesModel, { foreignKey: "permissionsId" });
 
 module.exports = {
   RolesModel,

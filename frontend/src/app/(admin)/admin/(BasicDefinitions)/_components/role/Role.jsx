@@ -6,13 +6,14 @@ import Input from "@/components/Ui/Input";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
 import BasicWrapper from "../BasicWrapper";
 import { createNewRoleSchema } from "@/validators/admin";
-import { createNewRole, fetchRoles } from "@/redux/slices/roleSice";
-
+import { createNewRole, fetchRoles } from "@/redux/slices/rolesSlice";
 import { useSelector } from "react-redux";
 import MultiSelect from "@/components/Ui/SelectInput";
+import RolesLists from "./RoleLists";
 
 export default function Role() {
   const dispatch = useDispatch();
+
   const { permissionsList } = useSelector((state) => state.permissionSlice);
 
   useEffect(() => {
@@ -21,7 +22,6 @@ export default function Role() {
 
   const createNewRoleHandler = (values, { resetForm }) => {
     dispatch(createNewRole(values));
-    console.log(values);
   };
 
   const permissionOptions = permissionsList.map((permission) => ({
@@ -70,6 +70,7 @@ export default function Role() {
           </Form>
         )}
       </Formik>
+      <RolesLists />
     </BasicWrapper>
   );
 }

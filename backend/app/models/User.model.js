@@ -1,6 +1,5 @@
-const { sequelize } = require("../libs/DBConfig");
 const { Model, DataTypes } = require("@sequelize/core");
-
+const { sequelize } = require("../libs/DBConfig");
 class UserModel extends Model {}
 
 UserModel.init(
@@ -40,7 +39,7 @@ UserModel.init(
     modelName: "User",
     tableName: "Users",
     timestamps: true,
-  },
+  }
 );
 
 module.exports = {

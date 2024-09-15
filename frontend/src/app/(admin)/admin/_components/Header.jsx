@@ -30,7 +30,7 @@ export default function AdminHeader() {
                 </svg>
 
                 <button className="adminHeaderBTN">
-                  <Link href={"admin/accounting"}>حسابداری</Link>
+                  <Link href="/admin/accounting">حسابداری</Link>
                 </button>
               </div>
               <div className="flex items-center justify-center hover:bg-secondary-800 transition-all ease-in-out hover:text-secondary-50 p-1 rounded gap-1">
@@ -49,17 +49,14 @@ export default function AdminHeader() {
                   <path d="M10.5 10.5a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963 5.23 5.23 0 0 0-3.434-1.279h-1.875a.375.375 0 0 1-.375-.375V10.5Z" />
                 </svg>
                 <button className="adminHeaderBTN">
-                  <Link href={"admin/basic-definitions/create-new-employee"}>
+                  <Link href="/admin/basic-definitions/create-new-employee">
                     تعاریف اولیه
                   </Link>
                 </button>
               </div>
             </div>
           </div>
-          <Link
-            href={"admin/me"}
-            className="flex items-center gap-3 rounded-lg"
-          >
+          <Link href="/admin/me" className="flex items-center gap-3 rounded-lg">
             <div className="inline-flex items-center">
               {user?.profileImage ? (
                 <div className="rounded-full border-2 border-secondary-500 overflow-hidden select-none w-12 h-12">

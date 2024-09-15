@@ -44,7 +44,11 @@ class PermissionsController extends Controller {
 
   async getAllPermission(req, res, next) {
     try {
-      const allPermission = await PermissionsModel.findAll();
+      const allPermission = await PermissionsModel.findAll({
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+      });
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         allPermission,

@@ -6,15 +6,12 @@ const {
 } = require("../../../validation/admin/admin.schema");
 
 const { RolesModel } = require("../../../models/Roles.model");
+const { PermissionsModel } = require("../../../models/Permissions.model");
 class RoleController extends Controller {
   async createNewRole(req, res, next) {
     try {
-      const validation = await createNewRoleSchema.validateAsync(req.body);
-      if (validation.error) {
-        console.error(validation.error.details);
-      } else {
-        console.log("Validation successful");
-      }
+      await createNewRoleSchema.validateAsync(req.body);
+
       const { title, permissions, description } = req.body;
       console.log(req.body);
 
@@ -24,16 +21,31 @@ class RoleController extends Controller {
       const createRole = await RolesModel.create({
         title,
         description,
-        permissionId: permissions,
+        permissionsId: permissions,
       });
       if (!createRole)
         throw CreateError.InternalServerError(
           "ایجاد نقش با خطا مواجه شد لطفا دوباره تلاش کنید"
         );
+      if (permissions && permissions.length > 0) {
+        await createRole.setPermissions(permissions);
+      }
       return res.status(HttpStatus.CREATED).send({
         statusCode: res.statusCode,
         message: "نقش با موفقیت ایجاد شد",
         createdRole: createRole,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllRoles(req, res, next) {
+    try {
+      const allRoles = await RolesModel.findAll({});
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        allRoles,
       });
     } catch (error) {
       next(error);

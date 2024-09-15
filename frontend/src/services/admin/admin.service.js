@@ -38,3 +38,9 @@ export async function createNewRoleApi(data) {
     .post(`/api/admin/RBAC/create-new-role`, data)
     .then(({ data }) => data);
 }
+
+export async function getAllRoleApi() {
+  return httpService
+    .get(`/api/admin/RBAC/get-all-roles`)
+    .then(({ data }) => data);
+}
