@@ -1,12 +1,21 @@
 const router = require("express").Router();
 const { AdminController } = require("../../controller/admin/Admin.controller");
+const {
+  EmployeeController,
+} = require("../../controller/employee/Employee.controller");
 const { uploadFile } = require("../../utils/multer");
 const { RBACRoutes } = require("./RBAC/RBACRoutes");
 
 router.patch(
   "/admin-profile-update",
   uploadFile.single("profileImage"),
-  AdminController.updateUserProfile
+  AdminController.updateAdminProfile
+);
+
+router.post(
+  "create-new-employee",
+  uploadFile.single("profileImage"),
+  EmployeeController.createNewEmployee
 );
 router.use("/RBAC", RBACRoutes);
 module.exports = {

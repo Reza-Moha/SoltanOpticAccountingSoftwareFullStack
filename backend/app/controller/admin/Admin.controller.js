@@ -1,4 +1,4 @@
-const { AdminBlackListFields } = require("../../constants");
+const { BlackListFields } = require("../../constants");
 const { UserModel } = require("../../models/User.model");
 const {
   deleteInvalidPropertyInObject,
@@ -13,21 +13,14 @@ const path = require("path");
 
 const CreateError = require("http-errors");
 class AdminController extends Controller {
-  async createNewEmployee(req, res, next) {
-    try {
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async updateUserProfile(req, res, next) {
+  async updateAdminProfile(req, res, next) {
     try {
       await updateAdminProfileSchema.validateAsync(req.body);
 
       const { fileUploadPath, filename, phoneNumber, fullName } = req.body;
       const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
 
-      deleteInvalidPropertyInObject(req.body, AdminBlackListFields);
+      deleteInvalidPropertyInObject(req.body, BlackListFields);
       const id = req.user.id;
 
       const [updatedRowsCount] = await UserModel.update(
@@ -48,13 +41,6 @@ class AdminController extends Controller {
       const { fileUploadPath, filename } = req.body;
       const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
       deleteFileInPublic(image);
-      next(error);
-    }
-  }
-
-  async createNewRole(req, res, next) {
-    try {
-    } catch (error) {
       next(error);
     }
   }

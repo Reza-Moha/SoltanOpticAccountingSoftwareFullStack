@@ -152,10 +152,6 @@ input::-webkit-inner-spin-button {
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
-}
-
 /* TABLE */
 
 table {
@@ -230,14 +226,14 @@ table td {
 }
 
 ::-webkit-scrollbar {
-  width: 10px !important;
+  width: 5px !important;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgb(17, 24, 39);
+  background: rgb(177, 182, 190);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to right bottom, rgb(55, 65, 81), rgb(0, 0, 0));
-  border-radius: 10px !important;
+  background: rgb(17, 24, 39);
+  border-radius: 5px !important;
 }

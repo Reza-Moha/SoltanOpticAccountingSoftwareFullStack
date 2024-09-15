@@ -1,11 +1,17 @@
 "use client";
 
+import { fetchRoles } from "@/redux/slices/rolesSlice";
 import { BasicDefinitionsLinks } from "@/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 export default function AsideBasicDefinition() {
   const pathName = usePathname();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchRoles());
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col items-center text-center justify-center p-1 gap-2">

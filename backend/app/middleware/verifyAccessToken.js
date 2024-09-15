@@ -2,6 +2,8 @@ const CreateError = require("http-errors");
 const JWT = require("jsonwebtoken");
 const { UserModel } = require("../models/User.model");
 const cookieParser = require("cookie-parser");
+const { Op } = require("@sequelize/core");
+const { filterEmptyFieldsInDatabase } = require("../utils");
 
 function VerifyAccessToken(req, res, next) {
   try {
@@ -11,7 +13,7 @@ function VerifyAccessToken(req, res, next) {
     }
     const token = cookieParser.signedCookie(
       accessToken,
-      process.env.COOKIE_PARSER_SECRET_KEY,
+      process.env.COOKIE_PARSER_SECRET_KEY
     );
     JWT.verify(
       token,
@@ -21,16 +23,19 @@ function VerifyAccessToken(req, res, next) {
           if (err) throw CreateError.Unauthorized("توکن نامعتبر است");
           const { phoneNumber } = payload || {};
           const user = await UserModel.findOne({
-            where: { phoneNumber },
+            where: {
+              phoneNumber,
+            },
             attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
           });
           if (!user) throw CreateError.Unauthorized("حساب کاربری یافت نشد");
-          req.user = user;
+          const filteredUserField = filterEmptyFieldsInDatabase(user.toJSON());
+          req.user = filteredUserField;
           return next();
         } catch (error) {
           next(error);
         }
-      },
+      }
     );
   } catch (error) {
     next(error);

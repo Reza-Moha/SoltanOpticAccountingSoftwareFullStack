@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const CreateError = require("http-errors");
+const { validateNationalCode } = require("../../utils");
 
 const updateAdminProfileSchema = Joi.object({
   phoneNumber: Joi.string()
@@ -63,9 +64,60 @@ const createNewRoleSchema = Joi.object({
     }),
 });
 
+const createNewEmployeeSchema = Joi.object({
+  fullName: Joi.string().min(3).max(50).required().messages({
+    "string.base": "نام و نام خانوادگی باید یک رشته باشد",
+    "string.min": "نام و نام خانوادگی باید حداقل ۳ کاراکتر باشد",
+    "string.max": "نام و نام خانوادگی نمی‌تواند بیش از ۵۰ کاراکتر باشد",
+    "any.required": "لطفا نام و نام خانوادگی خود را وارد فرمائید",
+  }),
+  phoneNumber: Joi.string()
+    .length(11)
+    .pattern(/^[0][9][0-9]{9}$/)
+    .required()
+    .messages({
+      "string.base": "شماره موبایل باید یک رشته باشد",
+      "string.length": "شماره موبایل وارد شده معتبر نیست",
+      "string.pattern.base": "شماره موبایل وارد شده معتبر نیست",
+      "any.required": "لطفا شماره موبایل خود را وارد فرمائید",
+    }),
+  gender: Joi.string().required().messages({
+    "string.base": "جنسیت باید یک رشته باشد",
+    "any.required": "جنسیت را وارد کنید",
+  }),
+  jobTitle: Joi.string().required().messages({
+    "string.base": "عنوان شغل باید یک رشته باشد",
+    "any.required": "عنوان شغل را وارد کنید",
+  }),
+  description: Joi.string().allow("", null),
+  nationalCode: Joi.string()
+    .length(10)
+    .required()
+    .custom((value, helpers) => {
+      if (!validateNationalCode(value)) {
+        return helpers.message("کد ملی وارد شده معتبر نیست");
+      }
+      return value;
+    })
+    .messages({
+      "string.base": "کد ملی باید یک رشته باشد",
+      "string.length": "کد ملی باید شامل ۱۰ رقم باشد",
+      "any.required": "لطفا کد ملی همکار را وارد فرمائید",
+    }),
+  profileImage: Joi.object({
+    size: Joi.number().max(5000000).optional(),
+    type: Joi.string().valid("image/jpg", "image/jpeg", "image/png").optional(),
+  })
+    .optional()
+    .messages({
+      "object.max": "حجم فایل نباید بیشتر از ۵ مگابایت باشد",
+      "string.valid": "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
+    }),
+});
 module.exports = {
   updateAdminProfileSchema,
   createNewPermissionSchema,
   idSchema,
   createNewRoleSchema,
+  createNewEmployeeSchema,
 };

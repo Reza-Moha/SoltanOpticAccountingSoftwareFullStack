@@ -40,3 +40,19 @@ export const BasicDefinitionsLinks = [
     href: "create-permissions",
   },
 ];
+
+export const validateNationalCode = (value) => {
+  if (!/^\d{10}$/.test(value)) return false;
+
+  const nationalCode = value.split("").map(Number);
+  const sum = nationalCode
+    .slice(0, 9)
+    .reduce((acc, num, index) => acc + num * (10 - index), 0);
+  const remainder = sum % 11;
+
+  if (remainder < 2) {
+    return nationalCode[9] === remainder;
+  } else {
+    return nationalCode[9] === 11 - remainder;
+  }
+};

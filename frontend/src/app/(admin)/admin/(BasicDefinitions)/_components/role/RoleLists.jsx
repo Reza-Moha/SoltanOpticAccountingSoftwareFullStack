@@ -37,7 +37,7 @@ export default function RolesList() {
             {rolesList?.length > 0 ? (
               rolesList.map((Role) => (
                 <motion.tr key={Role.id}>
-                  <td>{Role.title}</td>
+                  <td>{Role?.title}</td>
                   <td>
                     {Role?.permissions?.length > 0
                       ? Role.permissions.map((per) => {

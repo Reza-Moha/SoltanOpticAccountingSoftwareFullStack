@@ -31,12 +31,5 @@ module.exports = {
     secure: process.env.NODE_ENV !== "development",
     domain: process.env.DOMAIN,
   }),
-  AdminBlackListFields: [
-    "otp",
-    "id",
-    "role",
-    "createdAt",
-    "updatedAt",
-    "employee",
-  ],
+  BlackListFields: ["otp", "id", "role", "createdAt", "updatedAt", "employee"],
 };

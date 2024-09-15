@@ -100,7 +100,24 @@ function deleteFileInPublic(fileAddress) {
     if (fs.existsSync(pathFile)) fs.unlinkSync(pathFile);
   }
 }
+function filterEmptyFieldsInDatabase(data) {
+  return Object.fromEntries(
+    Object.entries(data).filter(
+      ([key, value]) => value !== null && value !== undefined && value !== ""
+    )
+  );
+}
+function validateNationalCode(value) {
+  if (!/^\d{10}$/.test(value)) return false;
+  const nationalCode = value.split("").map(Number);
+  const sum = nationalCode
+    .slice(0, 9)
+    .reduce((acc, num, index) => acc + num * (10 - index), 0);
+  const remainder = sum % 11;
 
+  if (remainder === 10) return nationalCode[9] === 0;
+  return nationalCode[9] === remainder;
+}
 module.exports = {
   randomNumberGenerator,
   SignAccessToken,
@@ -108,4 +125,6 @@ module.exports = {
   VerifyRefreshToken,
   deleteInvalidPropertyInObject,
   deleteFileInPublic,
+  filterEmptyFieldsInDatabase,
+  validateNationalCode,
 };

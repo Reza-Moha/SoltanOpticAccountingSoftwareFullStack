@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
-const roleToPath = {
-  ADMIN: "/admin",
-  MANAGER: "/manager/dashboard",
-  USER: "/user/dashboard",
-  EMPLOYEE: "/employee/dashboard",
-  OPTOMETRIST: "/optometrist/dashboard",
-  TECHNICAL_MANAGER: "/technical-manager/dashboard",
-};
+const roles = process.env.NEXT_PUBLIC_ROLES;
+const roleToPath = Object.freeze(
+  roles
+    ? roles.split(",").reduce((acc, rolePair) => {
+        const [key, value] = rolePair.split(":");
+        if (key && value) {
+          acc[key] = value;
+        }
+        return acc;
+      }, {})
+    : {}
+);
 
 const ConditionalLink = () => {
   const { user } = useSelector((state) => state.auth);

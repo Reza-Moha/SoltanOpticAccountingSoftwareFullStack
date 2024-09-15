@@ -10,7 +10,13 @@ UserModel.init(
       unique: true,
       primaryKey: true,
     },
-    name: {
+    gender: {
+      type: DataTypes.STRING,
+    },
+    nationalId: {
+      type: DataTypes.STRING(10),
+    },
+    jobTitle: {
       type: DataTypes.STRING,
     },
     fullName: {
@@ -18,6 +24,10 @@ UserModel.init(
     },
     phoneNumber: {
       type: DataTypes.STRING,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     profileImage: {
       type: DataTypes.STRING,
@@ -30,8 +40,8 @@ UserModel.init(
       },
     },
     role: {
-      type: DataTypes.STRING,
-      defaultValue: "USER",
+      type: DataTypes.INTEGER,
+      defaultValue: 11600,
     },
   },
   {

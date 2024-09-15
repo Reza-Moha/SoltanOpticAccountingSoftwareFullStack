@@ -9,6 +9,15 @@ export async function updateAdminProfileApi(data) {
     })
     .then(({ data }) => data);
 }
+export async function createNewEmployeeApi(data) {
+  return httpService
+    .post(`/api/admin/create-new-employee`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(({ data }) => data);
+}
 
 // permission api
 export async function createNewPermissionApi(data) {

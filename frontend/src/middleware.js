@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function middleware(req) {
   const url = req.url;
   const pathname = req.nextUrl.pathname;
-  // console.log({ pathname });
 
   if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
     const user = await authMiddleware(req);
@@ -17,7 +16,7 @@ export async function middleware(req) {
   if (pathname.startsWith("/admin")) {
     const user = await authMiddleware(req);
 
-    if (!user) {
+    if (!user && user?.role !== process.env.ROLE) {
       const loginUrl = new URL(`/login?redirect=${pathname}`, req.url);
       return NextResponse.redirect(loginUrl);
     }

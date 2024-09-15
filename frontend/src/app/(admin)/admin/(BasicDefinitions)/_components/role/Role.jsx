@@ -16,10 +16,6 @@ export default function Role() {
 
   const { permissionsList } = useSelector((state) => state.permissionSlice);
 
-  useEffect(() => {
-    dispatch(fetchRoles());
-  }, [dispatch]);
-
   const createNewRoleHandler = (values, { resetForm }) => {
     dispatch(createNewRole(values));
   };
@@ -53,6 +49,8 @@ export default function Role() {
                   name="permissions"
                   component={SelectInput}
                   options={permissionOptions}
+                  isMulti={true}
+                  placeholder="لطفا دسترسی را انتخاب کنید"
                 />
               </div>
               <div className="mb-4">

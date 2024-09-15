@@ -12,7 +12,7 @@ export default function AdminLayout({ children }) {
 
   return (
     <>
-      <section className="h-screen min-h-screen overflow-hidden">
+      <section className="h-screen min-h-screen">
         <AdminHeader />
         <main>{children}</main>
       </section>
