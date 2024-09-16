@@ -1,7 +1,8 @@
-export function toPersianDigits(number) {
+export const toPersianDigits = (number) => {
   const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
   return number.toString().replace(/\d/g, (x) => farsiDigits[parseInt(x)]);
-}
+};
+
 export const BasicDefinitionsLinks = [
   {
     id: 1,
@@ -41,7 +42,7 @@ export const BasicDefinitionsLinks = [
   },
 ];
 
-export function validateNationalId(code) {
+export const validateNationalId = (code) => {
   if (!/^\d{10}$/.test(code)) {
     return false;
   }
@@ -58,4 +59,4 @@ export function validateNationalId(code) {
     (remainder < 2 && controlDigit === remainder) ||
     (remainder >= 2 && controlDigit === 11 - remainder)
   );
-}
+};

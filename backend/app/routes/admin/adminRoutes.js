@@ -22,6 +22,11 @@ router.get("/get-all-employee", EmployeeController.getAllEmployee);
 
 router.delete("/delete-employee/:id", EmployeeController.deleteEmployeeById);
 
+router.patch(
+  "/update-employee/:id",
+  uploadFile.single("profileImage"),
+  EmployeeController.updateEmployee
+);
 router.use("/RBAC", RBACRoutes);
 
 module.exports = {

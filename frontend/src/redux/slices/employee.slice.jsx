@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  updateRolesApi,
   createNewEmployeeApi,
   getAllEmployeeApi,
   deleteEmployeeByIdApi,
+  updateEmployeeApi,
 } from "@/services/admin/admin.service";
 import toast from "react-hot-toast";
 
@@ -36,16 +36,17 @@ export const createNewEmployee = createAsyncThunk(
   }
 );
 
-export const updateRole = createAsyncThunk(
+export const updateEmployee = createAsyncThunk(
   "role/updateRole",
   async ({ id, values }, { rejectWithValue }) => {
     try {
-      const data = await updateRolesApi(id, values);
+      const data = await updateEmployeeApi(id, values);
       toast.success(data.message);
-      return data.updatedRole;
+      return data.updateEmployee;
     } catch (error) {
-      toast.error(error.message);
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -90,7 +91,7 @@ const employeeSlice = createSlice({
         state.employeeList.push(action.payload);
       })
 
-      .addCase(updateRole.fulfilled, (state, action) => {
+      .addCase(updateEmployee.fulfilled, (state, action) => {
         const index = state.rolesList.findIndex(
           (role) => role.id === action.payload.id
         );
@@ -100,8 +101,8 @@ const employeeSlice = createSlice({
       })
 
       .addCase(deleteEmployee.fulfilled, (state, action) => {
-        state.rolesList = state.employeeList.filter(
-          (per) => per.id !== action.payload
+        state.employeeList = state.employeeList.filter(
+          (emp) => emp.id !== action.payload
         );
       });
   },

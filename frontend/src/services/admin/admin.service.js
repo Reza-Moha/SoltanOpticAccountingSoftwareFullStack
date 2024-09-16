@@ -78,3 +78,9 @@ export async function deleteEmployeeByIdApi(id) {
     .delete(`/api/admin/delete-employee/${id}`)
     .then(({ data }) => data);
 }
+
+export async function updateEmployeeApi(id, data) {
+  return httpService
+    .patch(`/api/admin/update-employee/${id}`, data)
+    .then(({ data }) => data);
+}

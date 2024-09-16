@@ -7,6 +7,7 @@ const {
 const path = require("path");
 const {
   createNewEmployeeSchema,
+  idSchema,
 } = require("../../validation/admin/admin.schema");
 const Controller = require("../Controller");
 const { StatusCodes: HttpStatus } = require("http-status-codes");
@@ -91,6 +92,7 @@ class EmployeeController extends Controller {
       if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
       const user = await UserModel.findByPk(id);
       if (!user) throw CreateError.NotFound("همکار با این مشخصات وجود ندارد");
+      deleteFileInPublic(user.profileImage);
       await UserModel.destroy({ where: { id } });
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
@@ -99,6 +101,51 @@ class EmployeeController extends Controller {
     } catch (error) {
       next(error);
     }
+  }
+
+  async updateEmployee(req, res, next) {
+    // try {
+    //   const image = image
+    //     ? path
+    //         .join(req.body.fileUploadPath, req.body.filename)
+    //         .replace(/\\/g, "/")
+    //     : undefined;
+    //   await idSchema.validateAsync(req.params);
+    //   const { id } = req.params;
+    //   const existEmployee = await UserModel.findByPk(id);
+    //   if (!existEmployee && existEmployee.role !== process.env.USER_ROLE)
+    //     throw CreateError.NotFound("همکار با این مشخصات پیدا نشد");
+    //   await createNewEmployeeSchema.validateAsync(req.body);
+    //   const data = JSON.parse(JSON.stringify(req.body));
+    //   deleteInvalidPropertyInObject(data, []);
+    //   const [updatedRowsCount] = await UserModel.update(
+    //     {
+    //       fullName: data?.fullName,
+    //       phoneNumber: data?.phoneNumber,
+    //       nationalId: data?.nationalId,
+    //       profileImage: data?.profileImage && image,
+    //       description: data?.description,
+    //       gender: data?.gender,
+    //       jobTitle: data?.jobTitle,
+    //     },
+    //     {
+    //       where: { id },
+    //       returning: true,
+    //     }
+    //   );
+    //   if (updatedRowsCount === 0)
+    //     throw CreateError.InternalServerError(" عملیات ویرایش انجام نشد");
+    //   return res.status(HttpStatus.OK).send({
+    //     statusCode: HttpStatus.OK,
+    //     message: "همکار مورد نظر با موفقیت ویرایش گردید",
+    //     updatedEmployee: existEmployee,
+    //   });
+    // } catch (error) {
+    //   const { fileUploadPath, filename } = req.body;
+    //   const image = path.join(fileUploadPath, filename)?.replace(/\\/g, "/");
+    //   deleteFileInPublic(image);
+    //   next(error);
+    // }
   }
 }
 

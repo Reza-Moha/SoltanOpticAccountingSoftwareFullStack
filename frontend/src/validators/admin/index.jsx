@@ -47,19 +47,21 @@ export const createNewEmployeeSchema = Yup.object().shape({
       "کد ملی وارد شده معتبر نیست",
       validateNationalId
     ),
-
   profileImage: Yup.mixed()
     .nullable()
     .test(
-      "fileSize",
-      "حجم فایل نباید بیشتر از ۵ مگابایت باشد",
-      (value) => !value || (value && value.size <= 5000000)
-    )
-    .test(
       "fileFormat",
-      "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
-      (value) =>
-        !value || ["image/jpg", "image/jpeg", "image/png"].includes(value?.type)
+      "فرمت فایل یا لینک معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
+      (value) => {
+        if (!value) return true;
+        if (value instanceof File) {
+          return ["image/jpg", "image/jpeg", "image/png"].includes(value.type);
+        }
+        if (typeof value === "string") {
+          return /\.(jpg|jpeg|png)$/.test(value);
+        }
+        return false;
+      }
     ),
 });
 

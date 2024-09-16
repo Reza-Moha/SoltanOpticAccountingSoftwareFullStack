@@ -1,11 +1,12 @@
 "use client";
+
+import { createNewEmployee } from "@/redux/slices/employee.slice";
+import { useDispatch } from "react-redux";
+import BasicWrapper from "../../_components/BasicWrapper";
 import { Formik } from "formik";
 import { createNewEmployeeSchema } from "@/validators/admin";
-import BasicWrapper from "../../_components/BasicWrapper";
-import { CreateNewEmployeeForm } from "../../_components/createNewEmployee/createForm";
-import { ListOfEmployee } from "../../_components/createNewEmployee/ListOfEmployee";
-import { useDispatch } from "react-redux";
-import { createNewEmployee } from "@/redux/slices/employee.slice";
+import { CreateNewEmployeeForm } from "../../_components/employee/createForm";
+import { EmployeesList } from "../../_components/employee/ListOfEmployee";
 
 export default function CreateNewEmployee() {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ export default function CreateNewEmployee() {
         </Formik>
       </BasicWrapper>
       <BasicWrapper title="لیست کارمندان">
-        <ListOfEmployee />
+        <EmployeesList />
       </BasicWrapper>
     </>
   );

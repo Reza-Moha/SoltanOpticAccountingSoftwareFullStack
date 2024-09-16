@@ -1,13 +1,14 @@
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import Table from "@/components/Ui/Table";
-import EditPermissionModal from "./EditePermissionModal";
 import { useState } from "react";
-import { deletePermission } from "@/redux/slices/permissionSlice";
 import { useSelector } from "react-redux";
 import { deleteEmployee } from "@/redux/slices/employee.slice";
+import { toPersianDigits } from "@/utils";
+import Image from "next/image";
+import EditEmployeeModal from "./EditEmployeeModal";
 
-export default function EmployeesList() {
+export function EmployeesList() {
   const dispatch = useDispatch();
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -34,17 +35,33 @@ export default function EmployeesList() {
             <th>نام و نام خانوادگی</th>
             <th>شماره موبایل</th>
             <th>کد ملی</th>
-            <th>عنوان</th>
+            <th>عملیات</th>
           </Table.Header>
           <Table.Body>
             {employeeList?.length > 0 ? (
               employeeList.map((employee) => (
                 <motion.tr key={employee.id}>
-                  <td>{employee.title}</td>
-                  <td>{employee.description}</td>
+                  <td className="flex items-center gap-x-2">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_API_URL}/${employee.profileImage}`}
+                      alt={employee.fullName}
+                      width="40"
+                      height="40"
+                      className="object-fill rounded-full "
+                    />
+                    <h3 className="font-bold text-base">
+                      {`${employee.gender} ${employee.fullName}`}
+                    </h3>
+                  </td>
+                  <td className="font-bold text-sm">
+                    {toPersianDigits(employee.phoneNumber || 0)}
+                  </td>
+                  <td className="font-bold text-sm">
+                    {toPersianDigits(employee.nationalId || 0)}
+                  </td>
                   <td className="flex items-center gap-x-4">
                     <button
-                      className="text-rose-500"
+                      className="text-rose-500 hover:bg-rose-100 rounded-full p-1 transition-all ease-in-out duration-300"
                       onClick={() => handleDeleteEmployee(employee.id)}
                     >
                       <svg
@@ -61,7 +78,7 @@ export default function EmployeesList() {
                       </svg>
                     </button>
                     <button
-                      className="text-primary-800"
+                      className="text-primary-800 hover:bg-primary-100 rounded-full p-1 transition-all ease-in-out duration-300"
                       onClick={() => handleEditEmployee(employee)}
                     >
                       <svg
@@ -88,8 +105,8 @@ export default function EmployeesList() {
         </Table>
       )}
       {selectedEmployee && showEditModal && (
-        <EditPermissionModal
-          permission={selectedEmployee}
+        <EditEmployeeModal
+          employee={selectedEmployee}
           show={showEditModal}
           onClose={() => setShowEditModal(false)}
         />

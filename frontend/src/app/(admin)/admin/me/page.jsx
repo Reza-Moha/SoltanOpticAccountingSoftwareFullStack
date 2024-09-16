@@ -73,7 +73,6 @@ export default function Me() {
                           className="sr-only"
                           onChange={(event) => {
                             const file = event.target.files[0];
-                            console.log("Selected file:", file);
                             setFieldValue("profileImage", file);
                             setPreviewImage(URL.createObjectURL(file));
                           }}
