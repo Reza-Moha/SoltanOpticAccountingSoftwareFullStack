@@ -13,11 +13,14 @@ router.patch(
 );
 
 router.post(
-  "create-new-employee",
+  "/create-new-employee",
   uploadFile.single("profileImage"),
   EmployeeController.createNewEmployee
 );
+
+router.get("/get-all-employee", EmployeeController.getAllEmployee);
 router.use("/RBAC", RBACRoutes);
+
 module.exports = {
   AdminRoutes: router,
 };

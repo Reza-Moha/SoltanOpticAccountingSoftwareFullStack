@@ -41,18 +41,21 @@ export const BasicDefinitionsLinks = [
   },
 ];
 
-export const validateNationalCode = (value) => {
-  if (!/^\d{10}$/.test(value)) return false;
-
-  const nationalCode = value.split("").map(Number);
-  const sum = nationalCode
-    .slice(0, 9)
-    .reduce((acc, num, index) => acc + num * (10 - index), 0);
-  const remainder = sum % 11;
-
-  if (remainder < 2) {
-    return nationalCode[9] === remainder;
-  } else {
-    return nationalCode[9] === 11 - remainder;
+export function validateNationalId(code) {
+  if (!/^\d{10}$/.test(code)) {
+    return false;
   }
-};
+  const digits = code.split("").map(Number);
+  if (digits.every((digit) => digit === digits[0])) {
+    return false;
+  }
+  const checkSum = digits
+    .slice(0, 9)
+    .reduce((sum, digit, index) => sum + digit * (10 - index), 0);
+  const remainder = checkSum % 11;
+  const controlDigit = digits[9];
+  return (
+    (remainder < 2 && controlDigit === remainder) ||
+    (remainder >= 2 && controlDigit === 11 - remainder)
+  );
+}

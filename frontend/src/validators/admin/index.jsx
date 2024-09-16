@@ -1,4 +1,4 @@
-import { validateNationalCode } from "@/utils";
+import { validateNationalId } from "@/utils";
 import * as Yup from "yup";
 
 export const updateAdminProfileSchema = Yup.object().shape({
@@ -39,13 +39,13 @@ export const createNewEmployeeSchema = Yup.object().shape({
   gender: Yup.string().required("جنسیت را وارد کنید"),
   jobTitle: Yup.string().required("عنوان شغل را وارد کنید"),
   description: Yup.string(),
-  nationalCode: Yup.string()
+  nationalId: Yup.string()
     .required("لطفا کد ملی همکار را وارد فرمائید")
     .matches(/^\d{10}$/, "کد ملی باید شامل ۱۰ رقم باشد")
     .test(
       "validateNationalCode",
       "کد ملی وارد شده معتبر نیست",
-      validateNationalCode
+      validateNationalId
     ),
 
   profileImage: Yup.mixed()

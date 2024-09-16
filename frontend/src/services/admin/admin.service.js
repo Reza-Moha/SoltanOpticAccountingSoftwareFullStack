@@ -64,3 +64,11 @@ export async function updateRolesApi(id, data) {
     .patch(`/api/admin/RBAC/update-role/${id}`, data)
     .then(({ data }) => data);
 }
+
+// employee api
+
+export async function getAllEmployeeApi() {
+  return httpService
+    .get(`/api/admin/get-all-employee`)
+    .then(({ data }) => data);
+}

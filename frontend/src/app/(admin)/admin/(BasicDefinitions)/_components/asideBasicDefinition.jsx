@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchAllEmployees } from "@/redux/slices/employee.slice";
 import { fetchRoles } from "@/redux/slices/rolesSlice";
 import { BasicDefinitionsLinks } from "@/utils";
 import Link from "next/link";
@@ -11,6 +12,7 @@ export default function AsideBasicDefinition() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchRoles());
+    dispatch(fetchAllEmployees());
   }, [dispatch]);
 
   return (

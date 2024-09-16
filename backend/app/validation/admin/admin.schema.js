@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const CreateError = require("http-errors");
-const { validateNationalCode } = require("../../utils");
+const { validateNationalId } = require("../../utils");
 
 const updateAdminProfileSchema = Joi.object({
   phoneNumber: Joi.string()
@@ -90,11 +90,15 @@ const createNewEmployeeSchema = Joi.object({
     "any.required": "عنوان شغل را وارد کنید",
   }),
   description: Joi.string().allow("", null),
-  nationalCode: Joi.string()
+  fileUploadPath: Joi.allow(),
+  filename: Joi.string()
+    .regex(/(\.png|\.jpg|\.webp|\.jpeg)$/)
+    .error(CreateError.BadRequest("تصویر ارسال شده صحیح نمیباشد")),
+  nationalId: Joi.string()
     .length(10)
     .required()
     .custom((value, helpers) => {
-      if (!validateNationalCode(value)) {
+      if (!validateNationalId(value)) {
         return helpers.message("کد ملی وارد شده معتبر نیست");
       }
       return value;

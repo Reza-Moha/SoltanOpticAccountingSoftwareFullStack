@@ -16,7 +16,7 @@ export default function Role() {
 
   const { permissionsList } = useSelector((state) => state.permissionSlice);
 
-  const createNewRoleHandler = (values, { resetForm }) => {
+  const createNewRoleHandler = (values) => {
     dispatch(createNewRole(values));
   };
 
