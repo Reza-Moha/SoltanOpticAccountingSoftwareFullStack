@@ -14,7 +14,9 @@ export const fetchPermissions = createAsyncThunk(
       const data = await getAllPermissionApi();
       return data.allPermission;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -27,8 +29,9 @@ export const createPermission = createAsyncThunk(
       toast.success(data.message);
       return data.permission;
     } catch (error) {
-      toast.error(error.message);
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -41,8 +44,9 @@ export const updatePermission = createAsyncThunk(
       toast.success(data.message);
       return data.permission;
     } catch (error) {
-      toast.error(error.message);
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -55,8 +59,9 @@ export const deletePermission = createAsyncThunk(
       toast.success(data.message);
       return id;
     } catch (error) {
-      toast.error(error.message);
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );

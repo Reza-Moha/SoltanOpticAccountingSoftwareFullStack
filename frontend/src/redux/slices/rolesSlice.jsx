@@ -14,7 +14,9 @@ export const fetchRoles = createAsyncThunk(
       const data = await getAllRolesApi();
       return data.allRoles;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -27,8 +29,9 @@ export const createNewRole = createAsyncThunk(
       toast.success(data.message);
       return data.role;
     } catch (error) {
-      toast.error(error.message);
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -41,8 +44,9 @@ export const updateRole = createAsyncThunk(
       toast.success(data.message);
       return data.updatedRole;
     } catch (error) {
-      toast.error(error.message);
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -55,8 +59,9 @@ export const deleteRole = createAsyncThunk(
       toast.success(data.message);
       return id;
     } catch (error) {
-      toast.error(error.message);
-      return rejectWithValue(error.response.data);
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
     }
   }
 );

@@ -72,3 +72,9 @@ export async function getAllEmployeeApi() {
     .get(`/api/admin/get-all-employee`)
     .then(({ data }) => data);
 }
+
+export async function deleteEmployeeByIdApi(id) {
+  return httpService
+    .delete(`/api/admin/delete-employee/${id}`)
+    .then(({ data }) => data);
+}

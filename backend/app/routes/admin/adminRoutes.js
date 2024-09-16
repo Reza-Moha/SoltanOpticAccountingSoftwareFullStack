@@ -19,6 +19,9 @@ router.post(
 );
 
 router.get("/get-all-employee", EmployeeController.getAllEmployee);
+
+router.delete("/delete-employee/:id", EmployeeController.deleteEmployeeById);
+
 router.use("/RBAC", RBACRoutes);
 
 module.exports = {

@@ -83,6 +83,23 @@ class EmployeeController extends Controller {
       next(error);
     }
   }
+
+  async deleteEmployeeById(req, res, next) {
+    try {
+      await idSchema.validateAsync(req.params);
+      const { id } = req.params;
+      if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
+      const user = await UserModel.findByPk(id);
+      if (!user) throw CreateError.NotFound("همکار با این مشخصات وجود ندارد");
+      await UserModel.destroy({ where: { id } });
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        message: "همکار با موفقیت حذف شد",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = {

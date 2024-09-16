@@ -32,7 +32,7 @@ RolesModel.init(
     timestamps: true,
   }
 );
-RolesModel.sync({ alter: true });
+
 module.exports = {
   RolesModel,
 };
