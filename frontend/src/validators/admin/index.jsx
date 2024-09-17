@@ -84,3 +84,15 @@ export const createNewRoleSchema = Yup.object().shape({
     .required("لطفا توضیحات سطح دسترسی را وارد فرمائید")
     .min(1, "حداقل یک سطح دسترسی باید انتخاب شود"),
 });
+export const createNewDoctorSchema = Yup.object().shape({
+  fuulName: Yup.string()
+    .required("لطفا عنوان دسترسی را وارد فرمائید")
+    .min(3, "عنوان نباید کم‌تر از سه کارکتر باشد"),
+  visitPrice: Yup.number()
+    .typeError("مقدار باید یک عدد باشد")
+    .positive("مقدار باید بیشتر از صفر باشد")
+    .integer("مقدار باید عدد صحیح باشد")
+    .min(100, "حداقل مقدار باید 100 ریال باشد")
+    .max(1000000000, "حداکثر مقدار مجاز 1 میلیارد ریال است")
+    .required("لطفا مبلغ ویزیت را وارد فرمائید"),
+});

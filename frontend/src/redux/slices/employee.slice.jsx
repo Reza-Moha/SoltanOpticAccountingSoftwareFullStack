@@ -42,7 +42,7 @@ export const updateEmployee = createAsyncThunk(
     try {
       const data = await updateEmployeeApi(id, values);
       toast.success(data.message);
-      return data.updateEmployee;
+      return data.updatedEmployee;
     } catch (error) {
       const data = error?.response?.data;
       toast.error(data.message);
@@ -92,12 +92,15 @@ const employeeSlice = createSlice({
       })
 
       .addCase(updateEmployee.fulfilled, (state, action) => {
-        const index = state.rolesList.findIndex(
-          (role) => role.id === action.payload.id
+        const index = state.employeeList.findIndex(
+          (em) => em.id === action.payload.id
         );
+        console.log(index);
+
         if (index !== -1) {
-          state.rolesList[index] = action.payload;
+          state.employeeList[index] = action.payload;
         }
+        console.log(state.employeeList[index]);
       })
 
       .addCase(deleteEmployee.fulfilled, (state, action) => {

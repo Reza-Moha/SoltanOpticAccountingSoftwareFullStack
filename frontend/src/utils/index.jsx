@@ -1,3 +1,4 @@
+import { FaUserDoctor } from "react-icons/fa6";
 export const toPersianDigits = (number) => {
   const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
   return number.toString().replace(/\d/g, (x) => farsiDigits[parseInt(x)]);
@@ -39,6 +40,13 @@ export const BasicDefinitionsLinks = [
       </svg>
     ),
     href: "create-permissions",
+  },
+  {
+    id: 3,
+    title: "تعریف دکتر",
+    className: "text-sm",
+    svg: <FaUserDoctor size="20" />,
+    href: "create-doctors",
   },
 ];
 

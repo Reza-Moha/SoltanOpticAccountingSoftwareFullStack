@@ -108,10 +108,16 @@ const createNewEmployeeSchema = Joi.object({
       "string.length": "کد ملی باید شامل ۱۰ رقم باشد",
       "any.required": "لطفا کد ملی همکار را وارد فرمائید",
     }),
-  profileImage: Joi.object({
-    size: Joi.number().max(5000000).optional(),
-    type: Joi.string().valid("image/jpg", "image/jpeg", "image/png").optional(),
-  })
+  profileImage: Joi.alternatives()
+    .try(
+      Joi.object({
+        size: Joi.number().max(5000000).optional(),
+        type: Joi.string()
+          .valid("image/jpg", "image/jpeg", "image/png")
+          .optional(),
+      }),
+      Joi.string()
+    )
     .optional()
     .messages({
       "object.max": "حجم فایل نباید بیشتر از ۵ مگابایت باشد",

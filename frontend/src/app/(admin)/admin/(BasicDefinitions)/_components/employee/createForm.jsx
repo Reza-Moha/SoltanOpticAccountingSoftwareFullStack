@@ -14,6 +14,7 @@ export const CreateNewEmployeeForm = ({
   handleSubmit,
 }) => {
   const { rolesList, isLoading } = useSelector((state) => state.rolesSlice);
+
   const genderOptions = [
     {
       value: "آقای",

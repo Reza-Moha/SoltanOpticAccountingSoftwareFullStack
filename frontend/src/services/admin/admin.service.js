@@ -81,6 +81,10 @@ export async function deleteEmployeeByIdApi(id) {
 
 export async function updateEmployeeApi(id, data) {
   return httpService
-    .patch(`/api/admin/update-employee/${id}`, data)
+    .patch(`/api/admin/update-employee/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then(({ data }) => data);
 }
