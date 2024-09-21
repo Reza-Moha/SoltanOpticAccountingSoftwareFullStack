@@ -1,4 +1,6 @@
+"use client";
 import Input from "@/components/Ui/Input";
+import { PriceInput } from "@/components/Ui/PriceInput";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
 import { createNewDoctorSchema } from "@/validators/admin";
 import { Form, Formik } from "formik";
@@ -14,14 +16,14 @@ export default function Page() {
   };
 
   return (
-    <section className="bg-green-100">
+    <section>
       <Formik
         initialValues={{ fullName: "", visitPrice: "" }}
         onSubmit={createNewDoctorHandler}
         validationSchema={createNewDoctorSchema}
       >
-        {({ values, handleSubmit, setFieldValue }) => (
-          <Form>
+        {({ values, setFieldValue }) => (
+          <Form className="grid grid-cols-1 grid-rows-3 md:grid-cols-3 md:grid-rows-2">
             <Input
               label="نام و نام خانوادگی"
               name="fullName"
@@ -29,14 +31,18 @@ export default function Page() {
               value={values.fullName}
               onChange={(e) => setFieldValue("fullName", e.target.value)}
             />
-            <Input
+
+            <PriceInput
               label="مبلغ ویزیت"
               name="visitPrice"
               type="text"
               value={values.visitPrice}
               onChange={(e) => setFieldValue("visitPrice", e.target.value)}
             />
-            <SubmitBtn>ایجاد</SubmitBtn>
+
+            <div className="md:col-span-2 lg:col-span-3">
+              <SubmitBtn>ایجاد</SubmitBtn>
+            </div>
           </Form>
         )}
       </Formik>

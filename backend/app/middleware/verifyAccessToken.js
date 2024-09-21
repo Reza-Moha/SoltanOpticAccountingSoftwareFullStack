@@ -2,7 +2,6 @@ const CreateError = require("http-errors");
 const JWT = require("jsonwebtoken");
 const { UserModel } = require("../models/User.model");
 const cookieParser = require("cookie-parser");
-const { Op } = require("@sequelize/core");
 const { filterEmptyFieldsInDatabase } = require("../utils");
 
 function VerifyAccessToken(req, res, next) {

@@ -1,3 +1,4 @@
+"use client";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import Table from "@/components/Ui/Table";
@@ -5,15 +6,18 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { deleteRole } from "@/redux/slices/rolesSlice";
 import EditRoleModal from "./EditeRoleModal";
+import { useRouter } from "next/navigation";
 
 export default function RolesList() {
   const dispatch = useDispatch();
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
   const { rolesList, isLoading } = useSelector((state) => state.rolesSlice);
+  const router = useRouter();
 
   const handleDeleteRole = (id) => {
     dispatch(deleteRole(id));
+    router.refresh();
   };
 
   const handleEditRole = (Role) => {
@@ -36,14 +40,14 @@ export default function RolesList() {
           <Table.Body>
             {rolesList?.length > 0 ? (
               rolesList.map((Role) => (
-                <motion.tr key={Role.id}>
-                  <td>{Role?.title}</td>
+                <motion.tr key={Role.roleId}>
+                  <td>{Role.title}</td>
                   <td>
                     {Role?.permissions?.length > 0
                       ? Role.permissions.map((per) => {
                           return (
                             <button
-                              key={per.id}
+                              key={per.permissionId}
                               disabled={true}
                               className="mr-2 !bg-green-200 rounded p-0.5 text-green-500"
                             >
@@ -53,11 +57,11 @@ export default function RolesList() {
                         })
                       : null}
                   </td>
-                  <td>{Role.description}</td>
+                  <td>{Role?.description}</td>
                   <td className="flex items-center gap-x-4">
                     <button
                       className="text-rose-500"
-                      onClick={() => handleDeleteRole(Role.id)}
+                      onClick={() => handleDeleteRole(Role.roleId)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

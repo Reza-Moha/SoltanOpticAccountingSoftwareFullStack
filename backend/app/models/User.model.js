@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require("@sequelize/core");
+const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../libs/DBConfig");
 class UserModel extends Model {}
 
@@ -6,34 +6,32 @@ UserModel.init(
   {
     id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
       unique: true,
       primaryKey: true,
     },
     gender: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(5),
     },
     nationalId: {
       type: DataTypes.STRING(10),
     },
     jobTitle: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
     },
     fullName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(30),
     },
     phoneNumber: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(11),
     },
     description: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING(100),
     },
     profileImage: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
     },
     otp: {
-      type: DataTypes.JSON,
+      type: DataTypes.JSONB,
       defaultValue: {
         code: 0,
         expiresIn: 0,

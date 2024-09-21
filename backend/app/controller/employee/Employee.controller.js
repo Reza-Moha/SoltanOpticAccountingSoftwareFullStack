@@ -12,8 +12,7 @@ const {
 const Controller = require("../Controller");
 const { StatusCodes: HttpStatus } = require("http-status-codes");
 const CreateError = require("http-errors");
-const { Op } = require("@sequelize/core");
-const { log } = require("console");
+const { Op } = require("sequelize");
 class EmployeeController extends Controller {
   async createNewEmployee(req, res, next) {
     try {

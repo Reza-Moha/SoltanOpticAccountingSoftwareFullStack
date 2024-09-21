@@ -22,11 +22,7 @@ router.patch("/update-permission/:id", PermissionsController.updatePermission);
 
 // Role Routes
 
-router.post(
-  "/create-new-role",
-  stringToArray("permissions"),
-  RoleController.createNewRole
-);
+router.post("/create-new-role", RoleController.createNewRole);
 
 router.get("/get-all-roles", RoleController.getAllRoles);
 

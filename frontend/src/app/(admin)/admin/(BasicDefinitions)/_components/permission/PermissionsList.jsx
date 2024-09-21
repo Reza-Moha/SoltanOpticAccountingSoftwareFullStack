@@ -37,13 +37,15 @@ export default function PermissionsList() {
           <Table.Body>
             {permissionsList?.length > 0 ? (
               permissionsList.map((permission) => (
-                <motion.tr key={permission.id}>
+                <motion.tr key={permission.permissionId}>
                   <td>{permission.title}</td>
                   <td>{permission.description}</td>
                   <td className="flex items-center gap-x-4">
                     <button
                       className="text-rose-500"
-                      onClick={() => handleDeletePermission(permission.id)}
+                      onClick={() =>
+                        handleDeletePermission(permission.permissionId)
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

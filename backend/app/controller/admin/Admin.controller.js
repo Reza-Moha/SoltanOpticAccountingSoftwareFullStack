@@ -10,8 +10,8 @@ const {
 } = require("../../validation/admin/admin.schema");
 const Controller = require("../Controller");
 const path = require("path");
-
 const CreateError = require("http-errors");
+
 class AdminController extends Controller {
   async updateAdminProfile(req, res, next) {
     try {

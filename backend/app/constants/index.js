@@ -1,7 +1,7 @@
 module.exports = {
   ROLES: Object.freeze({
-    USER: "USER",
-    ADMIN: "ADMIN",
+    USER: process.env.USER_ROLE,
+    ADMIN: process.env.ADMIN_ROLE,
     WRITER: "WRITER",
     TEACHER: "TEACHER",
     SUPPLIER: "SUPPLIER",

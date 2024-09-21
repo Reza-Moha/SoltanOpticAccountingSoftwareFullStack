@@ -27,7 +27,7 @@ export const createNewRole = createAsyncThunk(
     try {
       const data = await createNewRoleApi(values);
       toast.success(data.message);
-      return data.role;
+      return data.createdRole;
     } catch (error) {
       const data = error?.response?.data;
       toast.error(data.message);
@@ -102,7 +102,7 @@ const rolesSlice = createSlice({
 
       .addCase(deleteRole.fulfilled, (state, action) => {
         state.rolesList = state.rolesList.filter(
-          (per) => per.id !== action.payload
+          (role) => role.roleId !== action.payload
         );
       });
   },

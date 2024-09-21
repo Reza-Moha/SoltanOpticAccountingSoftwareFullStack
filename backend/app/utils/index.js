@@ -19,7 +19,7 @@ function SignAccessToken(userId) {
       phoneNumber: user.phoneNumber,
     };
     const options = {
-      expiresIn: "1m",
+      expiresIn: "20m",
     };
     JWT.sign(
       payload,

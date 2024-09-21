@@ -1,31 +1,34 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../libs/DBConfig");
 
-const Permissions = sequelize.define(
-  "Permissions",
+class DoctorsModel extends Model {}
+
+DoctorsModel.init(
   {
-    permissionId: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       unique: true,
       primaryKey: true,
-      allowNull: false,
     },
-    title: {
+    fullName: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    description: {
+    visitPrice: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
+    sequelize,
+    modelName: "Doctor",
+    tableName: "Doctors",
     timestamps: true,
   }
 );
 
 module.exports = {
-  Permissions,
+  DoctorsModel,
 };

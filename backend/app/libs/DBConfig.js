@@ -1,16 +1,17 @@
-const { Sequelize } = require("@sequelize/core");
+const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize({
-  dialect: "mysql",
+  dialect: "postgres",
   host: "localhost",
-  port: 3306,
-  username: "root",
+  port: 5432,
+  username: "postgres",
   password: "Reza2198000@@@avinam",
   database: "soltanoptic",
   logging: false,
 });
 sequelize
   .authenticate()
+
   .then(() => {
     console.log("Connection has been established successfully.");
   })

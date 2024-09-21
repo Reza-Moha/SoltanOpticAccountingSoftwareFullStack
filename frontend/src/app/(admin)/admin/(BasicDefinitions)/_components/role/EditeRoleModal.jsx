@@ -11,13 +11,13 @@ import { useSelector } from "react-redux";
 export default function EditRoleModal({ Role, show, onClose }) {
   const dispatch = useDispatch();
   const handleUpdateRole = (values) => {
-    dispatch(updateRole({ id: Role.id, values }));
+    dispatch(updateRole({ id: Role.roleId, values }));
     onClose();
   };
   const { permissionsList } = useSelector((state) => state.permissionSlice);
 
   const permissionOptions = permissionsList.map((permission) => ({
-    value: permission.id,
+    value: permission.permissionId,
     label: permission.title,
   }));
   return (
@@ -26,7 +26,7 @@ export default function EditRoleModal({ Role, show, onClose }) {
         initialValues={{
           title: Role?.title,
           description: Role?.description,
-          permissions: [],
+          permissionsIds: Role?.permissions || [],
         }}
         onSubmit={handleUpdateRole}
         validationSchema={createNewPermissionsSchema}
@@ -36,9 +36,10 @@ export default function EditRoleModal({ Role, show, onClose }) {
             <Input label="عنوان" name="title" />
             <div className="flex items-center mb-4 px-3">
               <Field
-                name="permissions"
+                name="permissionsIds"
                 component={SelectInput}
                 options={permissionOptions}
+                isMulti
               />
             </div>
             <Input label="توضیحات" name="description" />

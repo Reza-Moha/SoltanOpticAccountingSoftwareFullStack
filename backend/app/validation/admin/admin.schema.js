@@ -54,7 +54,7 @@ const createNewRoleSchema = Joi.object({
     "string.min": "توضیحات نقش باید حداقل ۳ کاراکتر داشته باشد",
     "string.max": "توضیحات نقش نباید بیش از ۱۰۰ کاراکتر باشد",
   }),
-  permissions: Joi.array()
+  permissionsIds: Joi.array()
     .items(Joi.string().guid({ version: "uuidv4" }).required())
     .min(1)
     .messages({
@@ -124,10 +124,17 @@ const createNewEmployeeSchema = Joi.object({
       "string.valid": "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
     }),
 });
+
+const createNewDoctorsSchema = Joi.object({
+  fullName: Joi.string().required(" لطفا نام و نام خانوادگی دکتر را وارد کنید"),
+  visitPrice: Joi.string().required("لطفا مبلغ ویزیت دکتر را وارد کنید"),
+});
+
 module.exports = {
   updateAdminProfileSchema,
   createNewPermissionSchema,
   idSchema,
   createNewRoleSchema,
   createNewEmployeeSchema,
+  createNewDoctorsSchema,
 };

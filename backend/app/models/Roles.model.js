@@ -1,15 +1,15 @@
+const { DataTypes, UUID, UUIDV4 } = require("sequelize");
 const { sequelize } = require("../libs/DBConfig");
-const { Model, DataTypes } = require("@sequelize/core");
 
-class RolesModel extends Model {}
-
-RolesModel.init(
+const Roles = sequelize.define(
+  "Roles",
   {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+    roleId: {
+      type: UUID,
+      defaultValue: UUIDV4,
       unique: true,
       primaryKey: true,
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
@@ -20,19 +20,11 @@ RolesModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    permissionsId: {
-      type: DataTypes.JSON,
-      allowNull: false,
-    },
   },
   {
-    sequelize,
-    modelName: "Role",
-    tableName: "Roles",
     timestamps: true,
   }
 );
-
 module.exports = {
-  RolesModel,
+  Roles,
 };

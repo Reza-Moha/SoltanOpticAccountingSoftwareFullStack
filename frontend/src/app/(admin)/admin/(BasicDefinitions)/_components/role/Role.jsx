@@ -21,14 +21,14 @@ export default function Role() {
   };
 
   const permissionOptions = permissionsList.map((permission) => ({
-    value: permission.id,
+    value: permission.permissionId,
     label: permission.title,
   }));
 
   return (
     <BasicWrapper title="تعریف نقش">
       <Formik
-        initialValues={{ title: "", description: "", permissions: [] }}
+        initialValues={{ title: "", description: "", permissionsIds: [] }}
         onSubmit={createNewRoleHandler}
         validationSchema={createNewRoleSchema}
       >
@@ -46,7 +46,7 @@ export default function Role() {
 
               <div className="flex items-center mb-4 px-3">
                 <Field
-                  name="permissions"
+                  name="permissionsIds"
                   component={SelectInput}
                   options={permissionOptions}
                   isMulti={true}

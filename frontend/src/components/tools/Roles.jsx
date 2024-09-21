@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const roles = process.env.NEXT_PUBLIC_ROLES;
+
 const roleToPath = Object.freeze(
   roles
     ? roles.split(",").reduce((acc, rolePair) => {
