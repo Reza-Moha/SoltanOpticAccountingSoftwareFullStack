@@ -28,7 +28,7 @@ export default function Role() {
   return (
     <BasicWrapper title="تعریف نقش">
       <Formik
-        initialValues={{ title: "", description: "", permissionsIds: [] }}
+        initialValues={{ title: 0, description: "", permissionsIds: [] }}
         onSubmit={createNewRoleHandler}
         validationSchema={createNewRoleSchema}
       >

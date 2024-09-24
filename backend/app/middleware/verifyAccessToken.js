@@ -3,6 +3,9 @@ const JWT = require("jsonwebtoken");
 const { UserModel } = require("../models/User.model");
 const cookieParser = require("cookie-parser");
 const { filterEmptyFieldsInDatabase } = require("../utils");
+const { RolePermissionsModel } = require("../models/RolePermissions.model");
+const { Roles } = require("../models/Roles.model");
+const { Permissions } = require("../models/Permissions.model");
 
 function VerifyAccessToken(req, res, next) {
   try {
@@ -25,6 +28,20 @@ function VerifyAccessToken(req, res, next) {
             where: {
               phoneNumber,
             },
+            include: [
+              {
+                model: Roles,
+                include: {
+                  model: Permissions,
+                  as: "permissions",
+                  through: {
+                    attributes: [],
+                  },
+                  attributes: { exclude: ["createdAt", "updatedAt"] },
+                },
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+              },
+            ],
             attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
           });
           if (!user) throw CreateError.Unauthorized("حساب کاربری یافت نشد");

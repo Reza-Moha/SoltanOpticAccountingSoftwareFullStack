@@ -7,16 +7,15 @@ module.exports = {
     SUPPLIER: "SUPPLIER",
   }),
   PERMISSIONS: Object.freeze({
-    USER: ["profile"],
-    ADMIN: ["all"],
-    EMPLOYEE: ["all"],
-    CONTENT_MANAGER: ["course", "blog", "category", "product"],
-    OPTOMETRIST: ["course", "blog"],
-    TECHNICAL_MANAGER: ["product"],
-    ALL: "all",
+    USER: ["Profile"],
+    ADMIN: [`${process.env.ADMIN_ROLE}`],
+    EMPLOYEE: ["Customers", "Products"],
+    OPTOMETRIST: ["Customers"],
+    TECHNICAL_MANAGER: ["Product"],
+    ALL: `${process.env.ADMIN_ROLE}`,
   }),
   accessTokenCookieOptions: Object.freeze({
-    maxAge: 1000 * 60 * 20, // would expire after 20 minutes
+    maxAge: 1000 * 60 * 20,
     httpOnly: true,
     signed: true,
     sameSite: "Lax",

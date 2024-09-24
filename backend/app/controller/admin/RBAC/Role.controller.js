@@ -5,7 +5,7 @@ const {
   createNewRoleSchema,
   idSchema,
 } = require("../../../validation/admin/admin.schema");
-
+const { BlackListFields } = require("../../../constants/index");
 const { Roles } = require("../../../models/Roles.model");
 const { Permissions } = require("../../../models/Permissions.model");
 const { deleteInvalidPropertyInObject } = require("../../../utils");
@@ -106,7 +106,7 @@ class RoleController extends Controller {
 
       await createNewRoleSchema.validateAsync(req.body);
       const { title, description, permissionsIds } = req.body;
-
+      deleteInvalidPropertyInObject(req.body, BlackListFields);
       const [updatedRowsCount] = await Roles.update(
         { title, description },
         { where: { roleId: id }, returning: true }

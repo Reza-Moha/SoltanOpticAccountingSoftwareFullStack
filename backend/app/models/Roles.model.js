@@ -12,7 +12,7 @@ const Roles = sequelize.define(
       allowNull: false,
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
     },
@@ -25,6 +25,7 @@ const Roles = sequelize.define(
     timestamps: true,
   }
 );
+
 module.exports = {
   Roles,
 };

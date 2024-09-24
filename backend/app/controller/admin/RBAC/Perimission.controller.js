@@ -7,7 +7,7 @@ const {
 } = require("../../../validation/admin/admin.schema");
 
 const { Permissions } = require("../../../models/Permissions.model");
-
+const { BlackListFields } = require("../../../constants/index");
 const { deleteInvalidPropertyInObject } = require("../../../utils/index");
 class PermissionsController extends Controller {
   async createNewPermission(req, res, next) {
@@ -80,7 +80,7 @@ class PermissionsController extends Controller {
         throw CreateError.NotFound("سطحی با این مشخصات پیدا نشد");
       await createNewPermissionSchema.validateAsync(req.body);
       const data = JSON.parse(JSON.stringify(req.body));
-      deleteInvalidPropertyInObject(data, []);
+      deleteInvalidPropertyInObject(data, BlackListFields);
       const [updatedRowsCount] = await Permissions.update(
         { title: data.title, description: data.description },
         {

@@ -4,9 +4,13 @@ import SubmitBtn from "@/components/Ui/SubmitBtn";
 import Modal from "@/components/Ui/Modal";
 import { useDispatch } from "react-redux";
 import { fetchRoles, updateRole } from "@/redux/slices/rolesSlice";
-import { createNewPermissionsSchema } from "@/validators/admin";
+import {
+  createNewPermissionsSchema,
+  createNewRoleSchema,
+} from "@/validators/admin";
 import SelectInput from "@/components/Ui/SelectInput";
 import { useSelector } from "react-redux";
+import { object } from "yup";
 
 export default function EditRoleModal({ Role, show, onClose }) {
   const dispatch = useDispatch();
@@ -14,22 +18,27 @@ export default function EditRoleModal({ Role, show, onClose }) {
     dispatch(updateRole({ id: Role.roleId, values }));
     onClose();
   };
+
   const { permissionsList } = useSelector((state) => state.permissionSlice);
 
   const permissionOptions = permissionsList.map((permission) => ({
     value: permission.permissionId,
     label: permission.title,
   }));
+  const userPermissions = permissionOptions.filter((option) =>
+    Role.permissions.filter((item) => item.id === option.value)
+  );
+
   return (
     <Modal title="ویرایش نقش" onClose={onClose} show={show}>
       <Formik
         initialValues={{
           title: Role?.title,
           description: Role?.description,
-          permissionsIds: Role?.permissions || [],
+          permissionsIds: userPermissions.map((option) => option.value) || [],
         }}
         onSubmit={handleUpdateRole}
-        validationSchema={createNewPermissionsSchema}
+        validationSchema={createNewRoleSchema}
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
@@ -40,6 +49,7 @@ export default function EditRoleModal({ Role, show, onClose }) {
                 component={SelectInput}
                 options={permissionOptions}
                 isMulti
+                defaultValue={userPermissions}
               />
             </div>
             <Input label="توضیحات" name="description" />

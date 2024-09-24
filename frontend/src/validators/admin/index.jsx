@@ -73,9 +73,10 @@ export const createNewPermissionsSchema = Yup.object().shape({
 });
 
 export const createNewRoleSchema = Yup.object().shape({
-  title: Yup.string()
+  title: Yup.number()
     .required("لطفا عنوان دسترسی را وارد فرمائید")
-    .min(3, "عنوان نباید کم‌تر از سه کارکتر باشد"),
+    .min(100000, "عنوان نباید کم‌تر از ۶ رقم باشد")
+    .max(999999, "عنوان نباید بیش از ۶ رقم باشد"),
   description: Yup.string()
     .required("لطفا توضیحات دسترسی را وارد فرمائید")
     .min(3, "توضیحات نباید کم‌تر از سه کارکتر باشد"),

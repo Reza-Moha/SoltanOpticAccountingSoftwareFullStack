@@ -44,10 +44,9 @@ const idSchema = Joi.object({
 });
 
 const createNewRoleSchema = Joi.object({
-  title: Joi.string().min(3).max(30).required().messages({
-    "string.empty": "عنوان نقش نمی‌تواند خالی باشد",
-    "string.min": "عنوان نقش باید حداقل ۳ کاراکتر داشته باشد",
-    "string.max": "عنوان نقش نباید بیش از ۳۰ کاراکتر باشد",
+  title: Joi.number().min(100000).max(999999).required().messages({
+    "number.min": "عنوان نقش باید حداقل ۶ رقم باشد",
+    "number.max": "عنوان نقش نباید بیش از ۶ رقم باشد",
     "any.required": "عنوان نقش الزامی است",
   }),
   description: Joi.string().min(3).max(100).allow("").messages({

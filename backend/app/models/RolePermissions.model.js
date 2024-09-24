@@ -30,7 +30,7 @@ const RolePermissionsModel = sequelize.define(
     timestamps: true,
   }
 );
-RolePermissionsModel.sync({ alter: true });
+
 module.exports = {
   RolePermissionsModel,
 };
