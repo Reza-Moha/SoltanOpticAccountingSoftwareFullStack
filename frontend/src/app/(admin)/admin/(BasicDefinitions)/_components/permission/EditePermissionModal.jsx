@@ -10,7 +10,7 @@ export default function EditPermissionModal({ permission, show, onClose }) {
   const dispatch = useDispatch();
 
   const handleUpdatePermission = (values) => {
-    dispatch(updatePermission({ id: permission.id, values }));
+    dispatch(updatePermission({ id: permission.permissionId, values }));
     onClose();
   };
 

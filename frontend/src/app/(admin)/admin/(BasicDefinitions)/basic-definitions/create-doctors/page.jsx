@@ -4,21 +4,31 @@ import { PriceInput } from "@/components/Ui/PriceInput";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
 import { createNewDoctorSchema } from "@/validators/admin";
 import { Form, Formik } from "formik";
+import { DoctorsList } from "../../_components/doctors/doctorsList";
+import { useDispatch } from "react-redux";
+import { createNewDoctor, fetchAllDoctors } from "@/redux/slices/doctors.slice";
+import { useEffect } from "react";
 
-export default function Page() {
-  const createNewDoctorHandler = async (values) => {
-    try {
-      console.log("Submitting values:", values);
-    } catch (error) {
-      const data = error?.response?.data;
-      toast.error(data.message);
-    }
+export default function Doctors() {
+  const dispatch = useDispatch();
+
+  const createNewDoctorHandler = (values, { resetForm }) => {
+    dispatch(createNewDoctor(values));
+    resetForm();
   };
+
+  useEffect(() => {
+    dispatch(fetchAllDoctors());
+  }, [dispatch]);
 
   return (
     <section>
       <Formik
-        initialValues={{ fullName: "", visitPrice: "" }}
+        initialValues={{
+          fullName: "",
+          visitPrice: "",
+          medicalSystemNumber: "",
+        }}
         onSubmit={createNewDoctorHandler}
         validationSchema={createNewDoctorSchema}
       >
@@ -31,6 +41,15 @@ export default function Page() {
               value={values.fullName}
               onChange={(e) => setFieldValue("fullName", e.target.value)}
             />
+            <Input
+              label="شماره نظام پزشکی"
+              name="medicalSystemNumber"
+              type="text"
+              value={values.medicalSystemNumber}
+              onChange={(e) =>
+                setFieldValue("medicalSystemNumber", e.target.value)
+              }
+            />
 
             <PriceInput
               label="مبلغ ویزیت"
@@ -40,12 +59,13 @@ export default function Page() {
               onChange={(e) => setFieldValue("visitPrice", e.target.value)}
             />
 
-            <div className="md:col-span-2 lg:col-span-3">
+            <div className="md:col-span-3 mx-auto w-full md:w-1/3 lg:w-1/2">
               <SubmitBtn>ایجاد</SubmitBtn>
             </div>
           </Form>
         )}
       </Formik>
+      <DoctorsList />
     </section>
   );
 }

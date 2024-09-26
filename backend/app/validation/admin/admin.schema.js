@@ -125,8 +125,16 @@ const createNewEmployeeSchema = Joi.object({
 });
 
 const createNewDoctorsSchema = Joi.object({
-  fullName: Joi.string().required(" لطفا نام و نام خانوادگی دکتر را وارد کنید"),
-  visitPrice: Joi.string().required("لطفا مبلغ ویزیت دکتر را وارد کنید"),
+  fullName: Joi.string().min(3).required().messages({
+    "string.base": "لطفا نام دکتر را وارد فرمائید",
+    "string.min": "نام و نام خانوادگی نباید کم‌تر از سه کارکتر باشد",
+    "any.required": "لطفا نام دکتر را وارد فرمائید",
+  }),
+  visitPrice: Joi.string().required().messages({
+    "string.base": "لطفا مبلغ ویزیت را وارد فرمائید",
+    "any.required": "لطفا مبلغ ویزیت را وارد فرمائید",
+  }),
+  medicalSystemNumber: Joi.string(),
 });
 
 module.exports = {

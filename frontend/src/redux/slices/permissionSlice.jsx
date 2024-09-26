@@ -14,7 +14,7 @@ export const fetchPermissions = createAsyncThunk(
       const data = await getAllPermissionApi();
       return data.allPermission;
     } catch (error) {
-      const data = error?.response?.data;
+      const data = error?.response?.data?.errors;
       toast.error(data.message);
       return rejectWithValue(data);
     }
@@ -29,9 +29,9 @@ export const createPermission = createAsyncThunk(
       toast.success(data.message);
       return data.permission;
     } catch (error) {
-      const data = error?.response?.data;
-      toast.error(data.message);
-      return rejectWithValue(data);
+      const errors = error?.response?.data?.errors;
+      toast.error(errors.message);
+      return rejectWithValue(errors);
     }
   }
 );
@@ -44,9 +44,9 @@ export const updatePermission = createAsyncThunk(
       toast.success(data.message);
       return data.permission;
     } catch (error) {
-      const data = error?.response?.data;
-      toast.error(data.message);
-      return rejectWithValue(data);
+      const errors = error?.response?.data?.errors;
+      toast.error(errors.message);
+      return rejectWithValue(errors);
     }
   }
 );
@@ -59,9 +59,9 @@ export const deletePermission = createAsyncThunk(
       toast.success(data.message);
       return id;
     } catch (error) {
-      const data = error?.response?.data;
-      toast.error(data.message);
-      return rejectWithValue(data);
+      const errors = error?.response?.data?.errors;
+      toast.error(errors.message);
+      return rejectWithValue(errors);
     }
   }
 );
@@ -93,7 +93,7 @@ const permissionSlice = createSlice({
 
       .addCase(updatePermission.fulfilled, (state, action) => {
         const index = state.permissionsList.findIndex(
-          (per) => per.id === action.payload.id
+          (per) => per.permissionId === action.payload.permissionId
         );
         if (index !== -1) {
           state.permissionsList[index] = action.payload;
@@ -102,7 +102,7 @@ const permissionSlice = createSlice({
 
       .addCase(deletePermission.fulfilled, (state, action) => {
         state.permissionsList = state.permissionsList.filter(
-          (per) => per.id !== action.payload
+          (per) => per.permissionId !== action.payload
         );
       });
   },

@@ -11,7 +11,9 @@ const Modal = ({ title, onClose, children }) => {
         exit={{ opacity: 0, y: -50 }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">{title}</h2>
+          <h2 className="text-xl font-semibold font-iranSans bg-primary-100 w-full p-1 rounded-sm text-primary-800 shadow-sm border border-primary-200">
+            {title}
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-800"

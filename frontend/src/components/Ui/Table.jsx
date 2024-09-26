@@ -1,6 +1,6 @@
 function Table({ children }) {
   return (
-    <div className="bg-secondary-0 overflow-x-auto">
+    <div className="bg-secondary-0 overflow-x-auto font-iranSans">
       <table>{children}</table>
     </div>
   );

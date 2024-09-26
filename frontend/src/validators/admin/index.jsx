@@ -90,4 +90,5 @@ export const createNewDoctorSchema = Yup.object().shape({
     .required("لطفا نام دکتر را وارد فرمائید")
     .min(3, "نام و نام خانودگی نباید کم‌تر از سه کارکتر باشد"),
   visitPrice: Yup.string().required("لطفا مبلغ ویزیت را وارد فرمائید"),
+  medicalSystemNumber: Yup.string(),
 });

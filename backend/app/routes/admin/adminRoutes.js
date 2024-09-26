@@ -4,6 +4,7 @@ const {
   EmployeeController,
 } = require("../../controller/employee/Employee.controller");
 const { uploadFile } = require("../../utils/multer");
+const { doctorsRoutes } = require("./doctors/doctorsRoutes");
 const { RBACRoutes } = require("./RBAC/RBACRoutes");
 
 router.patch(
@@ -27,6 +28,8 @@ router.patch(
   uploadFile.single("profileImage"),
   EmployeeController.updateEmployee
 );
+
+router.use("/doctors", doctorsRoutes);
 router.use("/RBAC", RBACRoutes);
 
 module.exports = {

@@ -1,28 +1,23 @@
-import { useDispatch } from "react-redux";
-import { motion } from "framer-motion";
 import Table from "@/components/Ui/Table";
-import EditPermissionModal from "./EditePermissionModal";
-import { useState } from "react";
-import { deletePermission } from "@/redux/slices/permissionSlice";
+import { toPersianDigits } from "@/utils";
 import { useSelector } from "react-redux";
-
-export default function PermissionsList() {
-  const dispatch = useDispatch();
+import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { deleteDoctor } from "@/redux/slices/doctors.slice";
+import EditeDoctorsModal from "./EditeDoctorsModal";
+import { useState } from "react";
+export const DoctorsList = () => {
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedPermission, setSelectedPermission] = useState(null);
-  const { permissionsList, isLoading } = useSelector(
-    (state) => state.permissionSlice
-  );
-
-  const handleDeletePermission = (id) => {
-    dispatch(deletePermission(id));
+  const { doctorsList, isLoading } = useSelector((state) => state.doctorsSlice);
+  const dispatch = useDispatch();
+  const handleDeleteDoctor = (id) => {
+    dispatch(deleteDoctor(id));
   };
-
-  const handleEditPermission = (permission) => {
-    setSelectedPermission(permission);
+  const handleEditeDoctor = (doctor) => {
+    setSelectedDoctor(doctor);
     setShowEditModal(true);
   };
-
   return (
     <>
       {isLoading ? (
@@ -30,22 +25,22 @@ export default function PermissionsList() {
       ) : (
         <Table>
           <Table.Header>
-            <th>عنوان</th>
-            <th>توضیحات</th>
+            <th>نام و نام خانوادگی</th>
+            <th>مبلغ ویزیت</th>
+            <th>شماره نظام پزشکی</th>
             <th>عملیات</th>
           </Table.Header>
           <Table.Body>
-            {permissionsList?.length > 0 ? (
-              permissionsList.map((permission) => (
-                <motion.tr key={permission.permissionId}>
-                  <td>{permission.title}</td>
-                  <td>{permission.description}</td>
+            {doctorsList?.length > 0 ? (
+              doctorsList.map((doctor) => (
+                <motion.tr key={doctor.doctorId}>
+                  <td>{doctor.fullName}</td>
+                  <td>{toPersianDigits(doctor.visitPrice || 0)}</td>
+                  <td>{toPersianDigits(doctor.medicalSystemNumber || 0)}</td>
                   <td className="flex items-center gap-x-4">
                     <button
                       className="text-rose-500"
-                      onClick={() =>
-                        handleDeletePermission(permission.permissionId)
-                      }
+                      onClick={() => handleDeleteDoctor(doctor.doctorId)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +57,7 @@ export default function PermissionsList() {
                     </button>
                     <button
                       className="text-primary-800"
-                      onClick={() => handleEditPermission(permission)}
+                      onClick={() => handleEditeDoctor(doctor)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -80,21 +75,20 @@ export default function PermissionsList() {
             ) : (
               <Table.Row>
                 <td colSpan="3" className="text-center">
-                  هیچ سطح دسترسی‌ای یافت نشد.
+                  هیچ دکتری یافت نشد.
                 </td>
               </Table.Row>
             )}
           </Table.Body>
         </Table>
       )}
-
-      {selectedPermission && showEditModal && (
-        <EditPermissionModal
-          permission={selectedPermission}
+      {selectedDoctor && showEditModal && (
+        <EditeDoctorsModal
+          doctor={selectedDoctor}
           show={showEditModal}
           onClose={() => setShowEditModal(false)}
         />
       )}
     </>
   );
-}
+};

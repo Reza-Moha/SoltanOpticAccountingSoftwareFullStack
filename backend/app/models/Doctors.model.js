@@ -5,7 +5,7 @@ class DoctorsModel extends Model {}
 
 DoctorsModel.init(
   {
-    id: {
+    doctorId: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       unique: true,
@@ -19,6 +19,9 @@ DoctorsModel.init(
     visitPrice: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    medicalSystemNumber: {
+      type: DataTypes.STRING,
     },
   },
   {

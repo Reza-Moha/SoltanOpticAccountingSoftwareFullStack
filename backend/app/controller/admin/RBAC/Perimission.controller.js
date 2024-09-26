@@ -56,12 +56,12 @@ class PermissionsController extends Controller {
   async deletePermissionById(req, res, next) {
     try {
       await idSchema.validateAsync(req.params);
-      const { id } = req.params;
-      if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
-      const permission = await Permissions.findByPk(id);
+      const { id: permissionId } = req.params;
+      if (!permissionId) throw CreateError.BadRequest("شناسه نامعتبر است");
+      const permission = await Permissions.findByPk(permissionId);
       if (!permission)
         throw CreateError.NotFound("سطح دسترسی با این مشخصات وجود ندارد");
-      await Permissions.destroy({ where: { id } });
+      await Permissions.destroy({ where: { permissionId } });
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "سطح دسترسی با موفقیت حذف شد",
@@ -74,8 +74,8 @@ class PermissionsController extends Controller {
   async updatePermission(req, res, next) {
     try {
       await idSchema.validateAsync(req.params);
-      const { id } = req.params;
-      const existPermission = await Permissions.findByPk(id);
+      const { id: permissionId } = req.params;
+      const existPermission = await Permissions.findByPk(permissionId);
       if (!existPermission)
         throw CreateError.NotFound("سطحی با این مشخصات پیدا نشد");
       await createNewPermissionSchema.validateAsync(req.body);
@@ -84,14 +84,14 @@ class PermissionsController extends Controller {
       const [updatedRowsCount] = await Permissions.update(
         { title: data.title, description: data.description },
         {
-          where: { id },
+          where: { permissionId },
           returning: true,
         }
       );
 
       if (updatedRowsCount === 0)
         throw CreateError.InternalServerError(" عملیات ویرایش انجام نشد");
-      const updatedPermission = await Permissions.findByPk(id);
+      const updatedPermission = await Permissions.findByPk(permissionId);
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "سطح مورد نظر با موفقیت ویرایش گردید",
