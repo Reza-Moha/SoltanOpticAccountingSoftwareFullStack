@@ -1,6 +1,7 @@
 const { sequelize } = require("../libs/DBConfig");
 const LensModel = require("./lens/Lens.model");
 const { LensCategory } = require("./lens/LensCategory.model");
+const { typeOfLensModel } = require("./lens/TypeOfLens.model");
 const { Permissions } = require("./Permissions.model");
 const { RolePermissionsModel } = require("./RolePermissions.model");
 const { Roles } = require("./Roles.model");
@@ -21,7 +22,9 @@ const Associations = () => {
   Roles.belongsTo(UserModel);
   LensCategory.hasMany(LensModel);
   LensModel.belongsTo(LensCategory);
-  sequelize.sync({ alter: true });
+  LensCategory.hasOne(typeOfLensModel);
+  LensModel.hasOne(typeOfLensModel);
+  typeOfLensModel.belongsTo(LensModel);
 };
 
 module.exports = {

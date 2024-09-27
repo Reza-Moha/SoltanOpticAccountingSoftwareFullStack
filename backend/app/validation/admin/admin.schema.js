@@ -136,6 +136,33 @@ const createNewDoctorsSchema = Joi.object({
   }),
   medicalSystemNumber: Joi.string(),
 });
+const createNewCategorySchema = Joi.object({
+  lensName: Joi.string().min(3).required().messages({
+    "string.base": "لطفا نام دسته بندی عدسی را وارد فرمائید",
+    "string.min": "دسته بندی عدسی نباید کم‌تر از سه کارکتر باشد",
+    "any.required": "لطفا نام دسته بندی عدسی را وارد فرمائید",
+  }),
+  fileUploadPath: Joi.allow(),
+  filename: Joi.string()
+    .regex(/(\.png|\.jpg|\.webp|\.jpeg)$/)
+    .error(CreateError.BadRequest("تصویر ارسال شده صحیح نمیباشد")),
+  lensImage: Joi.alternatives()
+    .try(
+      Joi.object({
+        size: Joi.number().max(5000000).optional(),
+        type: Joi.string()
+          .valid("image/jpg", "image/jpeg", "image/png")
+          .optional(),
+      }),
+      Joi.string()
+    )
+    .optional()
+    .messages({
+      "object.max": "حجم فایل نباید بیشتر از ۵ مگابایت باشد",
+      "string.valid": "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
+    }),
+  typeOfLens: Joi.string().guid({ version: "uuidv4" }).required(),
+});
 
 module.exports = {
   updateAdminProfileSchema,
