@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require("@sequelize/core");
+const { Model, DataTypes } = require("sequelize");
 const { sequelize } = require("../../libs/DBConfig");
 
 class LensCategory extends Model {}

@@ -1,7 +1,5 @@
-const { DataTypes } = require("@sequelize/core");
-const sequelize = require("../config/databaseConfig");
-const { LensGroupModel } = require("./LensGroup.model");
-const { LensCategory } = require("./LensCategory.model");
+const { sequelize } = require("../../libs/DBConfig");
+const { DataTypes } = require("sequelize");
 
 const LensModel = sequelize.define(
   "Lens",
@@ -15,22 +13,6 @@ const LensModel = sequelize.define(
     },
     lensName: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    categoryId: {
-      type: DataTypes.UUID,
-      references: {
-        model: LensCategory,
-        key: "id",
-      },
-      allowNull: false,
-    },
-    lensGroupId: {
-      type: DataTypes.UUID,
-      references: {
-        model: LensGroupModel,
-        key: "id",
-      },
       allowNull: false,
     },
     refractiveIndex: {
@@ -55,21 +37,5 @@ const LensModel = sequelize.define(
     timestamps: false,
   }
 );
-
-// LensModel.belongsTo(ParentLensModel, {
-//   foreignKey: "parentId",
-// });
-
-// ParentLensModel.hasMany(LensModel, {
-//   foreignKey: "parentId",
-// });
-
-// LensModel.belongsTo(LensGroupModel, {
-//   foreignKey: "lensGroupId",
-// });
-
-// LensGroupModel.hasMany(LensModel, {
-//   foreignKey: "lensGroupId",
-// });
 
 module.exports = LensModel;
