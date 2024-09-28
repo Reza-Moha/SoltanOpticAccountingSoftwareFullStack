@@ -1,12 +1,12 @@
 const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../libs/DBConfig");
-const { RolePermissionsModel } = require("./RolePermissions.model");
 class UserModel extends Model {}
 
 UserModel.init(
   {
     id: {
       type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       unique: true,
       primaryKey: true,
     },
