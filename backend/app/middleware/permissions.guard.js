@@ -23,18 +23,20 @@ function checkPermission(requiredPermissions = []) {
         ],
       });
 
-      if (!role) {
+      if (!role && +user.role !== +PERMISSIONS.ALL) {
         throw CreateError.NotFound("نقش یافت نشد");
       }
 
       const userPermissions = user?.Role?.permissions.map((item) => item.title);
 
-      const hasPermission = allPermissions.every((permission) => {
-        userPermissions.includes(permission);
-      });
+      if (userPermissions) {
+        const hasPermission = allPermissions.every((permission) => {
+          userPermissions.includes(permission);
+        });
+        if (allPermissions.length === 0 || hasPermission) return next();
+      }
 
       if (+user.role === +PERMISSIONS.ALL) return next();
-      if (allPermissions.length === 0 || hasPermission) return next();
 
       throw CreateError.Forbidden("شما به این قسمت دسترسی ندارید");
     } catch (error) {

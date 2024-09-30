@@ -12,12 +12,11 @@ function createRoute(req) {
     "..",
     "public",
     "uploads",
-    "profile",
     year,
     month,
     day
   );
-  req.body.fileUploadPath = path.join("uploads", "profile", year, month, day);
+  req.body.fileUploadPath = path.join("uploads", year, month, day);
   fs.mkdirSync(directory, { recursive: true });
   return directory;
 }

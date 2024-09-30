@@ -115,3 +115,10 @@ export async function updateDoctorsApi(id, data) {
     .patch(`/api/admin/doctor/update/${id}`, data)
     .then(({ data }) => data);
 }
+
+// lens api
+export async function createNewReflactiveIndexApi(data) {
+  return httpService
+    .post(`/api/admin/lens/create-refractive-index`, data)
+    .then(({ data }) => data);
+}

@@ -164,6 +164,25 @@ const createNewCategorySchema = Joi.object({
   typeOfLens: Joi.string().guid({ version: "uuidv4" }).required(),
 });
 
+const createNewRefractiveIndexSchema = Joi.object({
+  index: Joi.number().precision(2).required().messages({
+    "number.base": "مقدار وارد شده باید یک عدد باشد.",
+    "number.precision": "عدد وارد شده باید حداکثر دارای دو رقم اعشار باشد.",
+    "any.required": "این فیلد الزامی است.",
+  }),
+  characteristics: Joi.array()
+    .items(
+      Joi.string().min(3).required().messages({
+        "string.empty": "لطفا ویژگی را وارد فرمائید",
+        "string.min": "ویژگی نباید کم‌تر از سه کاراکتر باشد.",
+      })
+    )
+    .min(1)
+    .messages({
+      "array.min": "حداقل باید یک ویژگی وارد شود.",
+    }),
+});
+
 module.exports = {
   updateAdminProfileSchema,
   createNewPermissionSchema,
@@ -171,4 +190,5 @@ module.exports = {
   createNewRoleSchema,
   createNewEmployeeSchema,
   createNewDoctorsSchema,
+  createNewRefractiveIndexSchema,
 };

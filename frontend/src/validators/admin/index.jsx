@@ -85,10 +85,29 @@ export const createNewRoleSchema = Yup.object().shape({
     .required("لطفا توضیحات سطح دسترسی را وارد فرمائید")
     .min(1, "حداقل یک سطح دسترسی باید انتخاب شود"),
 });
+
 export const createNewDoctorSchema = Yup.object().shape({
   fullName: Yup.string()
     .required("لطفا نام دکتر را وارد فرمائید")
     .min(3, "نام و نام خانودگی نباید کم‌تر از سه کارکتر باشد"),
   visitPrice: Yup.string().required("لطفا مبلغ ویزیت را وارد فرمائید"),
   medicalSystemNumber: Yup.string(),
+});
+
+export const createNewRefractiveIndexSchema = Yup.object().shape({
+  index: Yup.number()
+    .required("این فیلد الزامی است.")
+    .typeError("مقدار وارد شده باید یک عدد باشد.")
+    .test(
+      "is-decimal",
+      "عدد وارد شده باید حداکثر دارای دو رقم اعشار باشد.",
+      (value) => value !== undefined && /^\d+(\.\d{1,2})?$/.test(value)
+    ),
+  characteristics: Yup.array()
+    .of(
+      Yup.string()
+        .required("لطفا ویژگی را وارد فرمائید")
+        .min(3, "ویژگی نباید کم‌تر از سه کاراکتر باشد")
+    )
+    .min(1, "حداقل باید یک ویژگی وارد شود"),
 });

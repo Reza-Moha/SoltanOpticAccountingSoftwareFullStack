@@ -95,12 +95,10 @@ const employeeSlice = createSlice({
         const index = state.employeeList.findIndex(
           (em) => em.id === action.payload.id
         );
-        console.log(index);
 
         if (index !== -1) {
           state.employeeList[index] = action.payload;
         }
-        console.log(state.employeeList[index]);
       })
 
       .addCase(deleteEmployee.fulfilled, (state, action) => {

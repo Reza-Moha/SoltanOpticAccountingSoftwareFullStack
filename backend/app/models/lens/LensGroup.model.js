@@ -18,5 +18,5 @@ const LensGroup = sequelize.define(
     tableName: "lens-group",
   }
 );
-sequelize.sync({ force: true });
+
 module.exports = { LensGroup };

@@ -44,6 +44,7 @@ function VerifyAccessToken(req, res, next) {
             ],
             attributes: { exclude: ["otp", "createdAt", "updatedAt"] },
           });
+
           if (!user) throw CreateError.Unauthorized("حساب کاربری یافت نشد");
           const filteredUserField = filterEmptyFieldsInDatabase(user.toJSON());
           req.user = filteredUserField;

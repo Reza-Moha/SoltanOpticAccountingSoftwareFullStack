@@ -1,3 +1,9 @@
+import RefractiveIndex from "../../_components/lens/RefractiveIndex";
+
 export default function CreateLens() {
-  return <div>CreateLens</div>;
+  return (
+    <>
+      <RefractiveIndex />
+    </>
+  );
 }

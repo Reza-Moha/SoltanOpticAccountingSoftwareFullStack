@@ -15,10 +15,6 @@ const LensModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    refractiveIndex: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -1,6 +1,7 @@
 const { sequelize } = require("../libs/DBConfig");
 const LensModel = require("./lens/Lens.model");
 const { LensCategory } = require("./lens/LensCategory.model");
+const { RefractiveIndex } = require("./lens/RefractiveIndex.model");
 const { typeOfLensModel } = require("./lens/TypeOfLens.model");
 const { Permissions } = require("./Permissions.model");
 const { RolePermissionsModel } = require("./RolePermissions.model");
@@ -8,6 +9,7 @@ const { Roles } = require("./Roles.model");
 const { UserModel } = require("./User.model");
 
 const Associations = () => {
+  // roles & permissions
   Roles.belongsToMany(Permissions, {
     through: RolePermissionsModel,
     foreignKey: "roleId",
@@ -18,15 +20,21 @@ const Associations = () => {
     foreignKey: "permissionId",
     as: "roles",
   });
-  UserModel.hasOne(Roles);
   Roles.belongsTo(UserModel);
+
+  // user
+  UserModel.hasOne(Roles);
+
+  // lens
   LensCategory.hasMany(LensModel);
   LensModel.belongsTo(LensCategory);
   LensCategory.hasOne(typeOfLensModel);
   LensModel.hasOne(typeOfLensModel);
   typeOfLensModel.belongsTo(LensModel);
+  RefractiveIndex.hasMany(LensModel);
+  LensModel.belongsTo(RefractiveIndex);
 };
-
+sequelize.sync({ alter: true });
 module.exports = {
   Associations,
 };
