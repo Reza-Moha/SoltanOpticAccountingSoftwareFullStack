@@ -1,6 +1,7 @@
 module.exports = {
   ROLES: Object.freeze({
     USER: process.env.USER_ROLE,
+    EMPLOYEE: process.env.EMPLOYEE_ROLE,
     ADMIN: process.env.ADMIN_ROLE,
     WRITER: "WRITER",
     TEACHER: "TEACHER",
@@ -30,5 +31,18 @@ module.exports = {
     secure: process.env.NODE_ENV !== "development",
     domain: process.env.DOMAIN,
   }),
-  BlackListFields: ["otp", "id", "role", "createdAt", "updatedAt", "employee"],
+  BlackListFields: Object.freeze([
+    "otp",
+    "id",
+    "roleId",
+    "permissionId",
+    "userId",
+    "rolePermissionId",
+    "role",
+    "expiresIn",
+    "code",
+    "createdAt",
+    "updatedAt",
+    "employee",
+  ]),
 };

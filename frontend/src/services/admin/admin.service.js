@@ -117,8 +117,26 @@ export async function updateDoctorsApi(id, data) {
 }
 
 // lens api
-export async function createNewReflactiveIndexApi(data) {
+export async function createNewRefractiveIndexApi(data) {
   return httpService
     .post(`/api/admin/lens/create-refractive-index`, data)
+    .then(({ data }) => data);
+}
+
+export async function getAllRefractiveIndexApi() {
+  return httpService
+    .get(`/api/admin/lens/all-refractive-index`)
+    .then(({ data }) => data);
+}
+
+export async function deleteRefractiveIndexByIdApi(id) {
+  return httpService
+    .delete(`/api/admin/lens/delete-refractive-index/${id}`)
+    .then(({ data }) => data);
+}
+
+export async function updateRefractiveIndexApi(id, data) {
+  return httpService
+    .patch(`/api/admin/lens/update-refractive-index/${id}`, data)
     .then(({ data }) => data);
 }

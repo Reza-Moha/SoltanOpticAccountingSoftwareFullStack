@@ -1,6 +1,9 @@
 "use client";
-import { useState } from "react";
-import { createNewRefractiveIndex } from "@/redux/slices/lensSlice";
+import { useEffect, useState } from "react";
+import {
+  createNewRefractiveIndex,
+  fetchAllRefractiveIndex,
+} from "@/redux/slices/lensSlice";
 import { createNewRefractiveIndexSchema } from "@/validators/admin";
 import BasicWrapper from "../BasicWrapper";
 import { Form, Formik, Field } from "formik";
@@ -8,12 +11,18 @@ import Input from "@/components/Ui/Input";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
 import { useDispatch } from "react-redux";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { toPersianDigits } from "@/utils";
+import { RefractiveIndexList } from "./ListOfRefractiveIndex";
 
 export default function ReflactiveIndex() {
   const dispatch = useDispatch();
 
   const [characteristicsList, setCharacteristicsList] = useState([]);
   const [newCharacteristic, setNewCharacteristic] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchAllRefractiveIndex());
+  }, []);
 
   const createNewRefractiveIndexHandler = (values, { resetForm }) => {
     const dataToSend = {
@@ -70,14 +79,16 @@ export default function ReflactiveIndex() {
                   افزودن ویژگی
                 </button>
               </div>
-              <div className="col-span-3 px-2">
+              <div className="md:col-span-3 px-2">
                 <ul className="mt-4">
                   {characteristicsList.map((item, index) => (
                     <li
                       key={index}
-                      className="flex justify-center items-center w-full md:w-1/2 px-5 py-1 border border-green-200  bg-green-50 text-green-500 rounded-md mb-2 text-lg font-kalame"
+                      className="flex justify-center items-center w-full md:w-1/2 px-5 py-1 border border-green-200  bg-green-50 text-green-700 rounded-md mb-2 text-xs font-semibold"
                     >
-                      <span className="flex-1">{item}</span>
+                      <span className="flex-1">
+                        {toPersianDigits(item || 0)}
+                      </span>
                       <button
                         type="button"
                         onClick={() => removeCharacteristic(index)}
@@ -97,6 +108,7 @@ export default function ReflactiveIndex() {
           </Form>
         )}
       </Formik>
+      <RefractiveIndexList />
     </BasicWrapper>
   );
 }

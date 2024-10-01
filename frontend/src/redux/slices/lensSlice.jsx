@@ -1,18 +1,24 @@
+import {
+  createNewRefractiveIndexApi,
+  deleteEmployeeByIdApi,
+  getAllRefractiveIndexApi,
+  updateRefractiveIndexApi,
+} from "@/services/admin/admin.service";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createNewRefractiveIndexApi } from "@/services/admin/admin.service";
+
 import toast from "react-hot-toast";
 
-// export const fetchAllEmployees = createAsyncThunk(
-//   "employee/fetchEmployee",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const data = await getAllEmployeeApi();
-//       return data.allEmployee;
-//     } catch (error) {
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
+export const fetchAllRefractiveIndex = createAsyncThunk(
+  "lens/fetchRefractive",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getAllRefractiveIndexApi();
+      return data.allRefractiveIndex;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const createNewRefractiveIndex = createAsyncThunk(
   "lens/createReflactiveIndex",
@@ -31,6 +37,36 @@ export const createNewRefractiveIndex = createAsyncThunk(
   }
 );
 
+export const deleteRefractiveIndex = createAsyncThunk(
+  "lens/deleteRefractiveIndex",
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await deleteEmployeeByIdApi(id);
+      toast.success(data.message);
+      return id;
+    } catch (error) {
+      const errors = error?.response?.data?.errors;
+      toast.error(errors.message);
+      return rejectWithValue(errors);
+    }
+  }
+);
+
+export const updateRefractiveindex = createAsyncThunk(
+  "lens/updateRefractiveIndex",
+  async ({ id, values }, { rejectWithValue }) => {
+    try {
+      const data = await updateRefractiveIndexApi(id, values);
+      toast.success(data.message);
+      return data.updatedRefractiveIndex;
+    } catch (error) {
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
+    }
+  }
+);
+
 const lensSlice = createSlice({
   name: "lens",
   initialState: {
@@ -41,37 +77,36 @@ const lensSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      //   .addCase(fetchAllEmployees.pending, (state) => {
-      //     state.isLoading = true;
-      //   })
-      //   .addCase(fetchAllEmployees.fulfilled, (state, action) => {
-      //     state.employeeList = action.payload;
-      //     state.isLoading = false;
-      //   })
-      //   .addCase(fetchAllEmployees.rejected, (state, action) => {
-      //     state.isLoading = false;
-      //     state.error = action.payload;
-      //   })
+      .addCase(fetchAllRefractiveIndex.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllRefractiveIndex.fulfilled, (state, action) => {
+        state.refractiveIndexList = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchAllRefractiveIndex.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
 
       .addCase(createNewRefractiveIndex.fulfilled, (state, action) => {
         state.refractiveIndexList.push(action.payload);
+      })
+
+      .addCase(updateRefractiveindex.fulfilled, (state, action) => {
+        const index = state.refractiveIndexList.findIndex(
+          (ref) => ref.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.refractiveIndexList[index] = action.payload;
+        }
+      })
+
+      .addCase(deleteRefractiveIndex.fulfilled, (state, action) => {
+        state.refractiveIndexList = state.refractiveIndexList.filter(
+          (ref) => ref.id !== action.payload
+        );
       });
-
-    //   .addCase(updateEmployee.fulfilled, (state, action) => {
-    //     const index = state.employeeList.findIndex(
-    //       (em) => em.id === action.payload.id
-    //     );
-    //     if (index !== -1) {
-    //       state.employeeList[index] = action.payload;
-    //     }
-    //     console.log(state.employeeList[index]);
-    //   })
-
-    //   .addCase(deleteEmployee.fulfilled, (state, action) => {
-    //     state.employeeList = state.employeeList.filter(
-    //       (emp) => emp.id !== action.payload
-    //     );
-    //   });
   },
 });
 

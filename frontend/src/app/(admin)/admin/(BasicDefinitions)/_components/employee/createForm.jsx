@@ -26,7 +26,7 @@ export const CreateNewEmployeeForm = ({
     },
   ];
   const rolesOptions = rolesList.map((role) => ({
-    value: role.id,
+    value: role.roleId,
     label: role.title,
   }));
   return (

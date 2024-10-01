@@ -11,25 +11,25 @@ UserModel.init(
       primaryKey: true,
     },
     gender: {
-      type: DataTypes.STRING(5),
+      type: DataTypes.STRING,
     },
     nationalId: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING,
     },
     jobTitle: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
     },
     fullName: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
     },
     phoneNumber: {
-      type: DataTypes.STRING(11),
+      type: DataTypes.STRING,
     },
     description: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
     },
     profileImage: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
     },
     otp: {
       type: DataTypes.JSONB,
@@ -40,7 +40,7 @@ UserModel.init(
     },
     role: {
       type: DataTypes.INTEGER,
-      defaultValue: 11600,
+      defaultValue: 35214,
     },
   },
   {

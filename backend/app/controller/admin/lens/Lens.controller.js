@@ -48,7 +48,24 @@ class LensController extends Controller {
         statusCode: HttpStatus.OK,
         allRefractiveIndex,
       });
-      return res;
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteRefractiveIndexById(req, res, next) {
+    try {
+      await idSchema.validateAsync(req.params);
+      const { id } = req.params;
+      if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
+      const refractiveIndex = await RefractiveIndex.findByPk(id);
+      if (!refractiveIndex)
+        throw CreateError.NotFound("ضریب شکست با این مشخصات وجود ندارد");
+      await RefractiveIndex.destroy({ where: { id } });
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        message: "ضریب شکست با موفقیت حذف شد",
+      });
     } catch (error) {
       next(error);
     }

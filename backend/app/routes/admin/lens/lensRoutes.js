@@ -10,6 +10,11 @@ router.post(
 
 router.get("/all-refractive-index", LensController.getAllRefractiveIndex);
 
+router.delete(
+  "/delete-refractive-index/:id",
+  LensController.deleteRefractiveIndexById
+);
+
 module.exports = {
   lensRoutes: router,
 };
