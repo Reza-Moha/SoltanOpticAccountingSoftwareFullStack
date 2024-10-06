@@ -140,3 +140,19 @@ export async function updateRefractiveIndexApi(id, data) {
     .patch(`/api/admin/lens/update-refractive-index/${id}`, data)
     .then(({ data }) => data);
 }
+
+export async function createNewLensTypeApi(data) {
+  return httpService
+    .post(`/api/admin/lens/create-type`, data)
+    .then(({ data }) => data);
+}
+export async function getAllLensTypeApi() {
+  return httpService
+    .get(`/api/admin/lens/all-lens-type`)
+    .then(({ data }) => data);
+}
+export async function deleteLensTypeById(id) {
+  return httpService
+    .delete(`/api/admin/lens/delete-lens-type/${id}`)
+    .then(({ data }) => data);
+}

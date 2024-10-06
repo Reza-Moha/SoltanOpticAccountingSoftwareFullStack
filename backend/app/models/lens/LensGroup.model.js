@@ -3,6 +3,13 @@ const { sequelize } = require("../../libs/DBConfig");
 const LensGroup = sequelize.define(
   "LensGroup",
   {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+    },
     group: {
       type: DataTypes.STRING,
       allowNull: false,

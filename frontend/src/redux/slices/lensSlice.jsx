@@ -1,8 +1,10 @@
 import {
+  createNewLensTypeApi,
   createNewRefractiveIndexApi,
-  deleteEmployeeByIdApi,
+  deleteLensTypeById,
+  deleteRefractiveIndexByIdApi,
+  getAllLensTypeApi,
   getAllRefractiveIndexApi,
-  updateRefractiveIndexApi,
 } from "@/services/admin/admin.service";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -41,7 +43,7 @@ export const deleteRefractiveIndex = createAsyncThunk(
   "lens/deleteRefractiveIndex",
   async (id, { rejectWithValue }) => {
     try {
-      const data = await deleteEmployeeByIdApi(id);
+      const data = await deleteRefractiveIndexByIdApi(id);
       toast.success(data.message);
       return id;
     } catch (error) {
@@ -52,17 +54,48 @@ export const deleteRefractiveIndex = createAsyncThunk(
   }
 );
 
-export const updateRefractiveindex = createAsyncThunk(
-  "lens/updateRefractiveIndex",
-  async ({ id, values }, { rejectWithValue }) => {
+export const fetchAllLensType = createAsyncThunk(
+  "lens/fetchLensType",
+  async (_, { rejectWithValue }) => {
     try {
-      const data = await updateRefractiveIndexApi(id, values);
-      toast.success(data.message);
-      return data.updatedRefractiveIndex;
+      const data = await getAllLensTypeApi();
+      return data.allLensType;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const createNewLensType = createAsyncThunk(
+  "lens/createLensType",
+  async (values, { rejectWithValue }) => {
+    try {
+      const data = await createNewLensTypeApi(values);
+      if (data.statusCode === 201) {
+        toast.success(data.message);
+        return data.newLensType;
+      }
     } catch (error) {
       const data = error?.response?.data;
-      toast.error(data.message);
+      console.log(data);
+
+      toast.error(data.errors.message);
       return rejectWithValue(data);
+    }
+  }
+);
+
+export const deleteLensType = createAsyncThunk(
+  "lens/deleteLensType",
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await deleteLensTypeById(id);
+      toast.success(data.message);
+      return id;
+    } catch (error) {
+      const errors = error?.response?.data?.errors;
+      toast.error(errors.message);
+      return rejectWithValue(errors);
     }
   }
 );
@@ -72,6 +105,7 @@ const lensSlice = createSlice({
   initialState: {
     lensList: [],
     refractiveIndexList: [],
+    lensType: [],
     isLoading: false,
     error: null,
   },
@@ -88,23 +122,26 @@ const lensSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      .addCase(fetchAllLensType.fulfilled, (state, action) => {
+        state.lensType = action.payload;
+      })
 
       .addCase(createNewRefractiveIndex.fulfilled, (state, action) => {
         state.refractiveIndexList.push(action.payload);
       })
 
-      .addCase(updateRefractiveindex.fulfilled, (state, action) => {
-        const index = state.refractiveIndexList.findIndex(
-          (ref) => ref.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.refractiveIndexList[index] = action.payload;
-        }
+      .addCase(createNewLensType.fulfilled, (state, action) => {
+        state.lensType.push(action.payload);
       })
 
       .addCase(deleteRefractiveIndex.fulfilled, (state, action) => {
         state.refractiveIndexList = state.refractiveIndexList.filter(
           (ref) => ref.id !== action.payload
+        );
+      })
+      .addCase(deleteLensType.fulfilled, (state, action) => {
+        state.lensType = state.lensType.filter(
+          (lType) => lType.id !== action.payload
         );
       });
   },

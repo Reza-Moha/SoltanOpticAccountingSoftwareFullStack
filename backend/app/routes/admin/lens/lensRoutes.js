@@ -15,6 +15,12 @@ router.delete(
   LensController.deleteRefractiveIndexById
 );
 
+router.post("/create-type", LensController.createNewLensType);
+
+router.get("/all-lens-type", LensController.getAllLensType);
+
+router.delete("/delete-lens-type/:id", LensController.deleteLensTypeById);
+
 module.exports = {
   lensRoutes: router,
 };

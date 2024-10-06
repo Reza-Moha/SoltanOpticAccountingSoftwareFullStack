@@ -1,8 +1,8 @@
 const { sequelize } = require("../libs/DBConfig");
 const LensModel = require("./lens/Lens.model");
 const { LensCategory } = require("./lens/LensCategory.model");
+const { LensType } = require("./lens/LensType.model");
 const { RefractiveIndex } = require("./lens/RefractiveIndex.model");
-const { typeOfLensModel } = require("./lens/TypeOfLens.model");
 const { Permissions } = require("./Permissions.model");
 const { RolePermissionsModel } = require("./RolePermissions.model");
 const { Roles } = require("./Roles.model");
@@ -28,9 +28,9 @@ const Associations = () => {
   // lens
   LensCategory.hasMany(LensModel);
   LensModel.belongsTo(LensCategory);
-  LensCategory.hasOne(typeOfLensModel);
-  LensModel.hasOne(typeOfLensModel);
-  typeOfLensModel.belongsTo(LensModel);
+  LensCategory.hasOne(LensType);
+  LensModel.hasOne(LensType);
+  LensType.belongsTo(LensModel);
   RefractiveIndex.hasMany(LensModel);
   LensModel.belongsTo(RefractiveIndex);
 };

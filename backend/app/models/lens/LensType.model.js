@@ -1,27 +1,29 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../../libs/DBConfig");
-
-const typeOfLensModel = sequelize.define(
-  "typeOfLens",
+const LensType = sequelize.define(
+  "LensType",
   {
-    typeOfLensId: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       unique: true,
       primaryKey: true,
-      allowNull: false,
     },
-    typeName: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 0,
     },
   },
   {
     timestamps: false,
+    tableName: "lens-type",
   }
 );
 
-module.exports = {
-  typeOfLensModel,
-};
+module.exports = { LensType };

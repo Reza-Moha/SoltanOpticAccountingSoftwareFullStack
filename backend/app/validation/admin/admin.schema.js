@@ -25,7 +25,7 @@ const updateAdminProfileSchema = Joi.object({
 });
 
 const createNewPermissionSchema = Joi.object({
-  title: Joi.string().min(3).max(50).required().messages({
+  title: Joi.string().trim().min(3).max(50).required().messages({
     "string.empty": "عنوان نمی‌تواند خالی باشد",
     "string.min": "عنوان باید حداقل ۳ کاراکتر داشته باشد",
     "string.max": "عنوان نباید بیش از ۵۰ کاراکتر باشد",
@@ -40,7 +40,7 @@ const createNewPermissionSchema = Joi.object({
 });
 
 const idSchema = Joi.object({
-  id: Joi.string().guid({ version: "uuidv4" }).required(),
+  id: Joi.string().trim().guid({ version: "uuidv4" }).required(),
 });
 
 const createNewRoleSchema = Joi.object({
@@ -137,7 +137,7 @@ const createNewDoctorsSchema = Joi.object({
   medicalSystemNumber: Joi.string(),
 });
 const createNewCategorySchema = Joi.object({
-  lensName: Joi.string().min(3).required().messages({
+  lensName: Joi.string().trim().min(3).required().messages({
     "string.base": "لطفا نام دسته بندی عدسی را وارد فرمائید",
     "string.min": "دسته بندی عدسی نباید کم‌تر از سه کارکتر باشد",
     "any.required": "لطفا نام دسته بندی عدسی را وارد فرمائید",
@@ -183,6 +183,14 @@ const createNewRefractiveIndexSchema = Joi.object({
     }),
 });
 
+const createNewLensTypeSchema = Joi.object({
+  title: Joi.string().trim().required().messages({
+    "string.base": "نوع لنز باید یک رشته باشد",
+    "any.required": "عنوان نوع لنز را وارد کنید",
+  }),
+  description: Joi.string().allow("", null),
+});
+
 module.exports = {
   updateAdminProfileSchema,
   createNewPermissionSchema,
@@ -191,4 +199,5 @@ module.exports = {
   createNewEmployeeSchema,
   createNewDoctorsSchema,
   createNewRefractiveIndexSchema,
+  createNewLensTypeSchema,
 };

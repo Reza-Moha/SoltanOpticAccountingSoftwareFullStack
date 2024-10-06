@@ -111,3 +111,12 @@ export const createNewRefractiveIndexSchema = Yup.object().shape({
     )
     .min(1, "حداقل باید یک ویژگی وارد شود"),
 });
+export const createNewLensTypeSchema = Yup.object().shape({
+  title: Yup.string()
+    .trim()
+    .required("لطفا نوع عدسی را وارد فرمائید")
+    .min(3, "عنوان نباید کم تر از سه کارکتر باشد"),
+  description: Yup.string()
+    .required("لطفا توضیحات دسترسی را وارد فرمائید")
+    .min(3, "توضیحات نباید کم‌تر از سه کارکتر باشد"),
+});

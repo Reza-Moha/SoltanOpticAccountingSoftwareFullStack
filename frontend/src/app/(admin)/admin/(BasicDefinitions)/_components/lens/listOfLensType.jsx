@@ -2,18 +2,15 @@ import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import Table from "@/components/Ui/Table";
 import { useSelector } from "react-redux";
-import { toPersianDigits } from "@/utils";
-import { deleteRefractiveIndex } from "@/redux/slices/lensSlice";
+import { deleteLensType } from "@/redux/slices/lensSlice";
 
-export function RefractiveIndexList() {
+export function LensTypelist() {
   const dispatch = useDispatch();
 
-  const { refractiveIndexList, isLoading } = useSelector(
-    (state) => state.lensSlice
-  );
+  const { lensType, isLoading } = useSelector((state) => state.lensSlice);
 
-  const handleDeleteRefractiveIndex = (id) => {
-    dispatch(deleteRefractiveIndex(id));
+  const handleDeleteLensType = (id) => {
+    dispatch(deleteLensType(id));
   };
 
   return (
@@ -23,35 +20,20 @@ export function RefractiveIndexList() {
       ) : (
         <Table>
           <Table.Header>
-            <th>ضریب شکست</th>
-            <th>ویژگی ها</th>
+            <th>نوع عدسی</th>
+            <th>توضیحات</th>
             <th>عملیات</th>
           </Table.Header>
           <Table.Body>
-            {refractiveIndexList?.length > 0 ? (
-              refractiveIndexList.map((refractiveIndex) => (
-                <motion.tr key={refractiveIndex.id}>
-                  <td className="text-lg font-bold">
-                    {toPersianDigits(refractiveIndex.index || 0)}
-                  </td>
-                  <td className="font-bold text-sm">
-                    {refractiveIndex.characteristics.length > 0
-                      ? refractiveIndex.characteristics.map((item, index) => (
-                          <h3
-                            key={index}
-                            className="text-xs mb-1.5 border-r-2 border-indigo-400 pr-1"
-                          >
-                            {toPersianDigits(item || 0)}
-                          </h3>
-                        ))
-                      : null}
-                  </td>
+            {lensType?.length > 0 ? (
+              lensType.map((lensType) => (
+                <motion.tr key={lensType.id}>
+                  <td className="text-lg font-bold">{lensType.title}</td>
+                  <td className="font-bold text-sm">{lensType.description}</td>
                   <td>
                     <button
                       className="text-rose-500 hover:bg-rose-100 rounded-full p-1 transition-all ease-in-out duration-300"
-                      onClick={() =>
-                        handleDeleteRefractiveIndex(refractiveIndex.id)
-                      }
+                      onClick={() => handleDeleteLensType(lensType.id)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +54,7 @@ export function RefractiveIndexList() {
             ) : (
               <Table.Row>
                 <td colSpan="3" className="text-center">
-                  ضریب شکست یافت نشد.
+                  نوع عدسی یافت نشد.
                 </td>
               </Table.Row>
             )}
