@@ -5,11 +5,14 @@ const {
   createNewRefractiveIndexSchema,
   idSchema,
   createNewLensTypeSchema,
+  createNewLensCategorySchema,
 } = require("../../../validation/admin/admin.schema");
 const {
   RefractiveIndex,
 } = require("../../../models/lens/RefractiveIndex.model");
 const { LensType } = require("../../../models/lens/LensType.model");
+const path = require("path");
+const { LensCategory } = require("../../../models/lens/LensCategory.model");
 class LensController extends Controller {
   async createNewRefractiveIndex(req, res, next) {
     try {
@@ -122,6 +125,48 @@ class LensController extends Controller {
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "ضریب شکست با موفقیت حذف شد",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createNewLensCategory(req, res, next) {
+    try {
+      const { lensName, fileUploadPath, filename } =
+        await createNewLensCategorySchema.validateAsync(req.body);
+      const lensImage = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+      const exsitLensCategoty = await LensCategory.findOne({
+        where: { lensName },
+      });
+      if (exsitLensCategoty)
+        throw CreateError.BadRequest(
+          "دسته بندی با این مشخصات قبلا ثبت شده است"
+        );
+      const newLensCategory = await LensCategory.create({
+        lensName,
+        lensImage,
+      });
+      if (!newLensCategory)
+        throw CreateError.InternalServerError(
+          "خطا در ایجاد دسته بندی لطفا دوباره امتحان کنید"
+        );
+      return res.status(HttpStatus.CREATED).send({
+        statusCode: HttpStatus.CREATED,
+        message: "دسته بندی با موفقیت ذخیره شد",
+        newLensCategory,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllLensCategories(req, res, next) {
+    try {
+      const allLensCategories = await LensCategory.findAll({});
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        allLensCategories,
       });
     } catch (error) {
       next(error);

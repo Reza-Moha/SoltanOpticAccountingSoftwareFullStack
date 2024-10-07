@@ -111,6 +111,7 @@ export const createNewRefractiveIndexSchema = Yup.object().shape({
     )
     .min(1, "حداقل باید یک ویژگی وارد شود"),
 });
+
 export const createNewLensTypeSchema = Yup.object().shape({
   title: Yup.string()
     .trim()
@@ -119,4 +120,27 @@ export const createNewLensTypeSchema = Yup.object().shape({
   description: Yup.string()
     .required("لطفا توضیحات دسترسی را وارد فرمائید")
     .min(3, "توضیحات نباید کم‌تر از سه کارکتر باشد"),
+});
+
+export const createNewLensCategoriesSchema = Yup.object().shape({
+  lensName: Yup.string()
+    .trim()
+    .required("لطفا نوع عدسی را وارد فرمائید")
+    .min(3, "عنوان نباید کم تر از سه کارکتر باشد"),
+  lensImage: Yup.mixed()
+    .nullable()
+    .test(
+      "fileFormat",
+      "فرمت فایل یا لینک معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
+      (value) => {
+        if (!value) return true;
+        if (value instanceof File) {
+          return ["image/jpg", "image/jpeg", "image/png"].includes(value.type);
+        }
+        if (typeof value === "string") {
+          return /\.(jpg|jpeg|png)$/.test(value);
+        }
+        return false;
+      }
+    ),
 });

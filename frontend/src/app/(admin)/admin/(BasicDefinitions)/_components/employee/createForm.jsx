@@ -1,6 +1,6 @@
 import SelectInput from "@/components/Ui/SelectInput";
 import { Field, Form } from "formik";
-import { ProfileImage } from "./ProfileImage";
+import { ImageInput } from "@/components/Ui/ImageInput";
 import { useSelector } from "react-redux";
 import Input from "@/components/Ui/Input";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
@@ -76,7 +76,11 @@ export const CreateNewEmployeeForm = ({
             values={description}
           />
         </div>
-        <ProfileImage setFieldValue={setFieldValue} />
+        <ImageInput
+          setFieldValue={setFieldValue}
+          name="profileImage"
+          prevTitle="عکس پروفایل"
+        />
         <SubmitBtn>ایجاد</SubmitBtn>
       </div>
     </Form>

@@ -19,10 +19,6 @@ const LensModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    typeOfLens: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     lensImage: {
       type: DataTypes.STRING,
       allowNull: false,

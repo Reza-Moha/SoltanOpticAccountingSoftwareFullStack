@@ -136,7 +136,7 @@ const createNewDoctorsSchema = Joi.object({
   }),
   medicalSystemNumber: Joi.string(),
 });
-const createNewCategorySchema = Joi.object({
+const createNewLensCategorySchema = Joi.object({
   lensName: Joi.string().trim().min(3).required().messages({
     "string.base": "لطفا نام دسته بندی عدسی را وارد فرمائید",
     "string.min": "دسته بندی عدسی نباید کم‌تر از سه کارکتر باشد",
@@ -200,4 +200,5 @@ module.exports = {
   createNewDoctorsSchema,
   createNewRefractiveIndexSchema,
   createNewLensTypeSchema,
+  createNewLensCategorySchema,
 };

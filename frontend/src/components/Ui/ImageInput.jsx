@@ -1,27 +1,27 @@
 import FileInput from "@/components/Ui/FileInput";
 import Image from "next/image";
 import { useState } from "react";
-export const ProfileImage = ({ setFieldValue }) => {
+export const ImageInput = ({ setFieldValue, name, prevTitle }) => {
   const [perviewImage, setPreviewImage] = useState("");
   return (
     <div className="relative h-28 w-28 border-[5px] border-white md:mr-7 rounded-full overflow-hidden">
       <label
-        htmlFor="profileImage"
-        className="flex items-center justify-center w-full h-full rounded-full cursor-pointer bg-gradient-to-tl from-secondary-300 to-secondary-100 relative"
+        htmlFor={name}
+        className="flex items-center justify-center w-full h-full rounded-full cursor-pointer bg-gradient-to-tl from-secondary-300 to-secondary-100 relative text-xs"
       >
         <FileInput
-          name="profileImage"
+          name={name}
           accept=".jpg,.jpeg,.png"
-          id="profileImage"
+          id={name}
           className="sr-only"
           onChange={(event) => {
             const file = event.target.files[0];
-            setFieldValue("profileImage", file);
+            setFieldValue(`${name}`, file);
             setPreviewImage(URL.createObjectURL(file));
           }}
         />
         {perviewImage === "" ? (
-          " عکس پروفایل"
+          `${prevTitle}`
         ) : (
           <div className="relative w-full h-full">
             <Image

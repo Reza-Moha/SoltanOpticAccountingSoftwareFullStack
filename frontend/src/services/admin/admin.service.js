@@ -9,15 +9,6 @@ export async function updateAdminProfileApi(data) {
     })
     .then(({ data }) => data);
 }
-export async function createNewEmployeeApi(data) {
-  return httpService
-    .post(`/api/admin/create-new-employee`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then(({ data }) => data);
-}
 
 // permission api
 export async function createNewPermissionApi(data) {
@@ -66,6 +57,15 @@ export async function updateRolesApi(id, data) {
 }
 
 // employee api
+export async function createNewEmployeeApi(data) {
+  return httpService
+    .post(`/api/admin/create-new-employee`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(({ data }) => data);
+}
 
 export async function getAllEmployeeApi() {
   return httpService
@@ -154,5 +154,19 @@ export async function getAllLensTypeApi() {
 export async function deleteLensTypeById(id) {
   return httpService
     .delete(`/api/admin/lens/delete-lens-type/${id}`)
+    .then(({ data }) => data);
+}
+export async function createNewLensCategoryApi(data) {
+  return httpService
+    .post(`/api/admin/lens/create-category`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(({ data }) => data);
+}
+export async function getAllLensCategoriesApi() {
+  return httpService
+    .get(`/api/admin/lens/all-lens-categories`)
     .then(({ data }) => data);
 }

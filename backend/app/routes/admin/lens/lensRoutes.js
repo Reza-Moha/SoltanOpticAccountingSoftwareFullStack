@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   LensController,
 } = require("../../../controller/admin/lens/Lens.controller");
+const { uploadFile } = require("../../../utils/multer");
 
 router.post(
   "/create-refractive-index",
@@ -20,6 +21,14 @@ router.post("/create-type", LensController.createNewLensType);
 router.get("/all-lens-type", LensController.getAllLensType);
 
 router.delete("/delete-lens-type/:id", LensController.deleteLensTypeById);
+
+router.post(
+  "/create-category",
+  uploadFile.single("lensImage"),
+  LensController.createNewLensCategory
+);
+
+router.get("/all-lens-categories", LensController.getAllLensCategories);
 
 module.exports = {
   lensRoutes: router,

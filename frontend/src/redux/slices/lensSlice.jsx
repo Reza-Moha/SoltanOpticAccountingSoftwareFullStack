@@ -1,8 +1,10 @@
 import {
+  createNewLensCategoryApi,
   createNewLensTypeApi,
   createNewRefractiveIndexApi,
   deleteLensTypeById,
   deleteRefractiveIndexByIdApi,
+  getAllLensCategoriesApi,
   getAllLensTypeApi,
   getAllRefractiveIndexApi,
 } from "@/services/admin/admin.service";
@@ -100,12 +102,42 @@ export const deleteLensType = createAsyncThunk(
   }
 );
 
+export const createNewLensCategoires = createAsyncThunk(
+  "lens/createNewLensCategoires",
+  async (values, { rejectWithValue }) => {
+    try {
+      const newCategory = await createNewLensCategoryApi(values);
+      if (newCategory.statusCode === 201) {
+        toast.success(newCategory.message);
+        return newCategory.newLensCategory;
+      }
+    } catch (error) {
+      const data = error?.response?.data;
+      toast.error(data.message);
+      return rejectWithValue(data);
+    }
+  }
+);
+
+export const fetchAllLensCategories = createAsyncThunk(
+  "lens/fetchLensCategories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { allLensCategories } = await getAllLensCategoriesApi();
+      return allLensCategories;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const lensSlice = createSlice({
   name: "lens",
   initialState: {
     lensList: [],
     refractiveIndexList: [],
     lensType: [],
+    lensCategories: [],
     isLoading: false,
     error: null,
   },
@@ -125,9 +157,15 @@ const lensSlice = createSlice({
       .addCase(fetchAllLensType.fulfilled, (state, action) => {
         state.lensType = action.payload;
       })
+      .addCase(fetchAllLensCategories.fulfilled, (state, action) => {
+        state.lensCategories = action.payload;
+      })
 
       .addCase(createNewRefractiveIndex.fulfilled, (state, action) => {
         state.refractiveIndexList.push(action.payload);
+      })
+      .addCase(createNewLensCategoires.fulfilled, (state, action) => {
+        state.lensCategories.push(action.payload);
       })
 
       .addCase(createNewLensType.fulfilled, (state, action) => {
