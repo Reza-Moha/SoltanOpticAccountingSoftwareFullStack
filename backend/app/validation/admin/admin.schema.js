@@ -136,6 +136,7 @@ const createNewDoctorsSchema = Joi.object({
   }),
   medicalSystemNumber: Joi.string(),
 });
+
 const createNewLensCategorySchema = Joi.object({
   lensName: Joi.string().trim().min(3).required().messages({
     "string.base": "لطفا نام دسته بندی عدسی را وارد فرمائید",
@@ -161,7 +162,6 @@ const createNewLensCategorySchema = Joi.object({
       "object.max": "حجم فایل نباید بیشتر از ۵ مگابایت باشد",
       "string.valid": "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
     }),
-  typeOfLens: Joi.string().guid({ version: "uuidv4" }).required(),
 });
 
 const createNewRefractiveIndexSchema = Joi.object({
@@ -191,6 +191,38 @@ const createNewLensTypeSchema = Joi.object({
   description: Joi.string().allow("", null),
 });
 
+const createNewLensSchema = Joi.object({
+  lensName: Joi.string().min(3).max(50).required().messages({
+    "string.base": "نام عدسی باید یک رشته باشد",
+    "string.min": "نام عدسی باید حداقل ۳ کاراکتر باشد",
+    "string.max": "نام عدسی نمی‌تواند بیش از ۵۰ کاراکتر باشد",
+    "any.required": "لطفا نام عدسی خود را وارد فرمائید",
+  }),
+  description: Joi.string().allow("", null),
+  fileUploadPath: Joi.allow(),
+  filename: Joi.string()
+    .regex(/(\.png|\.jpg|\.webp|\.jpeg)$/)
+    .error(CreateError.BadRequest("تصویر ارسال شده صحیح نمیباشد")),
+  lensImage: Joi.alternatives()
+    .try(
+      Joi.object({
+        size: Joi.number().max(5000000).optional(),
+        type: Joi.string()
+          .valid("image/jpg", "image/jpeg", "image/png")
+          .optional(),
+      }),
+      Joi.string()
+    )
+    .optional()
+    .messages({
+      "object.max": "حجم فایل نباید بیشتر از ۵ مگابایت باشد",
+      "string.valid": "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
+    }),
+  lensCategoryId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
+  RefractiveIndexId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
+  LensTypeId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
+});
+
 module.exports = {
   updateAdminProfileSchema,
   createNewPermissionSchema,
@@ -201,4 +233,5 @@ module.exports = {
   createNewRefractiveIndexSchema,
   createNewLensTypeSchema,
   createNewLensCategorySchema,
+  createNewLensSchema,
 };

@@ -1,7 +1,9 @@
 import {
   createNewLensCategoryApi,
+  createNewLensApi,
   createNewLensTypeApi,
   createNewRefractiveIndexApi,
+  deleteLensCategoriesByIdApi,
   deleteLensTypeById,
   deleteRefractiveIndexByIdApi,
   getAllLensCategoriesApi,
@@ -11,6 +13,25 @@ import {
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import toast from "react-hot-toast";
+
+export const createNewLens = createAsyncThunk(
+  "lens/createNewLens",
+  async (values, { rejectWithValue }) => {
+    try {
+      const data = await createNewLensApi(values);
+      if (data.statusCode === 201) {
+        toast.success(data.message);
+        return data.createdNewLens;
+      }
+    } catch (error) {
+      const data = error?.response?.data;
+      console.log(data);
+
+      toast.error(data.errors.message);
+      return rejectWithValue(data);
+    }
+  }
+);
 
 export const fetchAllRefractiveIndex = createAsyncThunk(
   "lens/fetchRefractive",
@@ -119,6 +140,21 @@ export const createNewLensCategoires = createAsyncThunk(
   }
 );
 
+export const deleteLensCategories = createAsyncThunk(
+  "lens/deleteLensCategories",
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await deleteLensCategoriesByIdApi(id);
+      toast.success(data.message);
+      return id;
+    } catch (error) {
+      const errors = error?.response?.data?.errors;
+      toast.error(errors.message);
+      return rejectWithValue(errors);
+    }
+  }
+);
+
 export const fetchAllLensCategories = createAsyncThunk(
   "lens/fetchLensCategories",
   async (_, { rejectWithValue }) => {
@@ -164,6 +200,9 @@ const lensSlice = createSlice({
       .addCase(createNewRefractiveIndex.fulfilled, (state, action) => {
         state.refractiveIndexList.push(action.payload);
       })
+      .addCase(createNewLens.fulfilled, (state, action) => {
+        state.lensList.push(action.payload);
+      })
       .addCase(createNewLensCategoires.fulfilled, (state, action) => {
         state.lensCategories.push(action.payload);
       })
@@ -180,6 +219,11 @@ const lensSlice = createSlice({
       .addCase(deleteLensType.fulfilled, (state, action) => {
         state.lensType = state.lensType.filter(
           (lType) => lType.id !== action.payload
+        );
+      })
+      .addCase(deleteLensCategories.fulfilled, (state, action) => {
+        state.lensCategories = state.lensCategories.filter(
+          (LCategory) => LCategory.id !== action.payload
         );
       });
   },

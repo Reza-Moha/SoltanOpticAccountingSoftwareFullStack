@@ -28,6 +28,8 @@ const Associations = () => {
   // lens
   LensCategory.hasMany(LensModel);
   LensModel.belongsTo(LensCategory);
+  LensType.hasMany(LensModel);
+  LensModel.belongsTo(LensType);
   LensCategory.hasOne(LensType);
   LensModel.hasOne(LensType);
   LensType.belongsTo(LensModel);

@@ -30,6 +30,16 @@ router.post(
 
 router.get("/all-lens-categories", LensController.getAllLensCategories);
 
+router.delete(
+  "/delete-lens-category/:id",
+  LensController.deleteLensCategoryById
+);
+
+router.post(
+  "/create-new-lens",
+  uploadFile.single("lensImage"),
+  LensController.createNewLens
+);
 module.exports = {
   lensRoutes: router,
 };

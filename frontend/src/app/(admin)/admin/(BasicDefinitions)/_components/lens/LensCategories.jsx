@@ -11,6 +11,7 @@ import {
 } from "@/redux/slices/lensSlice";
 import Input from "@/components/Ui/Input";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
+import { LensCategoriesList } from "./ListOfLensCategories";
 
 export default function LensCategories() {
   const dispatch = useDispatch();
@@ -19,37 +20,40 @@ export default function LensCategories() {
   }, []);
 
   const createNewLensCategoriesHandler = (values, { resetForm }) => {
-    console.log(values);
-
     dispatch(createNewLensCategoires(values));
     resetForm();
   };
   return (
-    <BasicWrapper title="تعریف دسته بندی عدسی">
-      <Formik
-        initialValues={{ lensName: "", lensImage: "" }}
-        onSubmit={createNewLensCategoriesHandler}
-        validationSchema={createNewLensCategoriesSchema}
-      >
-        {({ handleSubmit, setFieldValue }) => (
-          <Form onSubmit={handleSubmit}>
-            <div className="grid">
-              <Input
-                label="عنوان دسته بندی عدسی"
-                name="lensName"
-                type="text"
-                bg="bg-white"
-              />
-              <ImageInput
-                setFieldValue={setFieldValue}
-                name="lensImage"
-                prevTitle="عکس دسته بندی"
-              />
-              <SubmitBtn>ایجاد</SubmitBtn>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </BasicWrapper>
+    <>
+      <BasicWrapper title="تعریف دسته بندی عدسی">
+        <Formik
+          initialValues={{ lensName: "", lensImage: "" }}
+          onSubmit={createNewLensCategoriesHandler}
+          validationSchema={createNewLensCategoriesSchema}
+        >
+          {({ handleSubmit, setFieldValue }) => (
+            <Form onSubmit={handleSubmit}>
+              <div className="grid md:grid-cols-2">
+                <Input
+                  label="عنوان دسته بندی عدسی"
+                  name="lensName"
+                  type="text"
+                  bg="bg-white"
+                />
+                <ImageInput
+                  setFieldValue={setFieldValue}
+                  name="lensImage"
+                  prevTitle="عکس دسته بندی"
+                />
+                <div className="col-span-2 px-10">
+                  <SubmitBtn>ایجاد</SubmitBtn>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
+        <LensCategoriesList />
+      </BasicWrapper>
+    </>
   );
 }

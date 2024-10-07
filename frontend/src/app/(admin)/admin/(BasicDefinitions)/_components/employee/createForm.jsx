@@ -38,6 +38,7 @@ export const CreateNewEmployeeForm = ({
             component={SelectInput}
             options={genderOptions}
             isMulti={false}
+            placeholder="جنسیت"
           />
         </div>
         <div className="px-4 flex items-center">

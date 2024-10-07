@@ -19,8 +19,8 @@ const SelectInput = ({
         ? selectedOption.map((option) => option.value)
         : []
       : selectedOption
-      ? selectedOption.value
-      : "";
+        ? selectedOption.value
+        : "";
     form.setFieldValue(field.name, selectedValues);
   };
 

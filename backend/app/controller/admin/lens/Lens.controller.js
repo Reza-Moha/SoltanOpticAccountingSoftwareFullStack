@@ -6,6 +6,7 @@ const {
   idSchema,
   createNewLensTypeSchema,
   createNewLensCategorySchema,
+  createNewLensSchema,
 } = require("../../../validation/admin/admin.schema");
 const {
   RefractiveIndex,
@@ -13,7 +14,56 @@ const {
 const { LensType } = require("../../../models/lens/LensType.model");
 const path = require("path");
 const { LensCategory } = require("../../../models/lens/LensCategory.model");
+const LensModel = require("../../../models/lens/Lens.model");
+const { deleteFileInPublic } = require("../../../utils");
 class LensController extends Controller {
+  async createNewLens(req, res, next) {
+    try {
+      console.log(req.body);
+      const {
+        lensName,
+        description,
+        lensCategoryId,
+        RefractiveIndexId,
+        LensTypeId,
+        fileUploadPath,
+        filename,
+      } = await createNewLensSchema.validateAsync(req.body);
+      const lensImage = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+      const exsistLens = await LensModel.findOne({
+        where: {
+          lensName,
+          lensCategoryId,
+        },
+      });
+      if (exsistLens)
+        throw CreateError.BadRequest("عدسی با این مشخصات قبلا ثبت شده است");
+      const createdNewLens = await LensModel.create({
+        lensImage,
+        lensName,
+        description,
+        lensCategoryId,
+        RefractiveIndexId,
+        LensTypeId,
+      });
+      if (!createdNewLens)
+        throw CreateError.InternalServerError(
+          "در ایجاد عدسی جدید با خطا روبرو شد لظفا دوباره امتحان کنید"
+        );
+      return res.status(HttpStatus.CREATED).send({
+        statusCode: HttpStatus.CREATED,
+        message: "عدسی با موفقیت به انبار اضافه شد",
+        createdNewLens,
+      });
+    } catch (error) {
+      const { fileUploadPath, filename } = req.body;
+      console.log(fileUploadPath, filename);
+      const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+      deleteFileInPublic(image);
+      next(error);
+    }
+  }
+
   async createNewRefractiveIndex(req, res, next) {
     try {
       await createNewRefractiveIndexSchema.validateAsync(req.body);
@@ -155,6 +205,27 @@ class LensController extends Controller {
         statusCode: HttpStatus.CREATED,
         message: "دسته بندی با موفقیت ذخیره شد",
         newLensCategory,
+      });
+    } catch (error) {
+      const { fileUploadPath, filename } = req.body;
+      const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+      deleteFileInPublic(image);
+      next(error);
+    }
+  }
+
+  async deleteLensCategoryById(req, res, next) {
+    try {
+      await idSchema.validateAsync(req.params);
+      const { id } = req.params;
+      if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
+      const result = await LensCategory.findByPk(id);
+      if (!result)
+        throw CreateError.NotFound("دسته بندی عدسی با این مشخصات وجود ندارد");
+      await result.destroy({ where: { id } });
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        message: "دسته بندی با موفقیت حذف شد",
       });
     } catch (error) {
       next(error);

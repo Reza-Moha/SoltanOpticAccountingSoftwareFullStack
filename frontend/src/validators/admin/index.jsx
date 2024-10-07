@@ -144,3 +144,5 @@ export const createNewLensCategoriesSchema = Yup.object().shape({
       }
     ),
 });
+
+export const createNewLensSchema = Yup.object().shape({});

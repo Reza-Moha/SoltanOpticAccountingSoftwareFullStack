@@ -88,8 +88,8 @@ export async function updateEmployeeApi(id, data) {
     })
     .then(({ data }) => data);
 }
-// doctor api
 
+// doctor api
 export async function createNewDoctorApi(data) {
   return httpService
     .post(`/api/admin/doctors/create-new`, data)
@@ -168,5 +168,19 @@ export async function createNewLensCategoryApi(data) {
 export async function getAllLensCategoriesApi() {
   return httpService
     .get(`/api/admin/lens/all-lens-categories`)
+    .then(({ data }) => data);
+}
+export async function deleteLensCategoriesByIdApi(id) {
+  return httpService
+    .delete(`/api/admin/lens/delete-lens-category/${id}`)
+    .then(({ data }) => data);
+}
+export async function createNewLensApi(data) {
+  return httpService
+    .post(`/api/admin/lens/create-new-lens`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then(({ data }) => data);
 }
