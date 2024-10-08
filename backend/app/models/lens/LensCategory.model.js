@@ -23,6 +23,7 @@ LensCategory.init(
   {
     sequelize,
     timestamps: false,
+    tableName: "lensCategory",
   }
 );
 

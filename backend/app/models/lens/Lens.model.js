@@ -25,7 +25,6 @@ const LensModel = sequelize.define(
     },
   },
   {
-    tableName: "lenses",
     timestamps: false,
   }
 );

@@ -43,6 +43,8 @@ router.post(
 
 router.get("/all-lens", LensController.getAllLens);
 
+router.delete("/delete-lens/:id", LensController.deleteLensById);
+
 module.exports = {
   lensRoutes: router,
 };

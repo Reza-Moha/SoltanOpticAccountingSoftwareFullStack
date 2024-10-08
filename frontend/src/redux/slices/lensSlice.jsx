@@ -10,6 +10,7 @@ import {
   getAllLensTypeApi,
   getAllRefractiveIndexApi,
   getAllLensApi,
+  deleteLensByIdApi,
 } from "@/services/admin/admin.service";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -46,6 +47,21 @@ export const fetchAllLens = createAsyncThunk(
   }
 );
 
+export const deleteLens = createAsyncThunk(
+  "lens/deleteLens",
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await deleteLensByIdApi(id);
+      toast.success(data.message);
+      return id;
+    } catch (error) {
+      const data = error?.response?.data;
+      toast.error(data.errors.message);
+      return rejectWithValue(data);
+    }
+  }
+);
+
 export const fetchAllRefractiveIndex = createAsyncThunk(
   "lens/fetchRefractive",
   async (_, { rejectWithValue }) => {
@@ -69,7 +85,7 @@ export const createNewRefractiveIndex = createAsyncThunk(
       }
     } catch (error) {
       const data = error?.response?.data;
-      toast.error(data.message);
+      toast.error(data.errors.message);
       return rejectWithValue(data);
     }
   }
@@ -83,9 +99,9 @@ export const deleteRefractiveIndex = createAsyncThunk(
       toast.success(data.message);
       return id;
     } catch (error) {
-      const errors = error?.response?.data?.errors;
-      toast.error(errors.message);
-      return rejectWithValue(errors);
+      const data = error?.response?.data;
+      toast.error(data.errors.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -113,8 +129,6 @@ export const createNewLensType = createAsyncThunk(
       }
     } catch (error) {
       const data = error?.response?.data;
-      console.log(data);
-
       toast.error(data.errors.message);
       return rejectWithValue(data);
     }
@@ -129,9 +143,9 @@ export const deleteLensType = createAsyncThunk(
       toast.success(data.message);
       return id;
     } catch (error) {
-      const errors = error?.response?.data?.errors;
-      toast.error(errors.message);
-      return rejectWithValue(errors);
+      const data = error?.response?.data;
+      toast.error(data.errors.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -147,7 +161,7 @@ export const createNewLensCategoires = createAsyncThunk(
       }
     } catch (error) {
       const data = error?.response?.data;
-      toast.error(data.message);
+      toast.error(data.errors.message);
       return rejectWithValue(data);
     }
   }
@@ -161,9 +175,9 @@ export const deleteLensCategories = createAsyncThunk(
       toast.success(data.message);
       return id;
     } catch (error) {
-      const errors = error?.response?.data?.errors;
-      toast.error(errors.message);
-      return rejectWithValue(errors);
+      const data = error?.response?.data;
+      toast.error(data.errors.message);
+      return rejectWithValue(data);
     }
   }
 );
@@ -233,6 +247,11 @@ const lensSlice = createSlice({
 
       .addCase(createNewLensType.fulfilled, (state, action) => {
         state.lensType.push(action.payload);
+      })
+      .addCase(deleteLens.fulfilled, (state, action) => {
+        state.lensList = state.lensList.filter(
+          (Lens) => Lens.id !== action.payload
+        );
       })
 
       .addCase(deleteRefractiveIndex.fulfilled, (state, action) => {

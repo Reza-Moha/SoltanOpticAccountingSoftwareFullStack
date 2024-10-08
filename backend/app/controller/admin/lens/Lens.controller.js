@@ -22,7 +22,7 @@ class LensController extends Controller {
       const {
         lensName,
         description,
-        lensCategoryId,
+        LensCategoryId,
         RefractiveIndexId,
         LensTypeId,
         fileUploadPath,
@@ -32,16 +32,17 @@ class LensController extends Controller {
       const exsistLens = await LensModel.findOne({
         where: {
           lensName,
-          lensCategoryId,
+          LensCategoryId,
         },
       });
       if (exsistLens)
         throw CreateError.BadRequest("عدسی با این مشخصات قبلا ثبت شده است");
+      LensModel.sync({ alter: true });
       const createdNewLens = await LensModel.create({
         lensImage,
         lensName,
         description,
-        lensCategoryId,
+        LensCategoryId,
         RefractiveIndexId,
         LensTypeId,
       });
@@ -87,20 +88,29 @@ class LensController extends Controller {
           { model: RefractiveIndex },
           {
             model: LensCategory,
-            as: "lensCategory",
             attributes: {
               exclude: ["createdAt", "updatedAt"],
             },
           },
         ],
         attributes: {
-          exclude: ["lensCategoryId", "RefractiveIndexId", "LensTypeId"],
+          exclude: ["LensCategoryId", "RefractiveIndexId", "LensTypeId"],
         },
       });
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         allLens,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteLensById(req, res, next) {
+    try {
+      await idSchema.validateAsync(req.params);
+      const { id } = req.params;
+      if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
     } catch (error) {
       next(error);
     }

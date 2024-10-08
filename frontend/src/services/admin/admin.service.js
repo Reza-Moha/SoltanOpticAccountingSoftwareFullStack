@@ -187,3 +187,8 @@ export async function createNewLensApi(data) {
 export async function getAllLensApi() {
   return httpService.get(`/api/admin/lens/all-lens`).then(({ data }) => data);
 }
+export async function deleteLensByIdApi(id) {
+  return httpService
+    .delete(`/api/admin/lens/delete-lens/${id}`)
+    .then(({ data }) => data);
+}

@@ -49,7 +49,7 @@ export default function CreateNewLens() {
             lensName: "",
             description: "",
             lensIamge: "",
-            lensCategoryId: "",
+            LensCategoryId: "",
             RefractiveIndexId: "",
             LensTypeId: "",
           }}
@@ -59,7 +59,7 @@ export default function CreateNewLens() {
           {({ handleSubmit, values, setFieldValue }) => (
             <Form onSubmit={handleSubmit} className="grid md:grid-cols-3">
               <Field
-                name="lensCategoryId"
+                name="LensCategoryId"
                 component={SelectInput}
                 options={lensCategoriesOptions}
                 isMulti={false}

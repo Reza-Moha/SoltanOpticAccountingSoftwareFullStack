@@ -22,6 +22,7 @@ const RefractiveIndex = sequelize.define(
   },
   {
     timestamps: false,
+    tableName: "lensRaftactiveIndex",
   }
 );
 

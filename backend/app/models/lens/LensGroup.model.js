@@ -22,7 +22,7 @@ const LensGroup = sequelize.define(
   },
   {
     timestamps: false,
-    tableName: "lens-group",
+    tableName: "lensGroup",
   }
 );
 

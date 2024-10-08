@@ -218,7 +218,7 @@ const createNewLensSchema = Joi.object({
       "object.max": "حجم فایل نباید بیشتر از ۵ مگابایت باشد",
       "string.valid": "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
     }),
-  lensCategoryId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
+  LensCategoryId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
   RefractiveIndexId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
   LensTypeId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
 });

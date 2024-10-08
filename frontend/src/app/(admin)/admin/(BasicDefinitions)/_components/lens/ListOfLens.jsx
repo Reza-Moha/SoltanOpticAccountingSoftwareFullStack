@@ -34,15 +34,17 @@ export default function ListOfLens() {
             {lensList?.length > 0 ? (
               lensList.map((lens) => (
                 <motion.tr key={lens.id}>
-                  <td className="text-lg font-bold flex items-center gap-x-2">
+                  <td className="text-lg font-bold flex flex-col md:flex-row items-center gap-x-2">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_API_URL}/${lens.lensImage}`}
-                      alt={lens.lensName}
+                      src={`${process.env.NEXT_PUBLIC_API_URL}/${lens?.lensImage}`}
+                      alt={lens?.lensName}
                       width="40"
                       height="40"
                       className="object-fill rounded-full "
                     />
-                    <h3 className="font-bold text-base">{lens.lensName}</h3>
+                    <h3 className="font-bold text-sm md:text-base">
+                      {lens.lensName}
+                    </h3>
                   </td>
                   <td>
                     {lens?.LensType?.title || <IoRemoveOutline size={16} />}
@@ -52,21 +54,23 @@ export default function ListOfLens() {
                       <IoRemoveOutline size={16} />
                     )}
                   </td>
-                  <td>
+                  <td className="flex flex-col items-center md:flex-row gap-1">
                     <Image
                       src={`${process.env.NEXT_PUBLIC_API_URL}/${
-                        lens?.lens - category?.lensImage
+                        lens?.LensCategory?.lensImage
                       }`}
-                      alt={lens?.lens - category?.lensName}
+                      alt={lens?.LensCategory?.lensName}
                       width="40"
                       height="40"
                       className="object-fill rounded-full "
                     />
-                    <h3 className="font-bold text-base">{lens.lensName}</h3>
+                    <h3 className="font-bold text-base">
+                      {lens?.LensCategory?.lensName}
+                    </h3>
                   </td>
                   <td className="font-bold text-sm">
-                    {lens.description.length > 30
-                      ? `${lens.description.substring(0, 30)}...`
+                    {lens.description.length > 15
+                      ? `${lens.description.substring(0, 15)}...`
                       : lens.description}
                   </td>
                   <td>
