@@ -27,14 +27,14 @@ const Associations = () => {
 
   // lens
 
-  LensCategory.hasOne(LensModel);
-  LensModel.belongsTo(LensCategory);
+  LensCategory.hasOne(LensModel, { onDelete: "CASCADE" });
+  LensModel.belongsTo(LensCategory, { onDelete: "CASCADE" });
 
-  RefractiveIndex.hasOne(LensModel);
-  LensModel.belongsTo(RefractiveIndex);
+  RefractiveIndex.hasOne(LensModel, { onDelete: "CASCADE" });
+  LensModel.belongsTo(RefractiveIndex, { onDelete: "CASCADE" });
 
-  LensType.hasOne(LensModel);
-  LensModel.belongsTo(LensType);
+  LensType.hasOne(LensModel, { onDelete: "CASCADE" });
+  LensModel.belongsTo(LensType, { onDelete: "CASCADE" });
 };
 sequelize.sync({ alter: true });
 module.exports = {

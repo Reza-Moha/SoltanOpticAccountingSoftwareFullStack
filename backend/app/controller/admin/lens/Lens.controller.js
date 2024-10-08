@@ -111,6 +111,13 @@ class LensController extends Controller {
       await idSchema.validateAsync(req.params);
       const { id } = req.params;
       if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
+      const lens = await LensModel.findByPk(id);
+      if (!lens) throw CreateError.NotFound("عدسی با این مشخصات وجود ندارد");
+      await lens.destroy({ where: { id } });
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        message: "ضریب شکست با موفقیت حذف شد",
+      });
     } catch (error) {
       next(error);
     }
