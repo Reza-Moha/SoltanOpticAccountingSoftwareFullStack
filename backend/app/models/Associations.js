@@ -26,15 +26,15 @@ const Associations = () => {
   UserModel.hasOne(Roles);
 
   // lens
-  LensCategory.hasMany(LensModel);
+
+  LensCategory.hasOne(LensModel);
   LensModel.belongsTo(LensCategory);
-  LensType.hasMany(LensModel);
-  LensModel.belongsTo(LensType);
-  LensCategory.hasOne(LensType);
-  LensModel.hasOne(LensType);
-  LensType.belongsTo(LensModel);
-  RefractiveIndex.hasMany(LensModel);
+
+  RefractiveIndex.hasOne(LensModel);
   LensModel.belongsTo(RefractiveIndex);
+
+  LensType.hasOne(LensModel);
+  LensModel.belongsTo(LensType);
 };
 sequelize.sync({ alter: true });
 module.exports = {

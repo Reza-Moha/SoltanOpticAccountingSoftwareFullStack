@@ -37,9 +37,12 @@ router.delete(
 
 router.post(
   "/create-new-lens",
-  uploadFile.single("lensImage"),
+  uploadFile.single("lensIamge"),
   LensController.createNewLens
 );
+
+router.get("/all-lens", LensController.getAllLens);
+
 module.exports = {
   lensRoutes: router,
 };

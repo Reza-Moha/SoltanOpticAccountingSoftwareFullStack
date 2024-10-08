@@ -22,7 +22,6 @@ const LensType = sequelize.define(
   },
   {
     timestamps: false,
-    tableName: "lens-type",
   }
 );
 

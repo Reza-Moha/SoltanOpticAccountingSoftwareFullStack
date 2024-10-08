@@ -9,6 +9,7 @@ import {
   getAllLensCategoriesApi,
   getAllLensTypeApi,
   getAllRefractiveIndexApi,
+  getAllLensApi,
 } from "@/services/admin/admin.service";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -29,6 +30,18 @@ export const createNewLens = createAsyncThunk(
 
       toast.error(data.errors.message);
       return rejectWithValue(data);
+    }
+  }
+);
+
+export const fetchAllLens = createAsyncThunk(
+  "lens/fetchAllLens",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getAllLensApi();
+      return data.allLens;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -179,6 +192,17 @@ const lensSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchAllLens.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllLens.fulfilled, (state, action) => {
+        state.lensList = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchAllLens.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
       .addCase(fetchAllRefractiveIndex.pending, (state) => {
         state.isLoading = true;
       })

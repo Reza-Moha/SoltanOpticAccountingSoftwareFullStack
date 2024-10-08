@@ -31,7 +31,7 @@ export const CreateNewEmployeeForm = ({
   }));
   return (
     <Form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 grid-rows-12 md:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3">
         <div className="px-4 flex items-center">
           <Field
             name="gender"

@@ -19,7 +19,6 @@ const { deleteFileInPublic } = require("../../../utils");
 class LensController extends Controller {
   async createNewLens(req, res, next) {
     try {
-      console.log(req.body);
       const {
         lensName,
         description,
@@ -50,16 +49,59 @@ class LensController extends Controller {
         throw CreateError.InternalServerError(
           "در ایجاد عدسی جدید با خطا روبرو شد لظفا دوباره امتحان کنید"
         );
+      const newLensWithRelations = await LensModel.findByPk(createdNewLens.id, {
+        include: [
+          { model: LensType },
+          { model: RefractiveIndex },
+          {
+            model: LensCategory,
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ["lensCategoryId", "RefractiveIndexId", "LensTypeId"],
+        },
+      });
       return res.status(HttpStatus.CREATED).send({
         statusCode: HttpStatus.CREATED,
         message: "عدسی با موفقیت به انبار اضافه شد",
-        createdNewLens,
+        createdNewLens: newLensWithRelations,
       });
     } catch (error) {
       const { fileUploadPath, filename } = req.body;
-      console.log(fileUploadPath, filename);
-      const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
-      deleteFileInPublic(image);
+      if (fileUploadPath && filename) {
+        const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+        deleteFileInPublic(image);
+      }
+      next(error);
+    }
+  }
+
+  async getAllLens(req, res, next) {
+    try {
+      const allLens = await LensModel.findAll({
+        include: [
+          { model: LensType },
+          { model: RefractiveIndex },
+          {
+            model: LensCategory,
+            as: "lensCategory",
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        ],
+        attributes: {
+          exclude: ["lensCategoryId", "RefractiveIndexId", "LensTypeId"],
+        },
+      });
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        allLens,
+      });
+    } catch (error) {
       next(error);
     }
   }

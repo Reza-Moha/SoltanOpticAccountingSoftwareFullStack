@@ -8,10 +8,16 @@ import SelectInput from "@/components/Ui/SelectInput";
 import SubmitBtn from "@/components/Ui/SubmitBtn";
 import Input from "@/components/Ui/Input";
 import { ImageInput } from "@/components/Ui/ImageInput";
-import { createNewLens } from "@/redux/slices/lensSlice";
+import { createNewLens, fetchAllLens } from "@/redux/slices/lensSlice";
+import { useEffect } from "react";
+import ListOfLens from "./ListOfLens";
 
 export default function CreateNewLens() {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllLens());
+  }, []);
 
   const createNewLensHandler = (values, { resetForm }) => {
     dispatch(createNewLens(values));
@@ -99,6 +105,7 @@ export default function CreateNewLens() {
             </Form>
           )}
         </Formik>
+        <ListOfLens />
       </BasicWrapper>
     </>
   );

@@ -22,8 +22,7 @@ LensCategory.init(
   },
   {
     sequelize,
-    modelName: "lens-category",
-    timestamps: true,
+    timestamps: false,
   }
 );
 
