@@ -145,4 +145,79 @@ export const createNewLensCategoriesSchema = Yup.object().shape({
     ),
 });
 
-export const createNewLensSchema = Yup.object().shape({});
+export const createNewLensSchema = Yup.object().shape({
+  lensName: Yup.string()
+    .min(3, "نام عدسی باید حداقل ۳ کاراکتر باشد")
+    .max(50, "نام عدسی نمی‌تواند بیش از ۵۰ کاراکتر باشد")
+    .required("لطفا نام عدسی خود را وارد فرمائید"),
+
+  description: Yup.string().nullable(),
+  lensImage: Yup.mixed()
+    .test("lensImage", "حجم فایل نباید بیشتر از ۵ مگابایت باشد", (value) => {
+      if (typeof value === "object" && value?.size) {
+        return value.size <= 5000000;
+      }
+      return true;
+    })
+    .test(
+      "lensImage",
+      "فرمت فایل معتبر نیست. فرمت‌های مجاز: jpg, jpeg, png",
+      (value) => {
+        if (typeof value === "object" && value?.type) {
+          return ["image/jpg", "image/jpeg", "image/png"].includes(value.type); // بررسی فرمت فایل
+        }
+        return true;
+      }
+    )
+    .nullable(),
+  LensCategoryId: Yup.string()
+    .trim()
+    .matches(
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/,
+      "فرمت UUID معتبر نیست"
+    )
+    .required(),
+
+  RefractiveIndexId: Yup.string()
+    .trim()
+    .matches(
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/,
+      "فرمت UUID معتبر نیست"
+    )
+    .required(),
+  LensTypeId: Yup.string()
+    .trim()
+    .matches(
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/,
+      "فرمت UUID معتبر نیست"
+    )
+    .required(),
+});
+
+export const pricingLensSchema = Yup.object().shape({
+  LensCategoryId: Yup.string()
+    .trim()
+    .matches(
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/,
+      "فرمت UUID معتبر نیست"
+    )
+    .required(),
+  LensId: Yup.string()
+    .trim()
+    .matches(
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/,
+      "فرمت UUID معتبر نیست"
+    )
+    .required(),
+  group: Yup.string().matches(/^\d+\/\d+$/, "گروه باید به فرمت 2/2 باشد."),
+
+  price: Yup.string().test(
+    "is-valid-number",
+    "قیمت باید یک عدد مثبت باشد.",
+    (value) => {
+      if (!value) return true; // Allow empty values
+      const numberValue = parseFloat(value.replace(/,/g, ""));
+      return !isNaN(numberValue) && numberValue > 0;
+    }
+  ),
+});
