@@ -222,6 +222,24 @@ const createNewLensSchema = Joi.object({
   RefractiveIndexId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
   LensTypeId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
 });
+const pricingSchema = Joi.object({
+  group: Joi.string().required().messages({
+    "string.empty": "وارد کردن گروه الزامی است",
+  }),
+  price: Joi.number().greater(0).required().messages({
+    "number.base": "قیمت باید یک عدد باشد",
+    "number.greater": "قیمت باید بیشتر از صفر باشد",
+    "any.required": "وارد کردن قیمت الزامی است",
+  }),
+});
+const pricingLensSchema = Joi.object({
+  LensCategoryId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
+  LensId: Joi.string().trim().guid({ version: "uuidv4" }).required(),
+  pricing: Joi.array().items(pricingSchema).min(1).required().messages({
+    "array.min": "حداقل یک آیتم قیمت باید وارد شود",
+    "array.base": "قیمت‌ها باید به صورت یک آرایه ارسال شوند",
+  }),
+});
 
 module.exports = {
   updateAdminProfileSchema,
@@ -234,4 +252,5 @@ module.exports = {
   createNewLensTypeSchema,
   createNewLensCategorySchema,
   createNewLensSchema,
+  pricingLensSchema,
 };

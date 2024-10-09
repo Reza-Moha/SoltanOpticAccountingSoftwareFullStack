@@ -45,6 +45,7 @@ router.get("/all-lens", LensController.getAllLens);
 
 router.delete("/delete-lens/:id", LensController.deleteLensById);
 
+router.post("/pricing", LensController.pricingLens);
 module.exports = {
   lensRoutes: router,
 };

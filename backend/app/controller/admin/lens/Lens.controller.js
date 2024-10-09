@@ -7,6 +7,7 @@ const {
   createNewLensTypeSchema,
   createNewLensCategorySchema,
   createNewLensSchema,
+  pricingLensSchema,
 } = require("../../../validation/admin/admin.schema");
 const {
   RefractiveIndex,
@@ -16,6 +17,7 @@ const path = require("path");
 const { LensCategory } = require("../../../models/lens/LensCategory.model");
 const LensModel = require("../../../models/lens/Lens.model");
 const { deleteFileInPublic } = require("../../../utils");
+const { LensGroup } = require("../../../models/lens/LensGroup.model");
 class LensController extends Controller {
   async createNewLens(req, res, next) {
     try {
@@ -92,9 +94,20 @@ class LensController extends Controller {
               exclude: ["createdAt", "updatedAt"],
             },
           },
+          {
+            model: LensGroup,
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
         ],
         attributes: {
-          exclude: ["LensCategoryId", "RefractiveIndexId", "LensTypeId"],
+          exclude: [
+            "LensCategoryId",
+            "RefractiveIndexId",
+            "LensTypeId",
+            "LensGroupId",
+          ],
         },
       });
       return res.status(HttpStatus.OK).send({
@@ -117,6 +130,43 @@ class LensController extends Controller {
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "ضریب شکست با موفقیت حذف شد",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async pricingLens(req, res, next) {
+    try {
+      const { LensCategoryId, LensId, pricing } =
+        await pricingLensSchema.validateAsync(req.body);
+      const newPricingLens = await LensGroup.create({
+        pricing,
+      });
+      if (!newPricingLens)
+        throw CreateError.InternalServerError(
+          "قیمت گذاری عدسی با مشکل مواجه شد لظفا دوباره امتحان کنید"
+        );
+      const [updatedRowCount, updatedRows] = await LensModel.update(
+        {
+          LensGroupId: newPricingLens.id,
+        },
+        {
+          where: {
+            LensCategoryId,
+            id: LensId,
+          },
+          returning: true,
+        }
+      );
+
+      if (updatedRowCount === 0) {
+        throw CreateError.NotFound("رکوردی با این اطلاعات پیدا نشد");
+      }
+      return res.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        message: "قیمت گذاری عدسی با موفقیت انجام شد",
+        LensData: updatedRows,
       });
     } catch (error) {
       next(error);

@@ -12,6 +12,8 @@ import { motion } from "framer-motion";
 import { toPersianDigits } from "@/utils";
 import { PriceInput } from "@/components/Ui/PriceInput";
 import toast from "react-hot-toast";
+import { FaTrashCan } from "react-icons/fa6";
+import { pricingLens } from "@/redux/slices/lensSlice";
 
 const CreateNewLens = () => {
   const [filteredLensList, setFilteredLensList] = useState([]);
@@ -34,29 +36,34 @@ const CreateNewLens = () => {
   );
 
   const addToPreview = (group, price, setFieldValue) => {
-    // Check for duplicate group
     const isDuplicate = previewList.some((item) => item.group === group);
     if (isDuplicate) {
       toast.error("گروه تکراری است! لطفاً گروه جدیدی وارد کنید.");
-      return; // Stop execution if duplicate found
+      return;
     }
 
     if (group && price) {
       setPreviewList((prev) => [...prev, { group, price }]);
-      setFieldValue("group", ""); // Clear group input
-      setFieldValue("price", ""); // Clear price input
+      setFieldValue("group", "");
+      setFieldValue("price", "");
     }
   };
-
+  const removeFromPreview = (index) => {
+    setPreviewList((prev) => prev.filter((_, i) => i !== index));
+  };
   const pricingLensHandler = (values, { resetForm }) => {
     const submissionData = {
       LensCategoryId: values.LensCategoryId,
       LensId: values.LensId,
-      pricing: previewList,
+      pricing: previewList.map((item) => ({
+        group: item.group,
+        price: parseFloat(item.price.replace(/,/g, "")),
+      })),
     };
-    console.log("Submitted values:", submissionData);
+
+    dispatch(pricingLens(submissionData));
     resetForm();
-    setPreviewList([]); // Clear the preview list after submission
+    setPreviewList([]);
   };
 
   return (
@@ -148,6 +155,7 @@ const CreateNewLens = () => {
                       <th>ردیف</th>
                       <th>گروه عدسی</th>
                       <th>قیمت</th>
+                      <th>عملیات</th>
                     </Table.Header>
                     <Table.Body>
                       {previewList.map((item, index) => (
@@ -155,6 +163,12 @@ const CreateNewLens = () => {
                           <td>{index + 1}</td>
                           <td>{item.group}</td>
                           <td>{toPersianDigits(item.price)}</td>
+                          <td>
+                            <FaTrashCan
+                              onClick={() => removeFromPreview(index)}
+                              className="text-rose-500 cursor-pointer hover:scale-125 transition-all ease-in duration-200"
+                            />
+                          </td>
                         </motion.tr>
                       ))}
                     </Table.Body>

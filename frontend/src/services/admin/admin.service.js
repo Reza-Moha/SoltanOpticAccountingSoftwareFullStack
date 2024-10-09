@@ -192,3 +192,8 @@ export async function deleteLensByIdApi(id) {
     .delete(`/api/admin/lens/delete-lens/${id}`)
     .then(({ data }) => data);
 }
+export async function pricingLensApi(data) {
+  return httpService
+    .post(`/api/admin/lens/pricing`, data)
+    .then(({ data }) => data);
+}

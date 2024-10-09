@@ -1,6 +1,7 @@
 const { sequelize } = require("../libs/DBConfig");
 const LensModel = require("./lens/Lens.model");
 const { LensCategory } = require("./lens/LensCategory.model");
+const { LensGroup } = require("./lens/LensGroup.model");
 const { LensType } = require("./lens/LensType.model");
 const { RefractiveIndex } = require("./lens/RefractiveIndex.model");
 const { Permissions } = require("./Permissions.model");
@@ -35,6 +36,9 @@ const Associations = () => {
 
   LensType.hasOne(LensModel, { onDelete: "CASCADE" });
   LensModel.belongsTo(LensType, { onDelete: "CASCADE" });
+
+  LensGroup.hasOne(LensModel, { onDelete: "CASCADE" });
+  LensModel.belongsTo(LensGroup, { onDelete: "CASCADE" });
 };
 sequelize.sync({ alter: true });
 module.exports = {

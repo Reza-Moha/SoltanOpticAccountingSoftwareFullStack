@@ -10,18 +10,12 @@ const LensGroup = sequelize.define(
       unique: true,
       primaryKey: true,
     },
-    group: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-      defaultValue: 0,
+    pricing: {
+      type: DataTypes.JSONB,
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
     tableName: "lensGroup",
   }
 );

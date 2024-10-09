@@ -11,6 +11,7 @@ import {
   getAllRefractiveIndexApi,
   getAllLensApi,
   deleteLensByIdApi,
+  pricingLensApi,
 } from "@/services/admin/admin.service";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -24,6 +25,25 @@ export const createNewLens = createAsyncThunk(
       if (data.statusCode === 201) {
         toast.success(data.message);
         return data.createdNewLens;
+      }
+    } catch (error) {
+      const data = error?.response?.data;
+      console.log(data);
+
+      toast.error(data.errors.message);
+      return rejectWithValue(data);
+    }
+  }
+);
+
+export const pricingLens = createAsyncThunk(
+  "lens/pricingLens",
+  async (values, { rejectWithValue }) => {
+    try {
+      const data = await pricingLensApi(values);
+      if (data.statusCode === 200) {
+        toast.success(data.message);
+        return data.LensData;
       }
     } catch (error) {
       const data = error?.response?.data;
@@ -268,6 +288,14 @@ const lensSlice = createSlice({
         state.lensCategories = state.lensCategories.filter(
           (LCategory) => LCategory.id !== action.payload
         );
+      })
+      .addCase(pricingLens.fulfilled, (state, action) => {
+        const index = state.lensList.findIndex(
+          (lens) => lens.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.lensList[index] = action.payload;
+        }
       });
   },
 });
