@@ -1,23 +1,32 @@
+"use client";
 import Table from "@/components/Ui/Table";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { IoRemoveOutline } from "react-icons/io5";
 import Image from "next/image";
+import { deleteLens } from "@/redux/slices/lensSlice";
+import { useState } from "react";
+import BasicWrapper from "../BasicWrapper";
+import ShowPricingLensModal from "./ShowPricingLensModal";
 
 export default function ListOfLens() {
   const dispatch = useDispatch();
-
+  const [selectedLens, setSelectedLens] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const { lensList, isLoading } = useSelector((state) => state.lensSlice);
 
   const handleDeleteLens = (id) => {
-    // dispatch(deleteLensType(id));
+    dispatch(deleteLens(id));
   };
 
-  console.log(lensList);
+  const handleShowPricing = (lens) => {
+    setSelectedLens(lens);
+    setShowEditModal(true);
+  };
 
   return (
-    <div className="border-t border-secondary-500">
+    <BasicWrapper title="لیست عدسی ها">
       {isLoading ? (
         <div className="spinner"></div>
       ) : (
@@ -56,9 +65,7 @@ export default function ListOfLens() {
                   </td>
                   <td className="flex flex-col items-center md:flex-row gap-1">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_API_URL}/${
-                        lens?.LensCategory?.lensImage
-                      }`}
+                      src={`${process.env.NEXT_PUBLIC_API_URL}/${lens?.LensCategory?.lensImage}`}
                       alt={lens?.LensCategory?.lensName}
                       width="40"
                       height="40"
@@ -73,7 +80,11 @@ export default function ListOfLens() {
                       ? `${lens.description.substring(0, 15)}...`
                       : lens.description}
                   </td>
-                  <td>
+                  <td
+                    className={`${
+                      lens.LensGroup && "flex items-center justify-center gap-2"
+                    }`}
+                  >
                     <button
                       className="text-rose-500 hover:bg-rose-100 rounded-full p-1 transition-all ease-in-out duration-300"
                       onClick={() => handleDeleteLens(lens.id)}
@@ -91,6 +102,25 @@ export default function ListOfLens() {
                         />
                       </svg>
                     </button>
+                    {lens.LensGroup && (
+                      <button
+                        className="text-emerald-500 hover:bg-emerald-100 rounded-full p-1 transition-all ease-in-out duration-300"
+                        onClick={() => handleShowPricing(lens)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="size-5"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3.75 3.375c0-1.036.84-1.875 1.875-1.875H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375Zm10.5 1.875a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25ZM12 10.5a.75.75 0 0 1 .75.75v.028a9.727 9.727 0 0 1 1.687.28.75.75 0 1 1-.374 1.452 8.207 8.207 0 0 0-1.313-.226v1.68l.969.332c.67.23 1.281.85 1.281 1.704 0 .158-.007.314-.02.468-.083.931-.83 1.582-1.669 1.695a9.776 9.776 0 0 1-.561.059v.028a.75.75 0 0 1-1.5 0v-.029a9.724 9.724 0 0 1-1.687-.278.75.75 0 0 1 .374-1.453c.425.11.864.186 1.313.226v-1.68l-.968-.332C9.612 14.974 9 14.354 9 13.5c0-.158.007-.314.02-.468.083-.931.831-1.582 1.67-1.694.185-.025.372-.045.56-.06v-.028a.75.75 0 0 1 .75-.75Zm-1.11 2.324c.119-.016.239-.03.36-.04v1.166l-.482-.165c-.208-.072-.268-.211-.268-.285 0-.113.005-.225.015-.336.013-.146.14-.309.374-.34Zm1.86 4.392V16.05l.482.165c.208.072.268.211.268.285 0 .113-.005.225-.015.336-.012.146-.14.309-.374.34-.12.016-.24.03-.361.04Z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </td>
                 </motion.tr>
               ))
@@ -104,6 +134,13 @@ export default function ListOfLens() {
           </Table.Body>
         </Table>
       )}
-    </div>
+      {selectedLens && showEditModal && (
+        <ShowPricingLensModal
+          lens={selectedLens}
+          show={showEditModal}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
+    </BasicWrapper>
   );
 }

@@ -105,7 +105,6 @@ export default function CreateNewLens() {
             </Form>
           )}
         </Formik>
-        <ListOfLens />
       </BasicWrapper>
     </>
   );

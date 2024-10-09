@@ -126,10 +126,14 @@ class LensController extends Controller {
       if (!id) throw CreateError.BadRequest("شناسه نامعتبر است");
       const lens = await LensModel.findByPk(id);
       if (!lens) throw CreateError.NotFound("عدسی با این مشخصات وجود ندارد");
-      await lens.destroy({ where: { id } });
+      const deleteCount = await lens.destroy({ where: { id } });
+      if (deleteCount === 0)
+        throw CreateError.InternalServerError(
+          "حذف عدسی با خظا مواجه شد لطفا دوباره امتحان کنید"
+        );
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
-        message: "ضریب شکست با موفقیت حذف شد",
+        message: "عدسی با موفقیت حذف شد",
       });
     } catch (error) {
       next(error);
@@ -222,7 +226,11 @@ class LensController extends Controller {
       const refractiveIndex = await RefractiveIndex.findByPk(id);
       if (!refractiveIndex)
         throw CreateError.NotFound("ضریب شکست با این مشخصات وجود ندارد");
-      await RefractiveIndex.destroy({ where: { id } });
+      const deletedCount = await RefractiveIndex.destroy({ where: { id } });
+      if (deletedCount === 0)
+        throw CreateError.InternalServerError(
+          "خطا در حذف ضریب شکست لطفا دوباره امتحان کنید"
+        );
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "ضریب شکست با موفقیت حذف شد",
@@ -280,7 +288,11 @@ class LensController extends Controller {
       const result = await LensType.findByPk(id);
       if (!result)
         throw CreateError.NotFound("نوع عدسی با این مشخصات وجود ندارد");
-      await result.destroy({ where: { id } });
+      const deleteCount = await result.destroy({ where: { id } });
+      if (deleteCount === 0)
+        throw CreateError.InternalServerError(
+          "حذف نوع عدسی با مشکل مواجه شد لظفا دوباره امتحان کنید "
+        );
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "ضریب شکست با موفقیت حذف شد",
@@ -331,7 +343,11 @@ class LensController extends Controller {
       const result = await LensCategory.findByPk(id);
       if (!result)
         throw CreateError.NotFound("دسته بندی عدسی با این مشخصات وجود ندارد");
-      await result.destroy({ where: { id } });
+      const deleteCount = await result.destroy({ where: { id } });
+      if (deleteCount === 0)
+        throw CreateError.InternalServerError(
+          "حذف دسته بندی موفقیت آمیز نبود لطفا دوباره امتحان کنید"
+        );
       return res.status(HttpStatus.OK).send({
         statusCode: HttpStatus.OK,
         message: "دسته بندی با موفقیت حذف شد",
