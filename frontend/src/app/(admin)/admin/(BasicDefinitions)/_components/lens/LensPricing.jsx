@@ -27,40 +27,41 @@ const CreateNewLens = () => {
   }));
 
   const filterLensList = useCallback(
-    (categoryId) => {
-      return lensList
+    (categoryId) =>
+      lensList
         .filter((lens) => lens.LensCategory.id === categoryId)
-        .map(({ id, lensName }) => ({ value: id, label: lensName }));
-    },
+        .map(({ id, lensName }) => ({ value: id, label: lensName })),
     [lensList]
   );
 
   const addToPreview = (group, price, setFieldValue) => {
-    const isDuplicate = previewList.some((item) => item.group === group);
-    if (isDuplicate) {
+    if (!group || !price) return;
+
+    if (previewList.some((item) => item.group === group)) {
       toast.error("گروه تکراری است! لطفاً گروه جدیدی وارد کنید.");
       return;
     }
 
-    if (group && price) {
-      setPreviewList((prev) => [...prev, { group, price }]);
-      setFieldValue("group", "");
-      setFieldValue("price", "");
-    }
+    setPreviewList([...previewList, { group, price }]);
+    setFieldValue("group", "");
+    setFieldValue("price", "");
   };
+
   const removeFromPreview = (index) => {
     setPreviewList((prev) => prev.filter((_, i) => i !== index));
   };
+
   const pricingLensHandler = (values, { resetForm }) => {
     const submissionData = {
       LensCategoryId: values.LensCategoryId,
       LensId: values.LensId,
-      pricing: previewList.map((item) => ({
-        group: item.group,
-        price: parseFloat(item.price.replace(/,/g, "")),
-      })),
+      pricing: previewList
+        .filter((item) => !/\((.*?)\)/.test(item.group))
+        .map((item) => ({
+          group: item.group,
+          price: parseFloat(item.price.replace(/,/g, "")),
+        })),
     };
-
     dispatch(pricingLens(submissionData));
     resetForm();
     setPreviewList([]);
@@ -69,31 +70,43 @@ const CreateNewLens = () => {
   return (
     <BasicWrapper title="قیمت گذاری عدسی">
       <Formik
-        initialValues={{
-          LensCategoryId: "",
-          LensId: "",
-          group: "",
-          price: "",
-        }}
+        initialValues={{ LensCategoryId: "", LensId: "", group: "", price: "" }}
         onSubmit={pricingLensHandler}
         validationSchema={pricingLensSchema}
       >
         {({ values, handleSubmit, setFieldValue }) => {
           useEffect(() => {
-            if (values.LensCategoryId) {
-              setFilteredLensList(filterLensList(values.LensCategoryId));
-            } else {
-              setFilteredLensList([]);
-            }
+            const filteredList = values.LensCategoryId
+              ? filterLensList(values.LensCategoryId)
+              : [];
+            setFilteredLensList(filteredList);
           }, [values.LensCategoryId, filterLensList]);
 
+          useEffect(() => {
+            if (values.LensId) {
+              const selectedLens = lensList.find(
+                (lens) => lens.id === values.LensId
+              );
+
+              if (selectedLens?.LensGroup?.pricing) {
+                setPreviewList(
+                  selectedLens.LensGroup.pricing.map(({ group, price }) => ({
+                    group: `(${group})`,
+                    price,
+                  }))
+                );
+              } else {
+                setPreviewList([]);
+              }
+            }
+          }, [values.LensId, lensList]);
+
           return (
-            <Form onSubmit={handleSubmit} className="grid md:grid-cols-2">
+            <Form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-4">
               <Field
                 name="LensCategoryId"
                 component={SelectInput}
                 options={lensCategoriesOptions}
-                isMulti={false}
                 placeholder="دسته بندی عدسی"
                 onChange={(option) =>
                   setFieldValue("LensCategoryId", option.value)
@@ -105,7 +118,6 @@ const CreateNewLens = () => {
                   name="LensId"
                   component={SelectInput}
                   options={filteredLensList}
-                  isMulti={false}
                   placeholder="انتخاب عدسی"
                   onChange={(option) => setFieldValue("LensId", option.value)}
                 />
@@ -118,7 +130,6 @@ const CreateNewLens = () => {
                       label="گروه عدسی"
                       name="group"
                       type="text"
-                      value={values.group}
                       onChange={(e) => setFieldValue("group", e.target.value)}
                     />
                   </div>
@@ -127,7 +138,6 @@ const CreateNewLens = () => {
                       label="قیمت"
                       name="price"
                       type="text"
-                      value={values.price}
                       onChange={(e) => setFieldValue("price", e.target.value)}
                     />
                   </div>
@@ -158,19 +168,46 @@ const CreateNewLens = () => {
                       <th>عملیات</th>
                     </Table.Header>
                     <Table.Body>
-                      {previewList.map((item, index) => (
-                        <motion.tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item.group}</td>
-                          <td>{toPersianDigits(item.price)}</td>
-                          <td>
-                            <FaTrashCan
-                              onClick={() => removeFromPreview(index)}
-                              className="text-rose-500 cursor-pointer hover:scale-125 transition-all ease-in duration-200"
-                            />
-                          </td>
-                        </motion.tr>
-                      ))}
+                      {previewList.map((item, index) => {
+                        const isInParentheses = /\((.*?)\)/.test(item.group);
+
+                        return (
+                          <motion.tr
+                            key={index}
+                            className={`${isInParentheses ? "bg-green-50" : ""}`}
+                          >
+                            <td
+                              className={`${isInParentheses ? "text-green-700" : ""}`}
+                            >
+                              {index + 1}
+                            </td>
+                            <td
+                              className={`${isInParentheses ? "text-green-700" : ""}`}
+                            >
+                              {item.group}
+                            </td>
+                            <td
+                              className={`${isInParentheses ? "text-green-700" : ""}`}
+                            >
+                              {toPersianDigits(item.price)}
+                            </td>
+                            <td>
+                              {isInParentheses ? (
+                                <h3
+                                  className={`${isInParentheses ? "text-green-700 text-xs" : ""}`}
+                                >
+                                  قبلا اضافه شده
+                                </h3>
+                              ) : (
+                                <FaTrashCan
+                                  onClick={() => removeFromPreview(index)}
+                                  className="text-rose-500 cursor-pointer hover:scale-125 transition-all ease-in duration-200"
+                                />
+                              )}
+                            </td>
+                          </motion.tr>
+                        );
+                      })}
                     </Table.Body>
                   </Table>
                 </div>
